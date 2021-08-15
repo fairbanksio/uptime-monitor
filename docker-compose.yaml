@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+
+  node:
+    build:
+      context: .
+      target: dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app:delegated
+    environment:
+      - MONGO_URI="mongodb://mongodb:27017"
+    healthcheck:
+      disable: true
+    networks:
+      - uptime-monitor
+
+  mongodb:
+    image : mongo:4.4.8
+    container_name: mongodb
+    volumes:
+      - mongodb-data:/data/db
+    ports:
+    - 27017:27017
+    networks:
+      - uptime-monitor
+    restart: unless-stopped
+
+networks:
+  uptime-monitor:
+
+volumes:
+  mongodb-data:
+    driver: local
