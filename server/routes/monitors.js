@@ -6,7 +6,7 @@ var monitoringService = require('../services/monitoring')
 
 // Get all monitors
 router.get('/', passport.authenticate('jwt'), function(req, res, next) {
-  Monitor.find({owner: req.user._id}).populate({path: 'heartbeats', perDocumentLimit:10 })
+  Monitor.find({owner: req.user._id}).populate({path: 'heartbeats events', perDocumentLimit:10 })
 		.then(monitors => {
 			res.json(monitors);
 		})
@@ -39,7 +39,7 @@ router.post('/', passport.authenticate('jwt'), function(req, res, next) {
 // Read one monitor
 router.get('/:monitorId', passport.authenticate('jwt'), function(req, res, next) {
   
-  Monitor.findOne({_id: req.params.monitorId, owner: req.user._id}).populate({path: 'heartbeats', perDocumentLimit:10})
+  Monitor.findOne({_id: req.params.monitorId, owner: req.user._id}).populate({path: 'heartbeats events', perDocumentLimit:10})
 		.then(monitor => {
 			res.json(monitor);
 		})
@@ -50,7 +50,7 @@ router.get('/:monitorId', passport.authenticate('jwt'), function(req, res, next)
 
 // Update one monitor
 router.post('/:monitorId', passport.authenticate('jwt'), function(req, res, next) {
-  Monitor.findByIdAndUpdate({_id: req.params.monitorId, owner: req.user._id}, req.body, {new: true}).populate({path: 'heartbeats', perDocumentLimit:10})
+  Monitor.findByIdAndUpdate({_id: req.params.monitorId, owner: req.user._id}, req.body, {new: true}).populate({path: 'heartbeats events', perDocumentLimit:10})
 		.then(monitor => {
 			monitoringService.updateMonitor(monitor._id)
 			res.json(monitor);
