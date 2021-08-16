@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
 let User = require('../models/user');
+var passport = require('passport');
 
 // Get all users
-router.get('/', function(req, res, next) {
+router.get('/', passport.authenticate('jwt'), function(req, res, next) {
   User.find().select('-password') // get all fields except password
 		.then(users => {
 			res.json(users);
@@ -27,7 +28,8 @@ router.get('/', function(req, res, next) {
 //});
 
 // Read one user
-router.get('/:userId', function(req, res, next) {
+router.get('/:userId', passport.authenticate('jwt'), function(req, res, next) {
+  
   User.findOne({_id: req.params.userId})
 		.then(user => {
 			res.json(user);
@@ -38,7 +40,7 @@ router.get('/:userId', function(req, res, next) {
 });
 
 // Update one user
-router.post('/:userId', function(req, res, next) {
+router.post('/:userId', passport.authenticate('jwt'), function(req, res, next) {
   User.findByIdAndUpdate({_id: req.params.userId}, req.body)
 		.then(user => {
 			res.json(user);
@@ -49,7 +51,7 @@ router.post('/:userId', function(req, res, next) {
 });
 
 // Delete one user
-router.delete('/:userId', function(req, res, next) {
+router.delete('/:userId', passport.authenticate('jwt'), function(req, res, next) {
   User.deleteOne({_id: req.params.userId}).select('-password')
 		.then(users => {
 			res.json(users);
