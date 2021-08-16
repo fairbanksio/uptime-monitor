@@ -10,6 +10,9 @@ var authRouter = require('./routes/auth')
 var usersRouter = require('./routes/users')
 var monitorsRouter = require('./routes/monitors')
 
+
+var monitoringService = require('./services/monitoring')
+
 var app = express()
 
 // Initialize and configure passport to use session.
@@ -89,5 +92,8 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500)
   res.json({ error: err.message })
 })
+
+
+monitoringService.startAllMonitors()
 
 module.exports = app

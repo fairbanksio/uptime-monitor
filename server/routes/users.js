@@ -5,7 +5,7 @@ var passport = require('passport');
 
 // Get all users
 router.get('/', passport.authenticate('jwt'), function(req, res, next) {
-  User.find() // get all fields except password
+  User.find()
 		.then(users => {
 			res.json(users);
 		})
@@ -41,7 +41,7 @@ router.get('/:userId', passport.authenticate('jwt'), function(req, res, next) {
 
 // Update one user
 router.post('/:userId', passport.authenticate('jwt'), function(req, res, next) {
-  User.findByIdAndUpdate({_id: req.params.userId}, req.body)
+  User.findByIdAndUpdate({_id: req.params.userId}, req.body, {new: true})
 		.then(user => {
 			res.json(user);
 		})
