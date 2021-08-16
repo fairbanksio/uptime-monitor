@@ -37,7 +37,7 @@ jobs:
       - name: Commit Version Updates
         uses: EndBug/add-and-commit@v7.2.1
         with:
-          message: "yo-api v${{ steps.update-versions.outputs.version }}"
+          message: "uptime-monitor v${{ steps.update-versions.outputs.version }}"
           push: "origin master --force"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -46,9 +46,9 @@ jobs:
         id: tag-images
         run: |
           if [[ ${{ steps.update-versions.outputs.version }} =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
-            TAGS="jonfairbanks/yo-api:${{ steps.update-versions.outputs.version }},jonfairbanks/yo-api:latest"
+            TAGS="fairbanksio/uptime-monitor:${{ steps.update-versions.outputs.version }},fairbanksio/uptime-monitor:latest"
           else
-            TAGS="jonfairbanks/yo-api:latest"
+            TAGS="fairbanksio/uptime-monitor:latest"
           fi
           echo "::set-output name=tags::${TAGS}"
 
@@ -87,8 +87,8 @@ jobs:
         uses: bsord/helm-push@v4
         with:
           useOCIRegistry: true
-          registry-url: https://ghcr.io/jonfairbanks/yo-api
-          username: jonfairbanks
+          registry-url: https://ghcr.io/fairbanksio/uptime-monitor
+          username: bsord
           access-token: ${{ secrets.GITHUB_TOKEN }}
           force: true
           chart-folder: ./server/chart
@@ -98,7 +98,7 @@ jobs:
       #   uses: bsord/helm-push@v4
       #   with:
       #     useOCIRegistry: true
-      #     registry-url: https://registry.digitalocean.com/fairbanks-io/yo-api
+      #     registry-url: https://registry.digitalocean.com/fairbanks-io/uptime-monitor
       #     username: ${{ secrets.DIGITAL_OCEAN_REGISTRY_TOKEN }}
       #     access-token: ${{ secrets.DIGITAL_OCEAN_REGISTRY_TOKEN }}
       #     force: true
