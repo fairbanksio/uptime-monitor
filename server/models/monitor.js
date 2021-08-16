@@ -1,6 +1,8 @@
 let mongoose = require('mongoose')
+let Schema = mongoose.Schema
 let timestamps = require('mongoose-timestamp');
 const axios = require("axios");
+let Heartbeat = require('../models/heartbeat');
 
 var MonitorSchema = new mongoose.Schema({
     name: {
@@ -13,14 +15,20 @@ var MonitorSchema = new mongoose.Schema({
     },
     interval:{
         type: Number,
-        default: 10
-    },
-    status: {
-        type: String,
+        default: 300
     },
     enabled: {
         type: Boolean,
         default: true
+    },
+    heartbeats : [{
+        type: Schema.Types.ObjectId,
+        ref: 'Heartbeat'
+    }],
+    owner :{
+        type: Schema.Types.ObjectId, 
+        ref: 'User',
+        required: true
     }
 });
 
@@ -37,12 +45,31 @@ MonitorSchema.methods.start = function() {
                     "User-Agent": "Uptime-Monitor/",
                 },
             });
+
             console.log(this.name + "("+this.url+"): " + res.status + " - "+ res.statusText)
-            this.status = `${res.status} - ${res.statusText}`
-            this.save() 
+
+            //save heartbeat
+            const heartbeat = await Heartbeat.create({
+                status: "UP",
+                statusMessage:  res.status + " - "+ res.statusText,
+                monitor: this._id
+            });
+            await heartbeat.save();
+            //console.log(heartbeat)
+            this.heartbeats.push(heartbeat)
+            this.save()
 
         } catch (error) {
             console.log(error)
+
+             //save heartbeat
+             const heartbeat = await Heartbeat.create({
+                status: "DOWN",
+                message:  error,
+                monitor: this._id
+            });
+            this.heartbeats.push(heartbeat)
+            this.save()
         }
 
     }
