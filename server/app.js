@@ -3,6 +3,7 @@ var express = require('express')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 var mongoose = require('mongoose')
+const passport = require("passport");
 
 var indexRouter = require('./routes/index')
 var authRouter = require('./routes/auth')
@@ -10,6 +11,11 @@ var usersRouter = require('./routes/users')
 var monitorsRouter = require('./routes/monitors')
 
 var app = express()
+
+// Initialize and configure passport to use session.
+app.use(passport.initialize());
+app.use(passport.session());
+require("./config/passport");
 
 app.use(logger('dev'))
 app.use(express.json())
