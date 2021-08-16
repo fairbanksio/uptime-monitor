@@ -7,6 +7,7 @@ var mongoose = require('mongoose')
 var indexRouter = require('./routes/index')
 var authRouter = require('./routes/auth')
 var usersRouter = require('./routes/users')
+var monitorsRouter = require('./routes/monitors')
 
 var app = express()
 
@@ -51,6 +52,7 @@ mongoose.connection.on('error', (err) => {
 app.use('/', indexRouter)
 app.use('/auth', authRouter)
 app.use('/users', usersRouter)
+app.use('/monitors', monitorsRouter)
 
 // Handle livenessProbe
 app.get('/healthz', (req, res) => {
