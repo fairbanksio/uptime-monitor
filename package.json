@@ -14,7 +14,9 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.7",
     "mongoose-timestamp": "^0.6.0",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"
