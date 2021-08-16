@@ -9,13 +9,11 @@ var opts = {};
   opts.secretOrKey = settings.jwtSecret;
 
 passport.serializeUser(function(user, done) {
-    console.log(user)
   done(null, user);
 });
 
 passport.deserializeUser(function(user, done) {
   User.findById({id: user.id}, function(err, user) {
-      console.log(user)
         done(err, user);
     });
 });
