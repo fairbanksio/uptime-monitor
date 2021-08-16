@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node index.js",
+    "test": "clear && jest --detectOpenHandles",
+    "test-watch": "clear && jest --detectOpenHandles --watchAll"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -17,6 +19,9 @@
     "morgan": "~1.9.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.12"
+    "jest": "^27.0.6",
+    "nodemon": "^2.0.12",
+    "superagent": "^6.1.0",
+    "supertest": "^6.1.5"
   }
 }
