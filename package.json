@@ -3,17 +3,27 @@
   "version": "0.0.2",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node index.js",
+    "test": "clear && jest --detectOpenHandles",
+    "test-watch": "clear && jest --detectOpenHandles --watchAll"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.7",
-    "morgan": "~1.9.1"
+    "mongoose-timestamp": "^0.6.0",
+    "morgan": "~1.9.1",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.12"
+    "jest": "^27.0.6",
+    "nodemon": "^2.0.12",
+    "superagent": "^6.1.0",
+    "supertest": "^6.1.5"
   }
 }
