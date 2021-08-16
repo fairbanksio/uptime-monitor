@@ -5,7 +5,7 @@ var passport = require('passport');
 
 // Get all users
 router.get('/', passport.authenticate('jwt'), function(req, res, next) {
-  User.find().select('-password') // get all fields except password
+  User.find() // get all fields except password
 		.then(users => {
 			res.json(users);
 		})
@@ -52,7 +52,7 @@ router.post('/:userId', passport.authenticate('jwt'), function(req, res, next) {
 
 // Delete one user
 router.delete('/:userId', passport.authenticate('jwt'), function(req, res, next) {
-  User.deleteOne({_id: req.params.userId}).select('-password')
+  User.deleteOne({_id: req.params.userId})
 		.then(users => {
 			res.json(users);
 		})
