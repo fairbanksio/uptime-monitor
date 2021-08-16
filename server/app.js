@@ -3,12 +3,22 @@ var express = require('express')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 var mongoose = require('mongoose')
+const passport = require("passport");
 
 var indexRouter = require('./routes/index')
 var authRouter = require('./routes/auth')
 var usersRouter = require('./routes/users')
+var monitorsRouter = require('./routes/monitors')
+
+
+var monitoringService = require('./services/monitoring')
 
 var app = express()
+
+// Initialize and configure passport to use session.
+app.use(passport.initialize());
+app.use(passport.session());
+require("./config/passport");
 
 app.use(logger('dev'))
 app.use(express.json())
@@ -51,6 +61,7 @@ mongoose.connection.on('error', (err) => {
 app.use('/', indexRouter)
 app.use('/auth', authRouter)
 app.use('/users', usersRouter)
+app.use('/monitors', monitorsRouter)
 
 // Handle livenessProbe
 app.get('/healthz', (req, res) => {
@@ -81,5 +92,8 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500)
   res.json({ error: err.message })
 })
+
+
+monitoringService.startAllMonitors()
 
 module.exports = app
