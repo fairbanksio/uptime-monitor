@@ -88,7 +88,7 @@ jobs:
         with:
           useOCIRegistry: true
           registry-url: https://ghcr.io/fairbanksio/uptime-monitor
-          username: jonfairbanks
+          username: bsord
           access-token: ${{ secrets.GITHUB_TOKEN }}
           force: true
           chart-folder: ./server/chart
