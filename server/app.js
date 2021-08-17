@@ -45,19 +45,21 @@ mongoose.connection.on('connected', () => {
   console.log('uptime-monitor is connected to MongoDB...') // eslint-disable-line no-console
 })
 
-mongoose.connection.on('disconnected', (err) => {
-  console.warn(`MongoDB disconnected: ${err}`) // eslint-disable-line no-console
-  setTimeout(() => {
-    connectToDB()
-  }, 3000)
-})
+if (process.env.NODE_ENV.trim() === 'production') {
+  mongoose.connection.on('disconnected', (err) => {
+    console.warn(`MongoDB disconnected: ${err}`) // eslint-disable-line no-console
+    setTimeout(() => {
+      connectToDB()
+    }, 3000)
+  })
 
-mongoose.connection.on('error', (err) => {
-  console.warn(`MongoDB error: ${err}`) // eslint-disable-line no-console
-  setTimeout(() => {
-    connectToDB()
-  }, 3000)
-})
+  mongoose.connection.on('error', (err) => {
+    console.warn(`MongoDB error: ${err}`) // eslint-disable-line no-console
+    setTimeout(() => {
+      connectToDB()
+    }, 3000)
+  })
+}
 
 app.use('/', indexRouter)
 app.use('/auth', authRouter)
