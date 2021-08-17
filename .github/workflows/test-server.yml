@@ -13,6 +13,9 @@ env:
 jobs:
   test-server:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x]
@@ -30,9 +33,11 @@ jobs:
           cache-dependency-path: server/package-lock.json
 
       - name: Run NPM Install
+        working-directory: ./server
         run: npm install
 
       - name: Setup Jest
+        working-directory: ./server
         run: npm install jest -g
 
       - name: Run NPM Tests
