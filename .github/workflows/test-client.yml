@@ -1,0 +1,48 @@
+name: Node.js Client CI
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+env:
+  TERM: xterm
+
+jobs:
+  test-client:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup using Node.js v${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: client/package-lock.json
+
+      - name: Run NPM Install
+        working-directory: ./client
+        run: npm install
+
+      # - name: Setup Jest
+      #   working-directory: ./client
+      #   run: npm install jest@26.6.0 -g
+
+      - name: Run NPM Tests
+        id: npm-tests
+        working-directory: ./client
+        run: npm test
+        env:
+          CI: true

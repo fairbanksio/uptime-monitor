@@ -1,3 +1,5 @@
+require('dotenv').config() // eslint-disable-line
+
 // Setup Express
 const PORT = process.env.PORT || 8080
 const app = require('./app.js')
