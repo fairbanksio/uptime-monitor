@@ -1,5 +1,5 @@
 # Base
-FROM node:14-slim as base
+FROM node:16-slim as base
 RUN apt-get -qq update; apt-get -qq install wget gpg -y
 ENV NODE_ENV=production
 RUN dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
