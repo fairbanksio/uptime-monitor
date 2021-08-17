@@ -34,4 +34,5 @@ jobs:
 
       - name: Run NPM Tests
         id: npm-tests
+        working-directory: ./server
         run: npm test
