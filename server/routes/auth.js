@@ -4,17 +4,6 @@ let User = require('../models/user');
 var jwt = require('jsonwebtoken');
 var settings = require('../config/settings');
 
-// Get all users
-router.post('/', function(req, res, next) {
-  User.find().select('-password') // get all fields except password
-		.then(users => {
-			res.json(users);
-		})
-		.catch(err => {
-			res.status(422).send(err.errors);
-		});
-});
-
 // Register a new user
 router.post('/register', function(req, res, next) {
   var newUser = new User(req.body)
