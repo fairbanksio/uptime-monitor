@@ -13,7 +13,7 @@ env:
 jobs:
   test-client:
     runs-on: ubuntu-latest
-        defaults:
+    defaults:
       run:
         working-directory: ./client
     strategy:
