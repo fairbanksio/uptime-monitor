@@ -13,9 +13,6 @@ env:
 jobs:
   test-server:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./server
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x]
@@ -31,10 +28,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
+      - name: Move to Server directory
+        run: cd server
+
       - name: Run NPM Install
-        working-directory: ./server
         run: npm install
 
       - name: Run NPM Tests
-        working-directory: ./server
+        id: npm-tests
         run: npm test
