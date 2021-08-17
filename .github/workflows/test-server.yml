@@ -32,6 +32,9 @@ jobs:
       - name: Run NPM Install
         run: npm install
 
+      - name: Setup Jest
+        run: npm install jest -g
+
       - name: Run NPM Tests
         id: npm-tests
         working-directory: ./server
