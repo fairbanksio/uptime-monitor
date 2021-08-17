@@ -3,22 +3,23 @@ var express = require('express')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 var mongoose = require('mongoose')
-const passport = require("passport");
+var passport = require('passport')
 
 var indexRouter = require('./routes/index')
 var authRouter = require('./routes/auth')
 var usersRouter = require('./routes/users')
 var monitorsRouter = require('./routes/monitors')
 
-
 var monitoringService = require('./services/monitoring')
+
+require('dotenv').config() // eslint-disable-line
 
 var app = express()
 
 // Initialize and configure passport to use session.
-app.use(passport.initialize());
-app.use(passport.session());
-require("./config/passport");
+app.use(passport.initialize())
+app.use(passport.session())
+require('./config/passport')
 
 app.use(logger('dev'))
 app.use(express.json())
@@ -92,7 +93,6 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500)
   res.json({ error: err.message })
 })
-
 
 monitoringService.startAllMonitors()
 

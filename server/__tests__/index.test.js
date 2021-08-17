@@ -1,6 +1,8 @@
 const request = require('supertest')
 const app = require('../app')
 
+require('dotenv').config({ path: '.env.sample' }) // eslint-disable-line
+
 afterAll(async () => {
   await new Promise((resolve) => setTimeout(() => resolve(), 500)) // avoid jest open handle error
 })
