@@ -1,22 +1,10 @@
 var express = require('express');
-var router = express.Router();
 let User = require('../models/user');
 var jwt = require('jsonwebtoken');
 var settings = require('../config/settings');
 
-// Get all users
-router.post('/', function(req, res, next) {
-  User.find().select('-password') // get all fields except password
-		.then(users => {
-			res.json(users);
-		})
-		.catch(err => {
-			res.status(422).send(err.errors);
-		});
-});
-
 // Register a new user
-router.post('/register', function(req, res, next) {
+exports.register = (req, res, next) => {
   var newUser = new User(req.body)
   newUser.save() // get all fields except password
 		.then(user => {
@@ -25,10 +13,10 @@ router.post('/register', function(req, res, next) {
 		.catch(err => {
 			res.status(422).send(err.errors);
 		});
-});
+};
 
 // Authenticate
-router.post('/login', function(req, res, next) {
+exports.login = (req, res, next) => {
     User.findOne({
         username: req.body.username
     }, function (err, user) {
@@ -50,10 +38,10 @@ router.post('/login', function(req, res, next) {
             });
         }
     }).select('+password');
-});
+};
 
 // Sign out
-router.post('/logout', function(req, res, next) {
+exports.logout = (req, res, next) => {
   User.findByIdAndUpdate({_id: req.params.userId}, req.body).select('-password') // get all fields except password
 		.then(user => {
 			res.json(user);
@@ -61,7 +49,5 @@ router.post('/logout', function(req, res, next) {
 		.catch(err => {
 			res.status(422).send(err.errors);
 		});
-});
+};
 
-
-module.exports = router;

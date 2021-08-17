@@ -1,10 +1,8 @@
 var express = require('express');
-var router = express.Router();
 let Notification = require('../models/notification');
-var passport = require('passport');
 
 // Get all notifications
-router.get('/', passport.authenticate('jwt'), function(req, res, next) {
+exports.getAll = (req, res, next) => {
   Notification.find({owner: req.user._id})
 		.then(notifications => {
 			res.json(notifications);
@@ -12,10 +10,10 @@ router.get('/', passport.authenticate('jwt'), function(req, res, next) {
 		.catch(err => {
 			res.status(422).send(err.errors);
 		});
-});
+};
 
 // Create notification
-router.post('/', passport.authenticate('jwt'), function(req, res, next) {
+exports.create = (req, res, next) => {
 	const {name, type, url} = req.body
 	const {user} = req
   var newNotification = new Notification({
@@ -31,10 +29,10 @@ router.post('/', passport.authenticate('jwt'), function(req, res, next) {
 		.catch(err => {
 			res.status(422).send(err.errors);
 		});
-});
+};
 
 // Read one notification
-router.get('/:notificationId', passport.authenticate('jwt'), function(req, res, next) {
+exports.getOne = (req, res, next) => {
   
   Notification.findOne({_id: req.params.notificationId, owner: req.user._id})
 		.then(notification => {
@@ -43,10 +41,10 @@ router.get('/:notificationId', passport.authenticate('jwt'), function(req, res, 
 		.catch(err => {
 			res.status(422).send(err.errors);
 		});
-});
+};
 
 // Update one notification
-router.post('/:notificationId', passport.authenticate('jwt'), function(req, res, next) {
+exports.update = (req, res, next) => {
   Notification.findByIdAndUpdate({_id: req.params.notificationId, owner: req.user._id}, req.body, {new: true})
 		.then(notification => {
 			res.json(notification);
@@ -54,10 +52,10 @@ router.post('/:notificationId', passport.authenticate('jwt'), function(req, res,
 		.catch(err => {
 			res.status(422).send(err.errors);
 		});
-});
+};
 
 // Delete one notification
-router.delete('/:notificationId', passport.authenticate('jwt'), function(req, res, next) {
+exports.delete = (req, res, next) => {
 	// delete doesn't return an object id and we need it to stop notification
 	Notification.findOne({_id: req.params.notificationId, owner: req.user._id})
 		.then(notification => {
@@ -75,6 +73,5 @@ router.delete('/:notificationId', passport.authenticate('jwt'), function(req, re
 		.catch(err => {
 			res.status(422).send(err.errors);
 		});
-});
+};
 
-module.exports = router;
