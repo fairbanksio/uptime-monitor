@@ -36,9 +36,9 @@ jobs:
         working-directory: ./client
         run: npm install
 
-      - name: Setup Jest
-        working-directory: ./client
-        run: npm install jest -g
+      # - name: Setup Jest
+      #   working-directory: ./client
+      #   run: npm install jest@26.6.0 -g
 
       - name: Run NPM Tests
         id: npm-tests
