@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index')
 var authRouter = require('./routes/auth')
 var usersRouter = require('./routes/users')
 var monitorsRouter = require('./routes/monitors')
+var notificationsRouter = require('./routes/notifications')
 
 var monitoringService = require('./services/monitoring')
 
@@ -65,6 +66,7 @@ app.use('/', indexRouter)
 app.use('/auth', authRouter)
 app.use('/users', usersRouter)
 app.use('/monitors', monitorsRouter)
+app.use('/notifications', notificationsRouter)
 
 // Handle livenessProbe
 app.get('/healthz', (req, res) => {
