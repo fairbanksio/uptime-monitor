@@ -3,12 +3,23 @@ var express = require('express')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 var mongoose = require('mongoose')
+var passport = require('passport')
 
 var indexRouter = require('./routes/index')
 var authRouter = require('./routes/auth')
 var usersRouter = require('./routes/users')
+var monitorsRouter = require('./routes/monitors')
+
+var monitoringService = require('./services/monitoring')
+
+require('dotenv').config() // eslint-disable-line
 
 var app = express()
+
+// Initialize and configure passport to use session.
+app.use(passport.initialize())
+app.use(passport.session())
+require('./config/passport')
 
 app.use(logger('dev'))
 app.use(express.json())
@@ -34,23 +45,26 @@ mongoose.connection.on('connected', () => {
   console.log('uptime-monitor is connected to MongoDB...') // eslint-disable-line no-console
 })
 
-mongoose.connection.on('disconnected', (err) => {
-  console.warn(`MongoDB disconnected: ${err}`) // eslint-disable-line no-console
-  setTimeout(() => {
-    connectToDB()
-  }, 3000)
-})
+if (process.env.NODE_ENV.trim() === 'production') {
+  mongoose.connection.on('disconnected', (err) => {
+    console.warn(`MongoDB disconnected: ${err}`) // eslint-disable-line no-console
+    setTimeout(() => {
+      connectToDB()
+    }, 3000)
+  })
 
-mongoose.connection.on('error', (err) => {
-  console.warn(`MongoDB error: ${err}`) // eslint-disable-line no-console
-  setTimeout(() => {
-    connectToDB()
-  }, 3000)
-})
+  mongoose.connection.on('error', (err) => {
+    console.warn(`MongoDB error: ${err}`) // eslint-disable-line no-console
+    setTimeout(() => {
+      connectToDB()
+    }, 3000)
+  })
+}
 
 app.use('/', indexRouter)
 app.use('/auth', authRouter)
 app.use('/users', usersRouter)
+app.use('/monitors', monitorsRouter)
 
 // Handle livenessProbe
 app.get('/healthz', (req, res) => {
@@ -81,5 +95,7 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500)
   res.json({ error: err.message })
 })
+
+monitoringService.startAllMonitors()
 
 module.exports = app
