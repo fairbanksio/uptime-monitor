@@ -14,7 +14,6 @@ var UserSchema = new mongoose.Schema({
     },
     token: {
         type: String,
-        //select: false //IMPORTANT, This prevents password from leaking via get requests
     }
 });
 

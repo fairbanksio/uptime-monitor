@@ -1,64 +1,13 @@
 var express = require('express');
 var router = express.Router();
-let User = require('../models/user');
 var passport = require('passport');
+let UserController = require('../controllers/user');
 
-// Get all users
-router.get('/', passport.authenticate('jwt'), function(req, res, next) {
-  User.find()
-		.then(users => {
-			res.json(users);
-		})
-		.catch(err => {
-			res.status(422).send(err.errors);
-		});
-});
-
-// INSERT USER SHOULD BE DONE VIA AUTH ROUTE!
-// Create one user
-//router.post('/', function(req, res, next) {
-//  var newUser = new User(req.body)
-//  newUser.save()
-//		.then(user => {
-//			res.json(user);
-//		})
-//		.catch(err => {
-//			res.status(422).send(err.errors);
-//		});
-//});
-
-// Read one user
-router.get('/:userId', passport.authenticate('jwt'), function(req, res, next) {
-  
-  User.findOne({_id: req.params.userId})
-		.then(user => {
-			res.json(user);
-		})
-		.catch(err => {
-			res.status(422).send(err.errors);
-		});
-});
-
-// Update one user
-router.post('/:userId', passport.authenticate('jwt'), function(req, res, next) {
-  User.findByIdAndUpdate({_id: req.params.userId}, req.body, {new: true})
-		.then(user => {
-			res.json(user);
-		})
-		.catch(err => {
-			res.status(422).send(err.errors);
-		});
-});
-
-// Delete one user
-router.delete('/:userId', passport.authenticate('jwt'), function(req, res, next) {
-  User.deleteOne({_id: req.params.userId})
-		.then(users => {
-			res.json(users);
-		})
-		.catch(err => {
-			res.status(422).send(err.errors);
-		});
-});
+// Handle Users
+router.post('/', passport.authenticate('jwt', { session: false}), UserController.create); // Create users (Register)
+router.get('/', passport.authenticate('jwt', { session: false}), UserController.getAll); // Read or get users
+router.get('/:userId', passport.authenticate('jwt', { session: false}), UserController.getOne);
+router.post('/:userId', passport.authenticate('jwt', { session: false}), UserController.update); // Update users
+router.delete('/:userId', passport.authenticate('jwt', { session: false}), UserController.delete); // Delete users
 
 module.exports = router;
