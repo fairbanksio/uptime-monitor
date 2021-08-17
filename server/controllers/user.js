@@ -1,7 +1,5 @@
 var express = require('express');
-var router = express.Router();
 let User = require('../models/user');
-var passport = require('passport');
 
 // Get all users
 exports.getAll = (req, res, next) => {
