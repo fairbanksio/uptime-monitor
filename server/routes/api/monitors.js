@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-let MonitorController = require('../controllers/monitor');
+let MonitorController = require('../../controllers/monitor');
 var passport = require('passport');
 
 // Handle Monitors

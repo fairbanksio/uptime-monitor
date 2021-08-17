@@ -5,11 +5,8 @@ var logger = require('morgan')
 var mongoose = require('mongoose')
 var passport = require('passport')
 
-var indexRouter = require('./routes/index')
-var authRouter = require('./routes/auth')
-var usersRouter = require('./routes/users')
-var monitorsRouter = require('./routes/monitors')
-var notificationsRouter = require('./routes/notifications')
+var clientRouter = require('./routes/index')
+var apiRouter = require('./routes/api')
 
 var monitoringService = require('./services/monitoring')
 
@@ -62,11 +59,8 @@ if (process.env.NODE_ENV.trim() === 'production') {
   })
 }
 
-app.use('/', indexRouter)
-app.use('/auth', authRouter)
-app.use('/users', usersRouter)
-app.use('/monitors', monitorsRouter)
-app.use('/notifications', notificationsRouter)
+app.use('/', clientRouter)
+app.use('/api', apiRouter)
 
 // Handle livenessProbe
 app.get('/healthz', (req, res) => {

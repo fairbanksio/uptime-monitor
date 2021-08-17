@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-let UserController = require('../controllers/user');
+let UserController = require('../../controllers/user');
 
 // Handle Users
 router.post('/', passport.authenticate('jwt', { session: false}), UserController.create); // Create users (Register)

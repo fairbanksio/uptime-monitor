@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-let NotificationController = require('../controllers/notification');
+let NotificationController = require('../../controllers/notification');
 var passport = require('passport');
 
 // Handle Notifications

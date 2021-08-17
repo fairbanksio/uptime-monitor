@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-let AuthController = require('../controllers/auth');
+let AuthController = require('../../controllers/auth');
 
 // Handle Auth
 router.post('/register', AuthController.register); //Register user via email/username/pass
