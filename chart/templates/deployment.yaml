@@ -39,12 +39,18 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /api
               port: http
           readinessProbe:
             httpGet:
-              path: /
+              path: /api
               port: http
+          env:          
+            - name: "MONGO_URI"
+              valueFrom:
+                secretKeyRef: 
+                  name: {{ include "uptime-monitor.secretName" . }}
+                  key: mongoUri
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
