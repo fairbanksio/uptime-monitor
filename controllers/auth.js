@@ -5,14 +5,14 @@ var settings = require('../config/settings');
 
 // Register a new user
 exports.register = (req, res, next) => {
-  var newUser = new User(req.body)
-  newUser.save() // get all fields except password
-		.then(user => {
-			res.json(user);
-		})
-		.catch(err => {
-			res.status(422).send(err.errors);
-		});
+    var newUser = new User(req.body)
+    newUser.save() // get all fields except password
+        .then(user => {
+            res.json(user);
+        })
+        .catch(err => {
+            res.status(422).send(err.errors);
+        });
 };
 
 // Authenticate
@@ -42,12 +42,12 @@ exports.login = (req, res, next) => {
 
 // Sign out
 exports.logout = (req, res, next) => {
-  User.findByIdAndUpdate({_id: req.params.userId}, req.body).select('-password') // get all fields except password
-		.then(user => {
-			res.json(user);
-		})
-		.catch(err => {
-			res.status(422).send(err.errors);
-		});
+    User.findByIdAndUpdate({_id: req.params.userId}, req.body).select('-password') // get all fields except password
+        .then(user => {
+            res.json(user);
+        })
+        .catch(err => {
+            res.status(422).send(err.errors);
+        });
 };
 

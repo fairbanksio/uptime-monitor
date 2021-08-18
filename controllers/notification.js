@@ -3,7 +3,7 @@ let Notification = require('../models/notification');
 
 // Get all notifications
 exports.getAll = (req, res, next) => {
-  Notification.find({owner: req.user._id})
+	Notification.find({owner: req.user._id})
 		.then(notifications => {
 			res.json(notifications);
 		})
@@ -16,13 +16,13 @@ exports.getAll = (req, res, next) => {
 exports.create = (req, res, next) => {
 	const {name, type, url} = req.body
 	const {user} = req
-  var newNotification = new Notification({
-	name: name,
-    url: url,
-	type: type,
-    owner: user._id
-  })
-  newNotification.save()
+	var newNotification = new Notification({
+		name: name,
+		url: url,
+		type: type,
+		owner: user._id
+	})
+	newNotification.save()
 		.then(notification => {
 			res.json(notification);
 		})
@@ -45,7 +45,7 @@ exports.getOne = (req, res, next) => {
 
 // Update one notification
 exports.update = (req, res, next) => {
-  Notification.findByIdAndUpdate({_id: req.params.notificationId, owner: req.user._id}, req.body, {new: true})
+	Notification.findByIdAndUpdate({_id: req.params.notificationId, owner: req.user._id}, req.body, {new: true})
 		.then(notification => {
 			res.json(notification);
 		})

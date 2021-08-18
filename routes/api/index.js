@@ -6,6 +6,7 @@ router.get('/', function (req, res, next) {
 router.use('/users', require('./users'));
 router.use('/monitors', require('./monitors'));
 router.use('/notifications', require('./notifications'));
+router.use('/events', require('./events'));
 router.use('/auth', require('./auth'));
 
 
