@@ -27,5 +27,8 @@
     "nodemon": "^2.0.12",
     "superagent": "^6.1.0",
     "supertest": "^6.1.5"
+  },
+  "jest": {
+    "modulePathIgnorePatterns": ["client"]
   }
 }
