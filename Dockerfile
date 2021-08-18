@@ -25,7 +25,7 @@ EXPOSE 8080
 RUN mkdir /app && chown -R node:node /app
 WORKDIR /app
 USER node
-COPY --chown=node:node ./server/package*.json ./
+COPY --chown=node:node ./package*.json ./
 RUN  npm install --no-optional --silent && npm cache clean --force > "/dev/null" 2>&1
 
 # Development ENV
@@ -48,7 +48,7 @@ COPY --chown=node:node ./client .
 RUN npm run build
 
 FROM server-base as server-source
-COPY --chown=node:node ./server .
+COPY --chown=node:node . .
 
 # Production ENV
 FROM server-source as prod
