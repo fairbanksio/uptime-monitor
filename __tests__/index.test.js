@@ -9,7 +9,7 @@ afterAll(() => mongoose.disconnect())
 describe('Verify the site loads', () => {
   test('Response should equal HTTP 200', (done) => {
     request(app)
-      .get('/')
+      .get('/api')
       .then((response) => {
         expect(response.statusCode).toBe(200)
         done()
