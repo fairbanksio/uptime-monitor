@@ -8,7 +8,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./server:/app:delegated
+      - ./:/app:delegated
       - node_modules_server:/app/node_modules
     environment:
       - MONGO_URI="mongodb://mongodb:27017"
