@@ -4,6 +4,7 @@ let timestamps = require('mongoose-timestamp');
 const axios = require("axios");
 let Heartbeat = require('../models/heartbeat');
 let Event = require('../models/event');
+let Notification = require('../models/notification');
 
 var MonitorSchema = new mongoose.Schema({
     name: {
@@ -34,7 +35,12 @@ var MonitorSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId, 
         ref: 'User',
         required: true
-    }
+    },
+    notifications :[{
+        type: Schema.Types.ObjectId, 
+        ref: 'Notification',
+        required: true
+    }]
 });
 
 MonitorSchema.methods.start = function() {
@@ -78,23 +84,34 @@ MonitorSchema.methods.start = function() {
                 // Status changed, trigger an event
                 // create hearbeat
 
-                let eventMessage = ""
+                let eventType = ""
                 if(this.previousHeartbeat.status === "UP" && heartbeat.status === "DOWN"){
-                    eventMessage = "Monitor down"
+                    eventType = "DOWN"
                 } else if (this.previousHeartbeat.status === "DOWN" && heartbeat.status === "UP"){
-                    eventMessage = "Monitor up"
+                    eventType = "UP"
                 }
 
                 let event = new Event({
-                    monitor: this._id,
-                    eventMessage: this.name + ": " + eventMessage + " - " + heartbeat.statusMessage
+                    monitor: this,
+                    message: heartbeat.statusMessage,
+                    type: eventType
                 });
 
                 // save event
                 event.save()
                 this.events.push(event)
 
-                console.log(this.name + ": " + eventMessage + " - " + heartbeat.statusMessage)
+                // send event to each notification configuration on the monitor
+                if(this.notifications.length > 0){
+                    this.notifications.forEach(notificationId => {
+                        Notification.findOne({_id: notificationId})
+                        .then(notification => {
+                            notification.notify(event)
+                        })
+                    })
+                }
+
+                console.log(this.name + ": " + eventType + " - " + heartbeat.statusMessage)
             }
         }
 
@@ -113,6 +130,7 @@ MonitorSchema.methods.start = function() {
 MonitorSchema.methods.stop = function() {
     clearInterval(this.heartbeat)
 }
+
 // Configure plugins
 MonitorSchema.plugin(timestamps); // Automatically adds createdAt and updatedAt timestamps
 

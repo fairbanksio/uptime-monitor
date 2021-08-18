@@ -9,7 +9,11 @@ var EventSchema = new mongoose.Schema({
         ref: 'Monitor',
         required: true
     },
-    eventMessage: {
+    message: {
+        type: String,
+        required: true,
+    },
+    type: {
         type: String,
         required: true,
     }

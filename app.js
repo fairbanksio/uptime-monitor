@@ -4,11 +4,10 @@ var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 var mongoose = require('mongoose')
 var passport = require('passport')
+const path = require('path');
 
-var indexRouter = require('./routes/index')
-var authRouter = require('./routes/auth')
-var usersRouter = require('./routes/users')
-var monitorsRouter = require('./routes/monitors')
+var clientRouter = require('./routes/index')
+var apiRouter = require('./routes/api')
 
 var monitoringService = require('./services/monitoring')
 
@@ -61,10 +60,9 @@ if (process.env.NODE_ENV.trim() === 'production') {
   })
 }
 
-app.use('/', indexRouter)
-app.use('/auth', authRouter)
-app.use('/users', usersRouter)
-app.use('/monitors', monitorsRouter)
+app.use(express.static(path.join(__dirname, 'client/build')));
+app.use('/api', apiRouter)// Handles any requests that don't match the ones above
+app.use('*', clientRouter)
 
 // Handle livenessProbe
 app.get('/healthz', (req, res) => {

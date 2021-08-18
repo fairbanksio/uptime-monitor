@@ -1,6 +1,7 @@
 import './App.css';
 
 function App() {
+  const apiUrl = process.env.REACT_APP_API || "/api" //assume api is on the same host as web app unless overridden for development
   return (
     <div className="App">
       <header className="App-header">
@@ -11,9 +12,11 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Uptime Monitor
+          Uptime monitor
         </a>
+        <span>API Endpoint:  {apiUrl}</span>
       </header>
+      
     </div>
   );
 }
