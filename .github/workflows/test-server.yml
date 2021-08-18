@@ -13,9 +13,6 @@ env:
 jobs:
   test-server:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./server
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x]
@@ -31,7 +28,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-          cache-dependency-path: server/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.6.0
@@ -39,16 +36,10 @@ jobs:
           mongodb-version: ${{ matrix.mongodb-version }}
 
       - name: Run NPM Install
-        working-directory: ./server
         run: npm install
-
-      # - name: Setup Jest
-      #   working-directory: ./server
-      #   run: npm install jest@26.6.0 -g
 
       - name: Run NPM Tests
         id: npm-tests
-        working-directory: ./server
         run: npm test
         env:
           CI: true
