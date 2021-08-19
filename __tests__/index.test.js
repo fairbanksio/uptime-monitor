@@ -30,7 +30,7 @@ describe('User can register', () => {
         expect(response.statusCode).toBe(200)
         expect(response.body).toMatchObject({
           username: "testUser",
-          position: expect.any(String)
+          password: expect.any(String)
         })
         done()
       })
