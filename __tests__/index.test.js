@@ -80,7 +80,7 @@ describe('Monitor can be created', () => {
         expect(response.body).toMatchObject({
           _id: expect.any(String),
           name: "test-monitor",
-          enabled: true,
+          enabled: false,
           interval: 60,
           type: "http",
           config: {
