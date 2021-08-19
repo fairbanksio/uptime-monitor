@@ -127,7 +127,8 @@ describe('Notification can be created', () => {
 const monitorUpdate = {
   notifications: [notificationId]
 };
-
+console.log(monitorUpdate)
+console.log(monitorId)
 describe('Notification can be added to monitor', () => {
   test('Response should contain monitor object with notification array', (done) => {
     request(app)
