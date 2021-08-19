@@ -28,7 +28,8 @@ describe('User can register', () => {
       .post('/api/users').send(user)
       .then((response) => {
         console.log(response)
-        expect(response).toMatchObject(user)
+        expect(response.statusCode).toBe(200)
+        expect(response.body).toMatchObject(user)
         done()
       })
   })
