@@ -62,7 +62,7 @@ describe('User can authenticate', () => {
 // Test Monitors
 const monitor = {
   name: "test-monitor",
-  enabled: true,
+  enabled: false,
   interval: 60,
   type: "http",
   config: {
