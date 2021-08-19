@@ -25,10 +25,13 @@ const user = {
 describe('User can register', () => {
   test('Response should contain the user', (done) => {
     request(app)
-      .post('/api/users').send(user)
+      .post('/api/auth/register').send(user)
       .then((response) => {
-        console.log(response)
-        expect(response).toMatchObject(user)
+        expect(response.statusCode).toBe(200)
+        expect(response.body).toMatchObject({
+          username: "testUser",
+          password: expect.any(String)
+        })
         done()
       })
   })
