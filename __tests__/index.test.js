@@ -40,6 +40,8 @@ describe('User can register', () => {
   })
 })
 
+let authToken = "jwt "
+
 describe('User can authenticate', () => {
   test('Response should contain token and username', (done) => {
     request(app)
@@ -52,10 +54,10 @@ describe('User can authenticate', () => {
           token: expect.any(String)
         })
         done()
+        authToken = authToken + response.body.token
       })
   })
 })
-
 
 // Test Monitors
 const monitor = {
@@ -71,7 +73,7 @@ const monitor = {
 describe('Monitor can be created', () => {
   test('Response should contain monitor object plus an id', (done) => {
     request(app)
-      .post('/api/monitors').send(monitor)
+      .post('/api/monitors').set('Authorization', authToken).send(monitor)
       .then((response) => {
         expect(response.statusCode).toBe(200)
         expect(response.body).toMatchObject({
@@ -85,6 +87,7 @@ describe('Monitor can be created', () => {
           }
         })
         done()
+        
       })
   })
 })
@@ -98,10 +101,11 @@ const notification = {
   }
 };
 
+
 describe('Notification can be created', () => {
   test('Response should contain notification object plus an id', (done) => {
     request(app)
-      .post('/api/notifications').send(notification)
+      .post('/api/notifications').set('Authorization', authToken).send(notification)
       .then((response) => {
         expect(response.statusCode).toBe(200)
         expect(response.body).toMatchObject({
