@@ -131,7 +131,7 @@ const monitorUpdate = {
 describe('Notification can be added to monitor', () => {
   test('Response should contain monitor object with notification array', (done) => {
     request(app)
-      .post('/api/monitors').set('Authorization', authToken).send(monitorUpdate)
+      .post('/api/monitors/'+monitorId).set('Authorization', authToken).send(monitorUpdate)
       .then((response) => {
         expect(response.statusCode).toBe(200)
         expect(response.body).toMatchObject({
