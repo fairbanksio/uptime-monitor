@@ -16,3 +16,20 @@ describe('Verify the site loads', () => {
       })
   })
 })
+
+const user = {
+  username: "testUser",
+  password: "testPassword"
+};
+
+describe('User can register', () => {
+  test('Response should contain the user', (done) => {
+    request(app)
+      .post('/api/users').send(user)
+      .then((response) => {
+        console.log(response)
+        expect(response).toMatchObject(user)
+        done()
+      })
+  })
+})
