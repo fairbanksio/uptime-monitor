@@ -25,7 +25,7 @@ const user = {
 describe('User can register', () => {
   test('Response should contain the user', (done) => {
     request(app)
-      .post('/api/users').send(user)
+      .post('/api/auth/register').send(user)
       .then((response) => {
         console.log(response)
         expect(response.statusCode).toBe(200)
