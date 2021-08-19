@@ -36,3 +36,19 @@ describe('User can register', () => {
       })
   })
 })
+
+describe('User can authenticate', () => {
+  test('Response should contain token and username', (done) => {
+    request(app)
+      .post('/api/auth/login').send(user)
+      .then((response) => {
+        expect(response.statusCode).toBe(200)
+        expect(response.body).toMatchObject({
+          username: "testUser",
+          token: expect.any(String)
+        })
+        done()
+      })
+  })
+})
+
