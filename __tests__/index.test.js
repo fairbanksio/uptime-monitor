@@ -141,7 +141,7 @@ describe('Notification can be added to monitor', () => {
           config: {
             httpUrl: "https://www.google.com"
           },
-          notifications: expect.arrayContaining(notificationId)
+          notifications: expect.arrayContaining([notificationId])
         })
         done()
       })
