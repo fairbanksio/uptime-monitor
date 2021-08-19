@@ -124,15 +124,15 @@ describe('Notification can be created', () => {
 })
 
 // Test Updating monitor
-const monitorUpdate = {
-  notifications: [notificationId]
-};
+
 console.log(monitorUpdate)
 console.log(monitorId)
 describe('Notification can be added to monitor', () => {
   test('Response should contain monitor object with notification array', (done) => {
     request(app)
-      .post('/api/monitors/'+monitorId).set('Authorization', authToken).send(monitorUpdate)
+      .post('/api/monitors/'+monitorId).set('Authorization', authToken).send({
+        notifications: [notificationId]
+      })
       .then((response) => {
         expect(response.statusCode).toBe(200)
         expect(response.body).toMatchObject({
