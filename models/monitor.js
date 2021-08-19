@@ -11,9 +11,13 @@ var MonitorSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    url: {
+    type: {
         type: String,
         required: true,
+    },
+    config: {
+        httpUrl: { type: String },
+        httpKeyword: { type: String },
     },
     interval:{
         type: Number,
@@ -43,84 +47,100 @@ var MonitorSchema = new mongoose.Schema({
     }]
 });
 
-MonitorSchema.methods.start = function() {
+MonitorSchema.methods.start = async function() {
+
+    // startup
+    // load last heartbeat 
+    let startBeat = await Heartbeat.findOne({monitor: this._id}).sort({ field: 'asc', _id: -1 }).limit(1)
     const beat = async () => {
 
-        // create hearbeat
-        let heartbeat = new Heartbeat({
-            monitor: this._id
-        });
+        switch(this.type) {
+            case "http":
+                 // create hearbeat
+                if(startBeat){
+                    this.previousHeartbeat = startBeat
+                    startBeat = null
+                } 
 
-        try {
-            
-            // Check heartbeat 
-            let res = await axios.get(this.url, { 
-                timeout: this.interval * 1000 * 0.8,  
-                headers: {
-                    "Accept": "*/*",
-                    "User-Agent": "Uptime-Monitor/",
-                },
-            });
-
-            console.log(this.name + "("+this.url+"): " + res.status + " - "+ res.statusText)
-
-            // set heartbeat status
-            heartbeat.status = "UP"
-            heartbeat.statusMessage = res.status + " - "+ res.statusText
-            
-
-        } catch (error) {
-            //console.log(error)
-
-            // set heartbeat status
-            heartbeat.status = "DOWN"
-            heartbeat.statusMessage = error
-        }
-
-        // Check if current beat is different from last beat
-        if(this.previousHeartbeat){
-            if(this.previousHeartbeat.status !== heartbeat.status){
-
-                // Status changed, trigger an event
-                // create hearbeat
-
-                let eventType = ""
-                if(this.previousHeartbeat.status === "UP" && heartbeat.status === "DOWN"){
-                    eventType = "DOWN"
-                } else if (this.previousHeartbeat.status === "DOWN" && heartbeat.status === "UP"){
-                    eventType = "UP"
-                }
-
-                let event = new Event({
-                    monitor: this,
-                    message: heartbeat.statusMessage,
-                    type: eventType
+                let heartbeat = new Heartbeat({
+                    monitor: this._id
                 });
+                
 
-                // save event
-                event.save()
-                this.events.push(event)
-
-                // send event to each notification configuration on the monitor
-                if(this.notifications.length > 0){
-                    this.notifications.forEach(notificationId => {
-                        Notification.findOne({_id: notificationId})
-                        .then(notification => {
-                            notification.notify(event)
-                        })
-                    })
+                try {
+            
+                    // Check heartbeat 
+                    let res = await axios.get(this.config.httpUrl, { 
+                        timeout: this.interval * 1000 * 0.8,  
+                        headers: {
+                            "Accept": "*/*",
+                            "User-Agent": "Uptime-Monitor/",
+                        },
+                    });
+        
+                    console.log(this.name + "("+this.config.httpUrl+"): " + res.status + " - "+ res.statusText)
+        
+                    // set heartbeat status
+                    heartbeat.status = "UP"
+                    heartbeat.statusMessage = res.status + " - "+ res.statusText
+                    
+        
+                } catch (error) {
+                    // set heartbeat status
+                    heartbeat.status = "DOWN"
+                    heartbeat.statusMessage = error
+                }
+        
+                // Check if current beat is different from last beat
+                if(this.previousHeartbeat){
+                    if(this.previousHeartbeat.status !== heartbeat.status){
+        
+                        // Status changed, trigger an event
+                        // create hearbeat
+        
+                        let eventType = ""
+                        if(this.previousHeartbeat.status === "UP" && heartbeat.status === "DOWN"){
+                            eventType = "DOWN"
+                        } else if (this.previousHeartbeat.status === "DOWN" && heartbeat.status === "UP"){
+                            eventType = "UP"
+                        }
+        
+                        let event = new Event({
+                            monitor: this,
+                            message: heartbeat.statusMessage,
+                            type: eventType
+                        });
+        
+                        // save event
+                        event.save()
+                        this.events.push(event)
+        
+                        // send event to each notification configuration on the monitor
+                        if(this.notifications.length > 0){
+                            this.notifications.forEach(notificationId => {
+                                Notification.findOne({_id: notificationId})
+                                .then(notification => {
+                                    notification.notify(event)
+                                })
+                            })
+                        }
+        
+                        console.log("EVENT: " + this.name + ": " + eventType + " - " + heartbeat.statusMessage)
+                    }
                 }
 
-                console.log(this.name + ": " + eventType + " - " + heartbeat.statusMessage)
-            }
-        }
+                // save heartbeat
+                await heartbeat.save();
+                this.heartbeats.push(heartbeat)
+                
+                this.previousHeartbeat = heartbeat
+                this.save()
 
-        // save heartbeat
-        await heartbeat.save();
-        this.heartbeats.push(heartbeat)
-        
-        this.previousHeartbeat = heartbeat
-        this.save()
+                break;
+            default:
+              console.log("invalid heartbeat")
+        }
+          
     }
 
     beat();
