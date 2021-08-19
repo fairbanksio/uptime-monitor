@@ -135,7 +135,7 @@ describe('Notification can be added to monitor', () => {
         expect(response.body).toMatchObject({
           _id: expect.any(String),
           name: "test-monitor",
-          enabled: true,
+          enabled: false,
           interval: 60,
           type: "http",
           config: {
