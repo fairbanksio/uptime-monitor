@@ -88,3 +88,33 @@ describe('Monitor can be created', () => {
       })
   })
 })
+
+// Test Notification
+const notification = {
+  name: "slack-notification",
+  type: "slack",
+  config: {
+    slackWebhook: "https://hooks.slack.com/services/xxxxxxxxx/xxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxx"
+  }
+};
+
+describe('Notification can be created', () => {
+  test('Response should contain notification object plus an id', (done) => {
+    request(app)
+      .post('/api/notifications').send(notification)
+      .then((response) => {
+        expect(response.statusCode).toBe(200)
+        expect(response.body).toMatchObject({
+          _id: expect.any(String),
+          name: "slack-notification",
+          type: "slack",
+          config: {
+            slackWebhook: "https://hooks.slack.com/services/xxxxxxxxx/xxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        })
+        done()
+      })
+  })
+})
+
+
