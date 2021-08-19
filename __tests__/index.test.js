@@ -53,8 +53,8 @@ describe('User can authenticate', () => {
           username: "testUser",
           token: expect.any(String)
         })
-        done()
         authToken = authToken + response.body.token
+        done()
       })
   })
 })
@@ -70,6 +70,7 @@ const monitor = {
   }
 };
 
+let monitorId = ""
 describe('Monitor can be created', () => {
   test('Response should contain monitor object plus an id', (done) => {
     request(app)
@@ -86,8 +87,8 @@ describe('Monitor can be created', () => {
             httpUrl: "https://www.google.com"
           }
         })
+        monitorId = response.body._id
         done()
-        
       })
   })
 })
@@ -101,7 +102,7 @@ const notification = {
   }
 };
 
-
+let notificationId = ""
 describe('Notification can be created', () => {
   test('Response should contain notification object plus an id', (done) => {
     request(app)
@@ -116,9 +117,35 @@ describe('Notification can be created', () => {
             slackWebhook: "https://hooks.slack.com/services/xxxxxxxxx/xxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxx"
           }
         })
-        done()
+        notificationId = response.body._id
+        done()  
       })
   })
 })
 
+// Test Updating monitor
+const monitor = {
+  notifications: [notificationId]
+};
 
+describe('Notification can be added to monitor', () => {
+  test('Response should contain monitor object with notification array', (done) => {
+    request(app)
+      .post('/api/monitors').set('Authorization', authToken).send(notification)
+      .then((response) => {
+        expect(response.statusCode).toBe(200)
+        expect(response.body).toMatchObject({
+          _id: expect.any(String),
+          name: "test-monitor",
+          enabled: true,
+          interval: 60,
+          type: "http",
+          config: {
+            httpUrl: "https://www.google.com"
+          },
+          notifications: expect.arrayContaining(notificationId)
+        })
+        done()
+      })
+  })
+})
