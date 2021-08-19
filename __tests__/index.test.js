@@ -29,7 +29,10 @@ describe('User can register', () => {
       .then((response) => {
         console.log(response)
         expect(response.statusCode).toBe(200)
-        expect(response.body).toMatchObject(user)
+        expect(response.body).toMatchObject({
+          username: "testUser",
+          position: expect.any(String)
+        })
         done()
       })
   })
