@@ -14,13 +14,14 @@ exports.getAll = (req, res, next) => {
 
 // Create monitor
 exports.create = (req, res, next) => {
-	const {name, interval, enabled, url} = req.body
+	const {name, interval, enabled, type, config} = req.body
 	const {user} = req
 	var newMonitor = new Monitor({
 		name: name,
 		interval: interval,
 		enabled: enabled,
-		url: url,
+		type: type,
+		config: config,
 		owner: user._id
 	})
 	newMonitor.save()

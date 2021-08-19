@@ -14,11 +14,11 @@ exports.getAll = (req, res, next) => {
 
 // Create notification
 exports.create = (req, res, next) => {
-	const {name, type, url} = req.body
+	const {name, type, config} = req.body
 	const {user} = req
 	var newNotification = new Notification({
 		name: name,
-		url: url,
+		config: config,
 		type: type,
 		owner: user._id
 	})

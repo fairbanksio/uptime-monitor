@@ -71,9 +71,9 @@ exports.delete = (req, res, next) => {
 exports.getByMonitor = (req, res, next) => {
   // get the specified monitor and make sure the requestor is the owner
   Monitor.findOne({_id: req.params.monitorId, owner: req.user._id})
-		.then(heartbeat => {
+		.then(monitor => {
 			// then get all heartbeats for monitor
-			Heartbeat.find({heartbeat: heartbeat._id})
+			Heartbeat.find({monitor: monitor._id})
 				.then(heartbeats => {
 					// return heartbeats
 					res.json(heartbeats);
