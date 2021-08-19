@@ -3,7 +3,7 @@ let User = require('../models/user');
 
 // Get all users
 exports.getAll = (req, res, next) => {
-  User.find()
+	User.find()
 		.then(users => {
 			res.json(users);
 		})
@@ -12,10 +12,9 @@ exports.getAll = (req, res, next) => {
 		});
 };
 
-
 exports.create = (req, res, next) => {
-  var newUser = new User(req.body)
-  newUser.save()
+	var newUser = new User(req.body)
+	newUser.save()
 		.then(user => {
 			res.json(user);
 		})
@@ -26,8 +25,7 @@ exports.create = (req, res, next) => {
 
 // Read one user
 exports.getOne = (req, res, next) => {
-  
-  User.findOne({_id: req.params.userId})
+	User.findOne({_id: req.params.userId})
 		.then(user => {
 			res.json(user);
 		})
@@ -38,7 +36,7 @@ exports.getOne = (req, res, next) => {
 
 // Update one user
 exports.update = (req, res, next) => {
-  User.findByIdAndUpdate({_id: req.params.userId}, req.body, {new: true})
+	User.findByIdAndUpdate({_id: req.params.userId}, req.body, {new: true})
 		.then(user => {
 			res.json(user);
 		})
@@ -49,7 +47,7 @@ exports.update = (req, res, next) => {
 
 // Delete one user
 exports.delete = (req, res, next) => {
-  User.deleteOne({_id: req.params.userId})
+	User.deleteOne({_id: req.params.userId})
 		.then(users => {
 			res.json(users);
 		})

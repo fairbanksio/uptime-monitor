@@ -1,10 +1,9 @@
-var express = require('express');
 let Monitor = require('../models/monitor');
 var monitoringService = require('../services/monitoring')
 
 // Get all monitors
 exports.getAll = (req, res, next) => {
-  Monitor.find({owner: req.user._id}).populate({path: 'heartbeats events', perDocumentLimit:10 })
+	Monitor.find({owner: req.user._id})
 		.then(monitors => {
 			res.json(monitors);
 		})
@@ -15,16 +14,17 @@ exports.getAll = (req, res, next) => {
 
 // Create monitor
 exports.create = (req, res, next) => {
-	const {name, interval, enabled, url} = req.body
+	const {name, interval, enabled, type, config} = req.body
 	const {user} = req
-  var newMonitor = new Monitor({
-	  name: name,
-    interval: interval,
-    enabled: enabled,
-    url: url,
-    owner: user._id
-  })
-  newMonitor.save()
+	var newMonitor = new Monitor({
+		name: name,
+		interval: interval,
+		enabled: enabled,
+		type: type,
+		config: config,
+		owner: user._id
+	})
+	newMonitor.save()
 		.then(monitor => {
 			monitoringService.startMonitor(monitor._id)
 			res.json(monitor);
@@ -36,8 +36,7 @@ exports.create = (req, res, next) => {
 
 // Read one monitor
 exports.getOne = (req, res, next) => {
-  
-  Monitor.findOne({_id: req.params.monitorId, owner: req.user._id}).populate({path: 'heartbeats events', perDocumentLimit:10})
+  Monitor.findOne({_id: req.params.monitorId, owner: req.user._id})
 		.then(monitor => {
 			res.json(monitor);
 		})
@@ -48,7 +47,7 @@ exports.getOne = (req, res, next) => {
 
 // Update one monitor
 exports.update = (req, res, next) => {
-  Monitor.findByIdAndUpdate({_id: req.params.monitorId, owner: req.user._id}, req.body, {new: true}).populate({path: 'heartbeats events', perDocumentLimit:10})
+  Monitor.findByIdAndUpdate({_id: req.params.monitorId, owner: req.user._id}, req.body, {new: true})
 		.then(monitor => {
 			monitoringService.updateMonitor(monitor._id)
 			res.json(monitor);
