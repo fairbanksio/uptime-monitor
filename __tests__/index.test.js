@@ -27,7 +27,6 @@ describe('User can register', () => {
     request(app)
       .post('/api/auth/register').send(user)
       .then((response) => {
-        console.log(response)
         expect(response.statusCode).toBe(200)
         expect(response.body).toMatchObject({
           username: "testUser",
