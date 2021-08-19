@@ -124,9 +124,6 @@ describe('Notification can be created', () => {
 })
 
 // Test Updating monitor
-
-console.log(monitorUpdate)
-console.log(monitorId)
 describe('Notification can be added to monitor', () => {
   test('Response should contain monitor object with notification array', (done) => {
     request(app)
