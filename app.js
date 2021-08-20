@@ -7,7 +7,6 @@ var passport = require('passport')
 const path = require('path');
 var cors = require('cors')
 
-var clientRouter = require('./routes/index')
 var apiRouter = require('./routes/api')
 
 var monitoringService = require('./services/monitoring')
@@ -67,8 +66,10 @@ if (process.env.NODE_ENV.trim() === 'production') {
 }
 
 app.use(express.static(path.join(__dirname, 'client/build')));
-app.use('/api', apiRouter)// Handles any requests that don't match the ones above
-app.use('*', clientRouter)
+app.use('/api', apiRouter)
+app.get('*', function (req, res, next) { // Route everything except api to client build
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+})
 
 // Handle livenessProbe
 app.get('/healthz', (req, res) => {
