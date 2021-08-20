@@ -5,6 +5,7 @@ var logger = require('morgan')
 var mongoose = require('mongoose')
 var passport = require('passport')
 const path = require('path');
+var cors = require('cors')
 
 var clientRouter = require('./routes/index')
 var apiRouter = require('./routes/api')
@@ -14,6 +15,10 @@ var monitoringService = require('./services/monitoring')
 require('dotenv').config() // eslint-disable-line
 
 var app = express()
+app.use(cors({
+  origin: '*',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}))
 
 // Initialize and configure passport to use session.
 app.use(passport.initialize())
@@ -24,6 +29,7 @@ app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
+
 
 const connectToDB = () => {
   mongoose

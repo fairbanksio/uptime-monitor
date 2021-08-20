@@ -29,6 +29,7 @@ exports.login = (req, res, next) => {
                 if (isMatch && !err) {
                     // if user is found and password is right create a token
                     var token = ""
+                    delete user["password"]
                     // return the information including token as JSON
                     user.token = jwt.sign(user.toJSON(), settings.jwtSecret);
                     res.json(user);
@@ -42,7 +43,7 @@ exports.login = (req, res, next) => {
 
 // Sign out
 exports.logout = (req, res, next) => {
-    User.findByIdAndUpdate({_id: req.params.userId}, req.body).select('-password') // get all fields except password
+    User.findByIdAndUpdate({_id: req.params.userId}, req.body) // get all fields except password
         .then(user => {
             res.json(user);
         })
