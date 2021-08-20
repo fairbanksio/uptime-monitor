@@ -39,11 +39,11 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /api
+              path: /healthz
               port: http
           readinessProbe:
             httpGet:
-              path: /api
+              path: /healthz
               port: http
           env:          
             - name: "MONGO_URI"
