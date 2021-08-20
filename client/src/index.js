@@ -1,12 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './views/App';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter as Router,} from 'react-router-dom';
+import AuthProvider from './contexts/AuthContext'
+import MonitorProvider from './contexts/MonitorContext'
+import NotificationProvider from './contexts/NotificationContext'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <AuthProvider>
+        <MonitorProvider>
+          <NotificationProvider>
+            <App />
+          </NotificationProvider>
+        </MonitorProvider>
+      </AuthProvider>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );

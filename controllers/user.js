@@ -13,6 +13,7 @@ exports.getAll = (req, res, next) => {
 };
 
 exports.create = (req, res, next) => {
+	console.log(req.body)
 	var newUser = new User(req.body)
 	newUser.save()
 		.then(user => {
@@ -26,6 +27,17 @@ exports.create = (req, res, next) => {
 // Read one user
 exports.getOne = (req, res, next) => {
 	User.findOne({_id: req.params.userId})
+		.then(user => {
+			res.json(user);
+		})
+		.catch(err => {
+			res.status(422).send(err.errors);
+		});
+};
+
+// Get Current User
+exports.getCurrentUser = (req, res, next) => {
+	User.findOne({_id: req.user._id})
 		.then(user => {
 			res.json(user);
 		})
