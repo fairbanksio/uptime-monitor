@@ -78,7 +78,7 @@ MonitorSchema.methods.start = async function() {
                         },
                     });
         
-                    console.log(this.name + "("+this.config.httpUrl+"): " + res.status + " - "+ res.statusText)
+                    //console.log(this.name + "("+this.config.httpUrl+"): " + res.status + " - "+ res.statusText)
         
                     // set heartbeat status
                     heartbeat.status = "UP"
@@ -125,7 +125,7 @@ MonitorSchema.methods.start = async function() {
                             })
                         }
         
-                        console.log("EVENT: " + this.name + ": " + eventType + " - " + heartbeat.statusMessage)
+                        //console.log("EVENT: " + this.name + ": " + eventType + " - " + heartbeat.statusMessage)
                     }
                 }
 

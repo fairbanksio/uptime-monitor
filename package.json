@@ -20,7 +20,8 @@
     "mongoose-timestamp": "^0.6.0",
     "morgan": "~1.9.1",
     "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "cors": "^2.8.5"
   },
   "devDependencies": {
     "jest": "^27.0.6",

@@ -1,4 +1,3 @@
-var express = require('express');
 let Notification = require('../models/notification');
 
 // Get all notifications
@@ -56,15 +55,6 @@ exports.update = (req, res, next) => {
 
 // Delete one notification
 exports.delete = (req, res, next) => {
-	// delete doesn't return an object id and we need it to stop notification
-	Notification.findOne({_id: req.params.notificationId, owner: req.user._id})
-		.then(notification => {
-			notificationingService.stopNotification(notification._id)
-		})
-		.catch(err => {
-			res.status(422).send(err.errors);
-		});
-
 	// delete notification
 	Notification.deleteOne({_id: req.params.notificationId})
 		.then(deleteResult => {
