@@ -10,5 +10,5 @@
 
 Uptime Monitor consists of two parts:
 
-- [uptime-monitor](server/README.md) - The backend API
+- [uptime-monitor](README.md) - The backend API
 - [uptime-web](client/README.md) - The frontend Web Client
