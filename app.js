@@ -5,7 +5,8 @@ var logger = require('morgan')
 var mongoose = require('mongoose')
 var passport = require('passport')
 const path = require('path');
-var cors = require('cors')
+var cors = require('cors');
+const os = require('os');
 
 var apiRouter = require('./routes/api')
 
@@ -24,7 +25,13 @@ app.use(passport.initialize())
 app.use(passport.session())
 require('./config/passport')
 
-app.use(logger('dev'))
+// use morgan to log requests to the console
+var morganOptions = {
+  skip: function (req, res) {
+      return req.get('/healthz');  // don't log the healthz heartbeats
+  }
+};
+app.use(logger('dev', morganOptions))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
@@ -67,22 +74,22 @@ if (process.env.NODE_ENV.trim() === 'production') {
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use('/api', apiRouter)
-app.get('*', function (req, res, next) { // Route everything except api to client build
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
-})
-
 // Handle livenessProbe
 app.get('/healthz', (req, res) => {
   const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
   res
     .send({
       response: {
-        msg: 'uptime-monitor is up and running...',
+        msg: 'ok',
         host: os.hostname(),
         clientSourceIP: ip,
       },
     })
     .status(200)
+})
+
+app.get('*', function (req, res, next) { // Route everything except api to client build
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
 })
 
 // catch 404 and forward to error handler
