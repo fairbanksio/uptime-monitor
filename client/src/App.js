@@ -5,7 +5,7 @@ import {
   Redirect
 } from 'react-router-dom';
 import React, { useContext } from "react";
-
+import { BrowserRouter as Router,} from 'react-router-dom';
 import {AuthContext} from './contexts/AuthContext'
 
 import Auth from './views/Auth'
@@ -23,11 +23,13 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 
 function App() {
   return (
-    <Switch>
-      <Route path="/register" component={() => <Auth action={"register"}/>} />
-      <Route path="/login" component={() => <Auth action={"login"}/>} />
-      <PrivateRoute path="/" component={Dashboard} />
-    </Switch>
+    <Router>
+      <Switch>
+        <Route path="/register" component={() => <Auth action={"register"}/>} />
+        <Route path="/login" component={() => <Auth action={"login"}/>} />
+        <PrivateRoute path="/" component={Dashboard} />
+      </Switch>
+    </Router>
   );
 }
 

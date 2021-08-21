@@ -5,7 +5,7 @@ import React, {
     useState,
 } from "react";
 
-import { useHistory, useLocation } from "react-router-dom";
+
 import authService from '../services/auth'
 import userService from '../services/user'
 
@@ -18,13 +18,7 @@ const AuthProvider = props => {
     const [loading, setLoading] = useState(false);
     const [loadingInitial, setLoadingInitial] = useState(true);
 
-    const history = useHistory();
-    const location = useLocation();
-
-    // reset error on path change
-    useEffect(() => {// eslint-disable-next-line
-        if (error) setError(null);
-    }, [error, location.pathname]);
+   
 
     // get data of current authed user
     useEffect(() => {
@@ -35,26 +29,32 @@ const AuthProvider = props => {
     }, []);
 
     // login
-    const login = (username, password) => {
+    const login = (username, password, cb) => {
         setLoading(true);
         authService.login( username, password )
             .then((user) => {
                 setUser(user.data);
                 localStorage.setItem('jwtToken', user.data.token)
-                history.push("/");
+                cb({result: user, status: "success"})
             })
-            .catch((error) => setError(error))
+            .catch((error) => {
+                setError(error)
+                cb({result: error, status: "failure"})
+            })
             .finally(() => setLoading(false));
     }
 
     // register
-    const register = (username, password) => {
+    const register = (username, password, cb) => {
         setLoading(true);
         userService.register(username, password)
             .then((user) => {
-                history.push("/login");
+                cb({result: user, status: "success"})
             })
-            .catch((error) => setError(error))
+            .catch((error) => {
+                setError(error)
+                cb({result: error, status: "failure"})
+            })
             .finally(() => setLoading(false));
     }
 

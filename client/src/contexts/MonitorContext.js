@@ -5,7 +5,6 @@ import React, {
     useState,
 } from "react";
 
-import { useLocation } from "react-router-dom";
 import monitorService from '../services/monitor'
 
 export const MonitorContext = createContext();
@@ -16,14 +15,6 @@ const MonitorProvider = props => {
     const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
     const [loadingInitial, setLoadingInitial] = useState(true);
-
-    //const history = useHistory();
-    const location = useLocation();
-
-    // reset error on path change
-    useEffect(() => {// eslint-disable-next-line
-        if (error) setError(null);
-    }, [error, location.pathname]);
 
     // refresh monitors
     useEffect(() => {
@@ -73,8 +64,7 @@ const MonitorProvider = props => {
             .catch((error) => setError(error))
             .finally(() => setLoading(false));
     }
-
-
+    
     // useMemo for peformance/rendering
     const memoedValue = useMemo (
         () => ({

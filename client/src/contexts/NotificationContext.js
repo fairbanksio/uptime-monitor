@@ -5,7 +5,6 @@ import React, {
     useState,
 } from "react";
 
-import { useLocation } from "react-router-dom";
 import notificationService from '../services/notification'
 
 export const NotificationContext = createContext();
@@ -16,14 +15,6 @@ const NotificationProvider = props => {
     const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
     const [loadingInitial, setLoadingInitial] = useState(true);
-
-    //const history = useHistory();
-    const location = useLocation();
-
-    // reset error on path change
-    useEffect(() => {// eslint-disable-next-line
-        if (error) setError(null);
-    }, [error, location.pathname]);
 
     // refresh notifications
     useEffect(() => {
