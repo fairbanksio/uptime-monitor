@@ -14,8 +14,8 @@ function ListMonitors() {
     <div>
       <h2>Monitors List:</h2>
       {monitors.map((monitor, key) => (
-        <div>
-          <div key={key} className="user">name: {monitor.name}, enabled: {monitor.enabled? "true": "false"}, type: {monitor.type}, interval: {monitor.interval}, config: {JSON.stringify(monitor.config)}<DeleteMonitor monitorId={monitor._id}/><UpdateMonitor monitor={monitor}/></div>
+        <div key={key}>
+          <div  className="user">name: {monitor.name}, enabled: {monitor.enabled? "true": "false"}, type: {monitor.type}, interval: {monitor.interval}, config: {JSON.stringify(monitor.config)}<DeleteMonitor monitorId={monitor._id}/><UpdateMonitor monitor={monitor}/></div>
           <MonitorEvents monitor={monitor}/>
           <MonitorHeartbeats monitor={monitor}/>
         </div>
