@@ -7,6 +7,9 @@ import {
 import React, { useContext } from "react";
 import { BrowserRouter as Router,} from 'react-router-dom';
 import {AuthContext} from './contexts/AuthContext'
+import AuthProvider from './contexts/AuthContext'
+import MonitorProvider from './contexts/MonitorContext'
+import NotificationProvider from './contexts/NotificationContext'
 
 import Auth from './views/Auth'
 import Dashboard from './views/Dashboard'
@@ -33,4 +36,16 @@ function App() {
   );
 }
 
-export default App;
+function AppWrapper() {
+  return (
+    <AuthProvider>
+      <MonitorProvider>
+        <NotificationProvider>
+          <App/>
+        </NotificationProvider>
+      </MonitorProvider>
+    </AuthProvider>
+  )
+}
+
+export default AppWrapper;

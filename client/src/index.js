@@ -4,19 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import AuthProvider from './contexts/AuthContext'
-import MonitorProvider from './contexts/MonitorContext'
-import NotificationProvider from './contexts/NotificationContext'
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <AuthProvider>
-      <MonitorProvider>
-        <NotificationProvider>
-          <App />
-        </NotificationProvider>
-      </MonitorProvider>
-    </AuthProvider>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

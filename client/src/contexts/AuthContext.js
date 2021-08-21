@@ -8,7 +8,6 @@ import React, {
 
 import authService from '../services/auth'
 import userService from '../services/user'
-
 export const AuthContext = createContext();
 export const AuthConsumer = AuthContext.Consumer;
 
@@ -17,8 +16,6 @@ const AuthProvider = props => {
     const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
     const [loadingInitial, setLoadingInitial] = useState(true);
-
-   
 
     // get data of current authed user
     useEffect(() => {
