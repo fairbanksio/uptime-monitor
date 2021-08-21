@@ -3,22 +3,20 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router,} from 'react-router-dom';
+
 import AuthProvider from './contexts/AuthContext'
 import MonitorProvider from './contexts/MonitorContext'
 import NotificationProvider from './contexts/NotificationContext'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <AuthProvider>
-        <MonitorProvider>
-          <NotificationProvider>
-            <App />
-          </NotificationProvider>
-        </MonitorProvider>
-      </AuthProvider>
-    </Router>
+    <AuthProvider>
+      <MonitorProvider>
+        <NotificationProvider>
+          <App />
+        </NotificationProvider>
+      </MonitorProvider>
+    </AuthProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
