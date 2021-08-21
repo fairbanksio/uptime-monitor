@@ -1,9 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import App from '../App';
 
-test('renders Uptime Monitor link', () => {
+test('App renders and redirects to login page', async () => {
   render(<App />);
-  console.log(screen)
-  const linkElement = screen.getByText(/Login/i);
-  expect(linkElement).toBeInTheDocument();
+  
+  await waitFor(() => {
+    expect(screen.getByText('Login')).toBeInTheDocument()
+  })
 });
