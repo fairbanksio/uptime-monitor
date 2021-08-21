@@ -5,6 +5,7 @@ const axios = require("axios");
 let Heartbeat = require('../models/heartbeat');
 let Event = require('../models/event');
 let Notification = require('../models/notification');
+let now = require('performance-now')
 
 var MonitorSchema = new mongoose.Schema({
     name: {
@@ -66,9 +67,10 @@ MonitorSchema.methods.start = async function() {
                     monitor: this._id
                 });
                 
-
+                
+                const startTime=now()
                 try {
-            
+                    
                     // Check heartbeat 
                     let res = await axios.get(this.config.httpUrl, { 
                         timeout: this.interval * 1000 * 0.8,  
@@ -84,13 +86,14 @@ MonitorSchema.methods.start = async function() {
                     heartbeat.status = "UP"
                     heartbeat.statusMessage = res.status + " - "+ res.statusText
                     
-        
                 } catch (error) {
                     // set heartbeat status
                     heartbeat.status = "DOWN"
                     heartbeat.statusMessage = error
                 }
-        
+                const endTime=now()
+                heartbeat.responseTime = Math.round(endTime - startTime)
+                
                 // Check if current beat is different from last beat
                 if(this.previousHeartbeat){
                     if(this.previousHeartbeat.status !== heartbeat.status){

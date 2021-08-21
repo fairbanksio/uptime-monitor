@@ -7,7 +7,11 @@ function DeleteMonitor(props) {
   const {monitorId} = props
 
   const handleDeleteMonitor =() => {
-    deleteMonitor({_id: monitorId})
+    deleteMonitor({_id: monitorId}, result => {
+      if(result.status === "success"){
+        //history.push("/")
+      }
+    })
   };
 
   return (

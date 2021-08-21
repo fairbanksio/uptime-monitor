@@ -21,7 +21,11 @@ function UpdateNotification(props) {
   };
 
   const handleUpdateNotification = () => {
-    updateNotification(notificationInfo)
+    updateNotification(notificationInfo, result => {
+      if(result.status === "success"){
+        //history.push("/")
+      }
+    })
     setVisible(false)
   };
 

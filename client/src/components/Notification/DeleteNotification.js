@@ -7,7 +7,11 @@ function DeleteNotification(props) {
   const {notificationId} = props
 
   const handleDeleteNotification =() => {
-    deleteNotification({_id: notificationId})
+    deleteNotification({_id: notificationId}, result => {
+      if(result.status === "success"){
+        //history.push("/")
+      }
+    })
   };
 
   return (

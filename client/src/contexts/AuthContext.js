@@ -32,7 +32,7 @@ const AuthProvider = props => {
             .then((user) => {
                 setUser(user.data);
                 localStorage.setItem('jwtToken', user.data.token)
-                cb({result: user, status: "success"})
+                cb({result: user.data, status: "success"})
             })
             .catch((error) => {
                 setError(error)
@@ -46,7 +46,7 @@ const AuthProvider = props => {
         setLoading(true);
         userService.register(username, password)
             .then((user) => {
-                cb({result: user, status: "success"})
+                cb({result: user.data, status: "success"})
             })
             .catch((error) => {
                 setError(error)
