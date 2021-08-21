@@ -14,7 +14,7 @@ function MonitorEvents(monitor) {
         Heartbeats:
           <div>
           {heartbeats.map((event, key) => (
-              <div key={key}>Status: {event.status}, StatusMessage: {event.statusMessage}</div>
+              <div key={key}>Status: {event.status},  ResponseTime: {event.responseTime}ms, StatusMessage: {event.statusMessage}</div>
           ))}
 
           </div>

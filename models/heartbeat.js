@@ -1,7 +1,6 @@
 let mongoose = require('mongoose')
 let Schema = mongoose.Schema
 let timestamps = require('mongoose-timestamp');
-const axios = require("axios");
 
 var HeartbeatSchema = new mongoose.Schema({
     monitor: {
@@ -15,7 +14,15 @@ var HeartbeatSchema = new mongoose.Schema({
     },
     statusMessage:{
         type: String,
-    }
+    },
+    responseTime:{
+        type: Number,
+    },
+    expireAt: {
+        type: Date,
+        default: Date.now,
+        expires: 86400
+      },
 });
 
 HeartbeatSchema.plugin(timestamps); // Automatically adds createdAt and updatedAt timestamps

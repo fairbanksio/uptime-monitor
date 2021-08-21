@@ -25,19 +25,23 @@ const NotificationProvider = props => {
     }, []);
 
     // Create Notification
-    const createNotification = (payload) => {
+    const createNotification = (payload, cb) => {
         setLoading(true);
         notificationService.createNotification(payload)
             .then((notification) => {
                 // update notifications state with new notification
                 setNotifications(notifications => [...notifications, notification.data]);
+                cb({result: notification.data, status: "success"})
             })
-            .catch((error) => setError(error))
+            .catch((error) => {
+                setError(error)
+                cb({result: error, status: "failure"})
+            })
             .finally(() => setLoading(false));
     }
 
     // Update
-    const updateNotification = (payload) => {
+    const updateNotification = (payload, cb) => {
         setLoading(true);
         notificationService.updateNotification(payload)
             .then((notification) => {
@@ -49,19 +53,25 @@ const NotificationProvider = props => {
                     })
                 );
             })
-            .catch((error) => setError(error))
+            .catch((error) => {
+                setError(error)
+                cb({result: error, status: "failure"})
+            })
             .finally(() => setLoading(false));
     }
 
     // Delete
-    const deleteNotification = (payload) => {
+    const deleteNotification = (payload, cb) => {
         setLoading(true);
         notificationService.deleteNotification(payload)
             .then((notification) => {
                 // delete notification from state
                 setNotifications(notifications.filter(notification => notification._id !== payload._id));
             })
-            .catch((error) => setError(error))
+            .catch((error) => {
+                setError(error)
+                cb({result: error, status: "failure"})
+            })
             .finally(() => setLoading(false));
     }
 

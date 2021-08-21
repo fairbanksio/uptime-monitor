@@ -4,9 +4,9 @@ import { useHistory } from "react-router-dom";
 import {Link} from 'react-router-dom';
 
 function Login() {
-   const auth = useContext(AuthContext)
+  const auth = useContext(AuthContext)
 
-   const history = useHistory();
+  const history = useHistory();
   //const { user, loading, error, login, login, logout } = auth();
 
   const [loginInfo, setRegisterInfo] = useState({username: "", password: ""});

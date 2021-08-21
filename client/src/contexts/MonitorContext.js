@@ -25,19 +25,23 @@ const MonitorProvider = props => {
     }, []);
 
     // Create Monitor
-    const createMonitor = (payload) => {
+    const createMonitor = (payload, cb) => {
         setLoading(true);
         monitorService.createMonitor(payload)
             .then((monitor) => {
                 // update monitors state with new monitor
                 setMonitors(monitors => [...monitors, monitor.data]);
+                cb({result: monitor.data, status: "success"})
             })
-            .catch((error) => setError(error))
+            .catch((error) => {
+                setError(error)
+                cb({result: error, status: "failure"})
+            })
             .finally(() => setLoading(false));
     }
 
     // Update
-    const updateMonitor = (payload) => {
+    const updateMonitor = (payload, cb) => {
         setLoading(true);
         monitorService.updateMonitor(payload)
             .then((monitor) => {
@@ -48,20 +52,28 @@ const MonitorProvider = props => {
                         return item._id === payload._id ? monitor.data : item
                     })
                 );
+                cb({result: monitor.data, status: "success"})
             })
-            .catch((error) => setError(error))
+            .catch((error) => {
+                setError(error)
+                cb({result: error, status: "failure"})
+            })
             .finally(() => setLoading(false));
     }
 
     // Delete
-    const deleteMonitor = (payload) => {
+    const deleteMonitor = (payload, cb) => {
         setLoading(true);
         monitorService.deleteMonitor(payload)
             .then((monitor) => {
                 // update monitors state with new monitor
                 setMonitors(monitors.filter(monitor => monitor._id !== payload._id));
+                cb({result: monitor.data, status: "success"})
             })
-            .catch((error) => setError(error))
+            .catch((error) => {
+                setError(error)
+                cb({result: error, status: "failure"})
+            })
             .finally(() => setLoading(false));
     }
     

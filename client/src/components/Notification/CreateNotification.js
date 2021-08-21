@@ -24,7 +24,11 @@ function CreateNotification() {
   };
 
   const handleCreateNotification = () => {
-    createNotification(notificationInfo)
+    createNotification(notificationInfo, result => {
+      if(result.status === "success"){
+        //history.push("/")
+      }
+    })
   };
 
   return (
