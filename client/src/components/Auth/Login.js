@@ -1,10 +1,12 @@
 import React, { useState, useContext } from "react";
 import {AuthContext} from "../../contexts/AuthContext";
-
+import { useHistory } from "react-router-dom";
 import {Link} from 'react-router-dom';
 
 function Login() {
    const auth = useContext(AuthContext)
+
+   const history = useHistory();
   //const { user, loading, error, login, login, logout } = auth();
 
   const [loginInfo, setRegisterInfo] = useState({username: "", password: ""});
@@ -15,7 +17,11 @@ function Login() {
   };
 
   const loginUser = () => {
-    auth.login(loginInfo.username, loginInfo.password)
+    auth.login(loginInfo.username, loginInfo.password, result => {
+      if(result.status === "success"){
+        history.push("/")
+      }
+    })
   };
 
   return (
