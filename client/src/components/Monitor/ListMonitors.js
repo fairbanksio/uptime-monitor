@@ -1,16 +1,13 @@
-import React, { useContext } from "react";
-
-import {MonitorContext} from '../../contexts/MonitorContext'
+import React, {useContext} from 'react'
 import DeleteMonitor from './DeleteMonitor'
 import UpdateMonitor from './UpdateMonitor'
 import MonitorEvents from './MonitorEvents'
 import MonitorHeartbeats from './MonitorHeartbeats'
+import {MonitorContext} from '../../contexts/MonitorContext'
 
 function ListMonitors() {
   const {monitors} = useContext(MonitorContext)
-  
   return (
-
     <div>
       <h2>Monitors List:</h2>
       {monitors.map((monitor, key) => (
@@ -20,9 +17,7 @@ function ListMonitors() {
           <MonitorHeartbeats monitor={monitor}/>
         </div>
       ))}
-
     </div>
-
   );
 }
 

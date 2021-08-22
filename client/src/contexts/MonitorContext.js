@@ -4,14 +4,14 @@ import React, {
     useMemo,
     useState,
 } from "react";
-
+import useIsMountedRef from '../util/isMountedRef'
 import monitorService from '../services/monitor'
 
 export const MonitorContext = createContext();
 
 const MonitorProvider = ({user, children}) => {
 
-
+    const isMountedRef = useIsMountedRef()
     const [monitors, setMonitors] = useState([]);
     const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
@@ -22,13 +22,24 @@ const MonitorProvider = ({user, children}) => {
         if(user){
             setLoadingInitial(true)
             monitorService.getMonitors()
-                .then((monitors) => setMonitors(monitors.data))
+                .then((monitors) => {
+                    if(isMountedRef.current){
+                        setMonitors(monitors.data)
+                    }
+                })
                 .catch((_error) => {})
-                .finally(() => setLoadingInitial(false));
+                .finally(() => {
+                    if(isMountedRef.current){
+                        setLoadingInitial(false)
+                    }
+                });
         } else {
-            setLoadingInitial(false)
+            if(isMountedRef.current){
+                setLoadingInitial(false)
+            }
         }
-    }, [user]);
+        
+    }, [user, isMountedRef]);
 
     // Create Monitor
     const createMonitor = (payload, cb) => {

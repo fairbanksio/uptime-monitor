@@ -1,27 +1,18 @@
-import React, { useContext } from "react";
-import {AuthContext} from "../contexts/AuthContext";
 import CreateMonitor from '../components/Monitor/CreateMonitor'
 import ListMonitors from '../components/Monitor/ListMonitors'
-
 import CreateNotification from '../components/Notification/CreateNotification'
 import ListNotifications from '../components/Notification/ListNotifications'
+import Navbar from '../components/Navbar'
 
 function Dashboard() {
-    const auth = useContext(AuthContext)
-    return (
+  return (
     <div className="App">
-    
-      Username: {auth.user.username}
-      <button onClick={auth.logout} className="btn btn-success">
-        Logout
-      </button>
-
+      <Navbar/>
       <CreateMonitor/>
       <CreateNotification/>
       <ListNotifications/>
       <ListMonitors/>
-
     </div>
-    );
-  }
-  export default Dashboard;
+  );
+}
+export default Dashboard;

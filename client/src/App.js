@@ -28,7 +28,7 @@ function App() {
   const auth = useContext(AuthContext);
   return (
     <MonitorProvider user={auth.user}>
-        <NotificationProvider>
+        <NotificationProvider user={auth.user}>
         <Router>
           <Switch>
             <Route path="/register" component={() => <Auth action={"register"}/>} />
