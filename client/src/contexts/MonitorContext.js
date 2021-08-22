@@ -19,11 +19,15 @@ const MonitorProvider = ({user, children}) => {
 
     // refresh monitors
     useEffect(() => {
-        setLoadingInitial(true)
-        monitorService.getMonitors()
-            .then((monitors) => setMonitors(monitors.data))
-            .catch((_error) => {})
-            .finally(() => setLoadingInitial(false));
+        if(user){
+            setLoadingInitial(true)
+            monitorService.getMonitors()
+                .then((monitors) => setMonitors(monitors.data))
+                .catch((_error) => {})
+                .finally(() => setLoadingInitial(false));
+        } else {
+            setLoadingInitial(false)
+        }
     }, [user]);
 
     // Create Monitor

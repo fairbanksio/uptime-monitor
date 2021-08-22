@@ -21,10 +21,14 @@ const AuthProvider = props => {
 
     // get data of current authed user
     useEffect(() => {
-        userService.getCurrentUser()
-            .then((user) => setUser(user.data))
-            .catch((_error) => {})
-            .finally(() => setLoadingInitial(false));
+        if(localStorage.getItem('jwtToken')){
+            userService.getCurrentUser()
+                .then((user) => setUser(user.data))
+                .catch((_error) => {})
+                .finally(() => setLoadingInitial(false));
+        } else {
+            setLoadingInitial(false)
+        }
     }, []);
 
     // login
