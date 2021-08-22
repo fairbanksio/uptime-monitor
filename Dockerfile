@@ -1,4 +1,4 @@
-FROM node:14-slim as client-base
+FROM node:16-slim as client-base
 RUN mkdir /app && chown -R node:node /app
 ENV NODE_ENV=production
 WORKDIR /app
@@ -6,7 +6,7 @@ USER node
 COPY --chown=node:node ./client/package*.json ./
 RUN npm install --no-optional --silent && npm cache clean --force > "/dev/null" 2>&1
 
-FROM node:14-slim as server-base
+FROM node:16-slim as server-base
 RUN apt-get -qq update; apt-get -qq install wget gpg -y
 ENV NODE_ENV=production
 RUN dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
