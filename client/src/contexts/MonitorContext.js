@@ -8,7 +8,6 @@ import React, {
 import monitorService from '../services/monitor'
 
 export const MonitorContext = createContext();
-export const AuthConsumer = MonitorContext.Consumer;
 
 const MonitorProvider = props => {
     const [monitors, setMonitors] = useState([]);
