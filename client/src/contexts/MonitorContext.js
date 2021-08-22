@@ -9,7 +9,9 @@ import monitorService from '../services/monitor'
 
 export const MonitorContext = createContext();
 
-const MonitorProvider = props => {
+const MonitorProvider = ({user, children}) => {
+
+
     const [monitors, setMonitors] = useState([]);
     const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
@@ -17,11 +19,12 @@ const MonitorProvider = props => {
 
     // refresh monitors
     useEffect(() => {
+        setLoadingInitial(true)
         monitorService.getMonitors()
             .then((monitors) => setMonitors(monitors.data))
             .catch((_error) => {})
             .finally(() => setLoadingInitial(false));
-    }, []);
+    }, [user]);
 
     // Create Monitor
     const createMonitor = (payload, cb) => {
@@ -91,7 +94,7 @@ const MonitorProvider = props => {
 
     return (
         <MonitorContext.Provider value={memoedValue}>
-          {!loadingInitial && props.children}
+          {!loadingInitial && children}
         </MonitorContext.Provider>
     );
 

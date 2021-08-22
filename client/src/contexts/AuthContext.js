@@ -5,6 +5,8 @@ import React, {
     useState,
 } from "react";
 
+import axiosClient from '../http-common'
+
 
 import authService from '../services/auth'
 import userService from '../services/user'
@@ -32,6 +34,7 @@ const AuthProvider = props => {
             .then((user) => {
                 setUser(user.data);
                 localStorage.setItem('jwtToken', user.data.token)
+                axiosClient.defaults.headers.common = { authorization: "jwt " + localStorage.getItem('jwtToken') }
                 cb({result: user.data, status: "success"})
             })
             .catch((error) => {
@@ -59,6 +62,7 @@ const AuthProvider = props => {
     const logout = () => {
         localStorage.clear();
         sessionStorage.clear();
+        delete axiosClient.defaults.headers.common["Authorization"]
         setUser(undefined)
         //authService.logout().then(); not yet implemented on api
     }
