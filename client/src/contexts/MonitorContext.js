@@ -4,13 +4,14 @@ import React, {
     useMemo,
     useState,
 } from "react";
-
+import useIsMountedRef from '../util/isMountedRef'
 import monitorService from '../services/monitor'
 
 export const MonitorContext = createContext();
-export const AuthConsumer = MonitorContext.Consumer;
 
-const MonitorProvider = props => {
+const MonitorProvider = ({user, children}) => {
+
+    const isMountedRef = useIsMountedRef()
     const [monitors, setMonitors] = useState([]);
     const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
@@ -18,26 +19,46 @@ const MonitorProvider = props => {
 
     // refresh monitors
     useEffect(() => {
-        monitorService.getMonitors()
-            .then((monitors) => setMonitors(monitors.data))
-            .catch((_error) => {})
-            .finally(() => setLoadingInitial(false));
-    }, []);
+        if(user){
+            setLoadingInitial(true)
+            monitorService.getMonitors()
+                .then((monitors) => {
+                    if(isMountedRef.current){
+                        setMonitors(monitors.data)
+                    }
+                })
+                .catch((_error) => {})
+                .finally(() => {
+                    if(isMountedRef.current){
+                        setLoadingInitial(false)
+                    }
+                });
+        } else {
+            if(isMountedRef.current){
+                setLoadingInitial(false)
+            }
+        }
+        
+    }, [user, isMountedRef]);
 
     // Create Monitor
-    const createMonitor = (payload) => {
+    const createMonitor = (payload, cb) => {
         setLoading(true);
         monitorService.createMonitor(payload)
             .then((monitor) => {
                 // update monitors state with new monitor
                 setMonitors(monitors => [...monitors, monitor.data]);
+                cb({result: monitor.data, status: "success"})
             })
-            .catch((error) => setError(error))
+            .catch((error) => {
+                setError(error)
+                cb({result: error, status: "failure"})
+            })
             .finally(() => setLoading(false));
     }
 
     // Update
-    const updateMonitor = (payload) => {
+    const updateMonitor = (payload, cb) => {
         setLoading(true);
         monitorService.updateMonitor(payload)
             .then((monitor) => {
@@ -48,20 +69,28 @@ const MonitorProvider = props => {
                         return item._id === payload._id ? monitor.data : item
                     })
                 );
+                cb({result: monitor.data, status: "success"})
             })
-            .catch((error) => setError(error))
+            .catch((error) => {
+                setError(error)
+                cb({result: error, status: "failure"})
+            })
             .finally(() => setLoading(false));
     }
 
     // Delete
-    const deleteMonitor = (payload) => {
+    const deleteMonitor = (payload, cb) => {
         setLoading(true);
         monitorService.deleteMonitor(payload)
             .then((monitor) => {
                 // update monitors state with new monitor
                 setMonitors(monitors.filter(monitor => monitor._id !== payload._id));
+                cb({result: monitor.data, status: "success"})
             })
-            .catch((error) => setError(error))
+            .catch((error) => {
+                setError(error)
+                cb({result: error, status: "failure"})
+            })
             .finally(() => setLoading(false));
     }
     
@@ -80,7 +109,7 @@ const MonitorProvider = props => {
 
     return (
         <MonitorContext.Provider value={memoedValue}>
-          {!loadingInitial && props.children}
+          {!loadingInitial && children}
         </MonitorContext.Provider>
     );
 

@@ -6,7 +6,6 @@ import {NotificationContext} from '../../contexts/NotificationContext'
 function CreateMonitor() {
   const {createMonitor} = useContext(MonitorContext)
   const {notifications} = useContext(NotificationContext)
-
   const [monitorInfo, setMonitorInfo] = useState({
     name: "",
     type: "http",
@@ -34,7 +33,11 @@ function CreateMonitor() {
   };
 
   const handleCreateMonitor = () => {
-    createMonitor(monitorInfo)
+    createMonitor(monitorInfo, result => {
+      if(result.status === "success"){
+        //history.push("/")
+      }
+    })
   };
 
   return (

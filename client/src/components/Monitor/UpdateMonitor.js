@@ -28,7 +28,11 @@ function UpdateMonitor(props) {
   };
 
   const handleUpdateMonitor = () => {
-    updateMonitor(monitorInfo)
+    updateMonitor(monitorInfo, result => {
+      if(result.status === "success"){
+        //history.push("/")
+      }
+    })
     setVisible(false)
   };
 

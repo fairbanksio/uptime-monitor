@@ -6,11 +6,13 @@ import React, {
 } from "react";
 
 import notificationService from '../services/notification'
-
+import useIsMountedRef from '../util/isMountedRef'
 export const NotificationContext = createContext();
-export const AuthConsumer = NotificationContext.Consumer;
 
-const NotificationProvider = props => {
+
+const NotificationProvider = ({ user, children })=> {
+    //const {user} = useContext(AuthContext)
+    const isMountedRef = useIsMountedRef()
     const [notifications, setNotifications] = useState([]);
     const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
@@ -18,26 +20,46 @@ const NotificationProvider = props => {
 
     // refresh notifications
     useEffect(() => {
-        notificationService.getNotifications()
-            .then((notifications) => setNotifications(notifications.data))
-            .catch((_error) => {})
-            .finally(() => setLoadingInitial(false));
-    }, []);
+        
+        if(user){
+            notificationService.getNotifications()
+                .then((notifications) => {
+                    if(isMountedRef.current){
+                        setNotifications(notifications.data)
+                    }
+                })
+                .catch((_error) => {})
+                .finally(() => {
+                    if(isMountedRef.current){
+                        setLoadingInitial(false)
+                    }
+                });
+        } else {
+            if(isMountedRef.current){
+                setLoadingInitial(false)
+            }
+        }
+        
+    }, [user, isMountedRef]);
 
     // Create Notification
-    const createNotification = (payload) => {
+    const createNotification = (payload, cb) => {
         setLoading(true);
         notificationService.createNotification(payload)
             .then((notification) => {
                 // update notifications state with new notification
                 setNotifications(notifications => [...notifications, notification.data]);
+                cb({result: notification.data, status: "success"})
             })
-            .catch((error) => setError(error))
+            .catch((error) => {
+                setError(error)
+                cb({result: error, status: "failure"})
+            })
             .finally(() => setLoading(false));
     }
 
     // Update
-    const updateNotification = (payload) => {
+    const updateNotification = (payload, cb) => {
         setLoading(true);
         notificationService.updateNotification(payload)
             .then((notification) => {
@@ -49,19 +71,25 @@ const NotificationProvider = props => {
                     })
                 );
             })
-            .catch((error) => setError(error))
+            .catch((error) => {
+                setError(error)
+                cb({result: error, status: "failure"})
+            })
             .finally(() => setLoading(false));
     }
 
     // Delete
-    const deleteNotification = (payload) => {
+    const deleteNotification = (payload, cb) => {
         setLoading(true);
         notificationService.deleteNotification(payload)
             .then((notification) => {
                 // delete notification from state
                 setNotifications(notifications.filter(notification => notification._id !== payload._id));
             })
-            .catch((error) => setError(error))
+            .catch((error) => {
+                setError(error)
+                cb({result: error, status: "failure"})
+            })
             .finally(() => setLoading(false));
     }
 
@@ -81,7 +109,7 @@ const NotificationProvider = props => {
 
     return (
         <NotificationContext.Provider value={memoedValue}>
-          {!loadingInitial && props.children}
+          {!loadingInitial && children}
         </NotificationContext.Provider>
     );
 

@@ -3,7 +3,6 @@ import React, { useContext } from "react";
 import {MonitorContext} from '../../contexts/MonitorContext'
 
 function MonitorEvents(monitor) {
-  console.log(monitor)
   const {monitors} = useContext(MonitorContext)
   const thisMonitor = monitors.filter(function (el) {
     return el._id === monitor.monitor._id

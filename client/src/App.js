@@ -7,6 +7,9 @@ import {
 import React, { useContext } from "react";
 import { BrowserRouter as Router,} from 'react-router-dom';
 import {AuthContext} from './contexts/AuthContext'
+import AuthProvider from './contexts/AuthContext'
+import MonitorProvider from './contexts/MonitorContext'
+import NotificationProvider from './contexts/NotificationContext'
 
 import Auth from './views/Auth'
 import Dashboard from './views/Dashboard'
@@ -22,15 +25,30 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 }
 
 function App() {
+  const auth = useContext(AuthContext);
   return (
-    <Router>
-      <Switch>
-        <Route path="/register" component={() => <Auth action={"register"}/>} />
-        <Route path="/login" component={() => <Auth action={"login"}/>} />
-        <PrivateRoute path="/" component={Dashboard} />
-      </Switch>
-    </Router>
+    <MonitorProvider user={auth.user}>
+        <NotificationProvider user={auth.user}>
+        <Router>
+          <Switch>
+            <Route path="/register" component={() => <Auth action={"register"}/>} />
+            <Route path="/login" component={() => <Auth action={"login"}/>} />
+            <PrivateRoute path="/" component={Dashboard} />
+          </Switch>
+        </Router>
+      </NotificationProvider>
+    </MonitorProvider>
   );
 }
 
-export default App;
+function AppWrapper() {
+  return (
+    <AuthProvider>
+      
+          <App/>
+        
+</AuthProvider>
+  )
+}
+
+export default AppWrapper;
