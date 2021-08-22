@@ -51,5 +51,5 @@ COPY --chown=node:node . .
 # Production ENV
 FROM server-source as prod
 COPY --from=client-source /app/build ./client/build
-ENTRYPOINT ["/usr/local/bin/tini", "--"]
+ENTRYPOINT ["/tini", "--"]
 CMD ["node", "index.js"]
