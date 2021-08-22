@@ -8,7 +8,6 @@ import React, {
 import notificationService from '../services/notification'
 
 export const NotificationContext = createContext();
-export const AuthConsumer = NotificationContext.Consumer;
 
 const NotificationProvider = props => {
     const [notifications, setNotifications] = useState([]);
