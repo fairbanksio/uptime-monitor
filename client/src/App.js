@@ -25,26 +25,29 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 }
 
 function App() {
+  const auth = useContext(AuthContext);
   return (
-    <Router>
-      <Switch>
-        <Route path="/register" component={() => <Auth action={"register"}/>} />
-        <Route path="/login" component={() => <Auth action={"login"}/>} />
-        <PrivateRoute path="/" component={Dashboard} />
-      </Switch>
-    </Router>
+    <MonitorProvider user={auth.user}>
+        <NotificationProvider user={auth.user}>
+        <Router>
+          <Switch>
+            <Route path="/register" component={() => <Auth action={"register"}/>} />
+            <Route path="/login" component={() => <Auth action={"login"}/>} />
+            <PrivateRoute path="/" component={Dashboard} />
+          </Switch>
+        </Router>
+      </NotificationProvider>
+    </MonitorProvider>
   );
 }
 
 function AppWrapper() {
   return (
     <AuthProvider>
-      <MonitorProvider>
-        <NotificationProvider>
+      
           <App/>
-        </NotificationProvider>
-      </MonitorProvider>
-    </AuthProvider>
+        
+</AuthProvider>
   )
 }
 

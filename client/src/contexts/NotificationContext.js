@@ -6,11 +6,13 @@ import React, {
 } from "react";
 
 import notificationService from '../services/notification'
-
+import useIsMountedRef from '../util/isMountedRef'
 export const NotificationContext = createContext();
-export const AuthConsumer = NotificationContext.Consumer;
 
-const NotificationProvider = props => {
+
+const NotificationProvider = ({ user, children })=> {
+    //const {user} = useContext(AuthContext)
+    const isMountedRef = useIsMountedRef()
     const [notifications, setNotifications] = useState([]);
     const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
@@ -18,11 +20,27 @@ const NotificationProvider = props => {
 
     // refresh notifications
     useEffect(() => {
-        notificationService.getNotifications()
-            .then((notifications) => setNotifications(notifications.data))
-            .catch((_error) => {})
-            .finally(() => setLoadingInitial(false));
-    }, []);
+        
+        if(user){
+            notificationService.getNotifications()
+                .then((notifications) => {
+                    if(isMountedRef.current){
+                        setNotifications(notifications.data)
+                    }
+                })
+                .catch((_error) => {})
+                .finally(() => {
+                    if(isMountedRef.current){
+                        setLoadingInitial(false)
+                    }
+                });
+        } else {
+            if(isMountedRef.current){
+                setLoadingInitial(false)
+            }
+        }
+        
+    }, [user, isMountedRef]);
 
     // Create Notification
     const createNotification = (payload, cb) => {
@@ -91,7 +109,7 @@ const NotificationProvider = props => {
 
     return (
         <NotificationContext.Provider value={memoedValue}>
-          {!loadingInitial && props.children}
+          {!loadingInitial && children}
         </NotificationContext.Provider>
     );
 

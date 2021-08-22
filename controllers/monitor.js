@@ -16,7 +16,6 @@ exports.getAll = (req, res, next) => {
 exports.create = (req, res, next) => {
 	const {name, interval, enabled, type, config} = req.body
 	const {user} = req
-	console.log(req.body)
 	var newMonitor = new Monitor({
 		name: name,
 		interval: interval,

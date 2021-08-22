@@ -4,13 +4,14 @@ import React, {
     useMemo,
     useState,
 } from "react";
-
+import useIsMountedRef from '../util/isMountedRef'
 import monitorService from '../services/monitor'
 
 export const MonitorContext = createContext();
-export const AuthConsumer = MonitorContext.Consumer;
 
-const MonitorProvider = props => {
+const MonitorProvider = ({user, children}) => {
+
+    const isMountedRef = useIsMountedRef()
     const [monitors, setMonitors] = useState([]);
     const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
@@ -18,11 +19,27 @@ const MonitorProvider = props => {
 
     // refresh monitors
     useEffect(() => {
-        monitorService.getMonitors()
-            .then((monitors) => setMonitors(monitors.data))
-            .catch((_error) => {})
-            .finally(() => setLoadingInitial(false));
-    }, []);
+        if(user){
+            setLoadingInitial(true)
+            monitorService.getMonitors()
+                .then((monitors) => {
+                    if(isMountedRef.current){
+                        setMonitors(monitors.data)
+                    }
+                })
+                .catch((_error) => {})
+                .finally(() => {
+                    if(isMountedRef.current){
+                        setLoadingInitial(false)
+                    }
+                });
+        } else {
+            if(isMountedRef.current){
+                setLoadingInitial(false)
+            }
+        }
+        
+    }, [user, isMountedRef]);
 
     // Create Monitor
     const createMonitor = (payload, cb) => {
@@ -92,7 +109,7 @@ const MonitorProvider = props => {
 
     return (
         <MonitorContext.Provider value={memoedValue}>
-          {!loadingInitial && props.children}
+          {!loadingInitial && children}
         </MonitorContext.Provider>
     );
 
