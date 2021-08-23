@@ -13,7 +13,6 @@ exports.getAll = (req, res, next) => {
 };
 
 exports.create = (req, res, next) => {
-	console.log(req.body)
 	var newUser = new User(req.body)
 	newUser.save()
 		.then(user => {

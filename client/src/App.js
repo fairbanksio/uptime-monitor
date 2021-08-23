@@ -15,10 +15,10 @@ import Dashboard from './views/Dashboard'
 import Homepage from './views/Homepage';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const auth = useContext(AuthContext);
+  const {user, loading} = useContext(AuthContext);
   return (
     <Route {...rest} render={(props) => (
-      auth.user ?
+      user && !loading?
         <Component {...props} /> : <Redirect to='/' />
     )} />
   )
@@ -39,7 +39,7 @@ function App() {
             </MonitorProvider>
 
             <Switch>
-              <Route path="/" component={Homepage} />
+              <Route path="/" exact={true} component={Homepage} />
             </Switch>
           
         </Router>

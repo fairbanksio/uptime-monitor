@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Login from '../components/Auth/Login';
 import Register from '../components/Auth/Register';
 
-function Homepage() {
+function Homepage(props) {
   const [login, setLogin] = useState(true)
   return (
     <div className="App">

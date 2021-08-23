@@ -1,4 +1,5 @@
 let Notification = require('../models/notification');
+let Monitor = require('../models/monitor')
 
 // Get all notifications
 exports.getAll = (req, res, next) => {
@@ -55,13 +56,32 @@ exports.update = (req, res, next) => {
 
 // Delete one notification
 exports.delete = (req, res, next) => {
-	// delete notification
-	Notification.deleteOne({_id: req.params.notificationId})
-		.then(deleteResult => {
-			res.json(deleteResult);
+	
+	//delete reference from all monitors
+	Monitor.findOne({ notifications: req.params.notificationId }).then(monitor => {
+		let newNotifications = []
+		monitor.notifications.forEach(notification=>{
+			if(notification._id.toString() != req.params.notificationId){
+				newNotifications.push(notification._id.toString())
+			}
 		})
-		.catch(err => {
+		monitor.notifications = newNotifications
+		monitor.save()
+		}).then(
+			// delete notification
+			Notification.deleteOne({_id: req.params.notificationId})
+				.then(deleteResult => {
+					res.json(deleteResult)
+				})
+				.catch(err => {
+					res.status(422).send(err.errors);
+				})
+		).catch(err => {
 			res.status(422).send(err.errors);
 		});
+
+	
+
+		
 };
 
