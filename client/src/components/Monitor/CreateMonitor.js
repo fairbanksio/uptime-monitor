@@ -48,20 +48,20 @@ function CreateMonitor() {
 
   useEffect(() => {
     let newNotifications = monitorInfo.notifications
-    for (var i = 0; i < monitorInfo.notifications.length; i++) {
+    monitorInfo.notifications.forEach( existingNotification => {
       let found = false
-      for (var x = 0; x < notifications.length; x++) {
+      notifications.forEach( newNotification => {
         if(found !== true){
-          if(notifications[x]._id === monitorInfo.notifications[i]){
+          if(newNotification._id === existingNotification){
             found = true
           }
         }     
-      }
+      })
       if(!found){
         // define new notifications as existing notifications where the item is not equal to our current item
-        newNotifications = newNotifications.filter(item => item !== monitorInfo.notifications[i])
+        newNotifications = newNotifications.filter(item => item !== existingNotification)
       }
-    }
+    })
 
     setMonitorInfo({ ...monitorInfo, notifications: newNotifications});
   }, [notifications]);
@@ -140,6 +140,14 @@ function CreateMonitor() {
    
           </div>
 
+          {monitorInfo.notifications.map((notification, key) => {
+                return(
+                  <div key={key}>
+                    {notification}
+                  </div>
+                )
+              })}
+              
           <button onClick={handleCreateMonitor} className="btn btn-success">
             Create Monitor
           </button>
