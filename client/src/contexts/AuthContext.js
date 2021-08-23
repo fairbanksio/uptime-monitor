@@ -44,6 +44,7 @@ const AuthProvider = props => {
 
     // login
     const login = (username, password, cb) => {
+        setError(undefined)
         setLoading(true);
         authService.login( username, password )
             .then((user) => {
@@ -61,6 +62,7 @@ const AuthProvider = props => {
 
     // register
     const register = (username, password, cb) => {
+        setError(undefined)
         setLoading(true);
         userService.register(username, password)
             .then((user) => {
