@@ -139,15 +139,7 @@ function CreateMonitor() {
               })}
    
           </div>
-
-          {monitorInfo.notifications.map((notification, key) => {
-                return(
-                  <div key={key}>
-                    {notification}
-                  </div>
-                )
-              })}
-              
+                
           <button onClick={handleCreateMonitor} className="btn btn-success">
             Create Monitor
           </button>
