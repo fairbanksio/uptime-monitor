@@ -14,7 +14,7 @@ exports.getAll = (req, res, next) => {
 
 // Create monitor
 exports.create = (req, res, next) => {
-	const {name, interval, enabled, type, config} = req.body
+	const {name, interval, enabled, type, config, notifications} = req.body
 	const {user} = req
 	var newMonitor = new Monitor({
 		name: name,
@@ -22,7 +22,8 @@ exports.create = (req, res, next) => {
 		enabled: enabled,
 		type: type,
 		config: config,
-		owner: user._id
+		owner: user._id,
+		notifications: notifications
 	})
 	newMonitor.save()
 		.then(monitor => {
