@@ -15,10 +15,10 @@ import Dashboard from './views/Dashboard'
 import Homepage from './views/Homepage';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const auth = useContext(AuthContext);
+  const {user, loading} = useContext(AuthContext);
   return (
     <Route {...rest} render={(props) => (
-      auth.user ?
+      user && !loading?
         <Component {...props} /> : <Redirect to='/' />
     )} />
   )
@@ -27,16 +27,23 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 function App() {
   const auth = useContext(AuthContext);
   return (
-    <MonitorProvider user={auth.user}>
-      <NotificationProvider user={auth.user}>
+    
         <Router>
-          <Switch>
-            <PrivateRoute path="/dashboard" component={Dashboard} />
-            <Route path="/" component={Homepage} />
-          </Switch>
+          
+            <MonitorProvider user={auth.user}>
+              <NotificationProvider user={auth.user}>
+                <Switch>
+                  <PrivateRoute path="/dashboard" component={Dashboard} />
+                </Switch>
+              </NotificationProvider>
+            </MonitorProvider>
+
+            <Switch>
+              <Route path="/" exact={true} component={Homepage} />
+            </Switch>
+          
         </Router>
-      </NotificationProvider>
-    </MonitorProvider>
+      
   );
 }
 
