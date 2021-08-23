@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
 import {AuthContext} from "../../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
-import {Link} from 'react-router-dom';
+import FriendlyError from "../Util/FriendlyError";
 
 function Register() {
-   const auth = useContext(AuthContext)
+   const {register, error} = useContext(AuthContext)
    const history = useHistory();
   //const { user, loading, error, login, register, logout } = auth();
 
@@ -16,16 +16,15 @@ function Register() {
   };
 
   const registerUser = () => {
-    auth.register(registerInfo.username, registerInfo.password, result => {
+    register(registerInfo.username, registerInfo.password, result => {
       if(result.status === "success"){
-        history.push("/login")
+        history.push("/")
       }
     })
   };
 
   return (
       <div className="submit-form">
-        Register
         <div>
           <div className="form-group">
             <label htmlFor="username">Username</label>
@@ -54,11 +53,12 @@ function Register() {
           </div>
 
           <button onClick={registerUser} className="btn btn-success">
-            Submit
+            Register
           </button>
 
+          {error && <FriendlyError error={error}/>}
+
           <br />
-          <Link to="/login">Click here to login</Link>
         </div>
     </div>
   );
