@@ -45,7 +45,7 @@ function CreateMonitor() {
     setMonitorInfo({ ...monitorInfo, notifications: newNotifications});
     
   };
-
+  
   useEffect(() => {
     let newNotifications = monitorInfo.notifications
     monitorInfo.notifications.forEach( existingNotification => {
@@ -64,6 +64,7 @@ function CreateMonitor() {
     })
 
     setMonitorInfo({ ...monitorInfo, notifications: newNotifications});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notifications]);
 
   const handleCreateMonitor = () => {
@@ -139,7 +140,7 @@ function CreateMonitor() {
               })}
    
           </div>
-                
+
           <button onClick={handleCreateMonitor} className="btn btn-success">
             Create Monitor
           </button>
