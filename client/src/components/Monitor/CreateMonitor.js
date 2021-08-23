@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import {MonitorContext} from '../../contexts/MonitorContext'
 import {NotificationContext} from '../../contexts/NotificationContext'
@@ -14,7 +14,7 @@ function CreateMonitor() {
     config: { 
       httpUrl: ""
     },
-    notifications: ""
+    notifications: []
   });
 
   const handleInputChange = event => {
@@ -22,7 +22,7 @@ function CreateMonitor() {
     setMonitorInfo({ ...monitorInfo, [name]: value });
   };
 
-  const handleCheckboxChange = event => {
+  const handleEnableChange = event => {
     const { name, checked } = event.target;
     setMonitorInfo({ ...monitorInfo, [name]: checked });
   };
@@ -31,6 +31,41 @@ function CreateMonitor() {
     const { name, value } = event.target;
     setMonitorInfo({ ...monitorInfo, config: {[name]: value }});
   };
+
+  const handleNotificationChange = event => {
+    const { id, checked } = event.target;
+    let newNotifications = monitorInfo.notifications
+    
+    if(checked){
+      newNotifications.push(id)
+    } else {
+      newNotifications = newNotifications.filter(item => item !== id)
+    }
+
+    setMonitorInfo({ ...monitorInfo, notifications: newNotifications});
+    
+  };
+  
+  useEffect(() => {
+    let newNotifications = monitorInfo.notifications
+    monitorInfo.notifications.forEach( existingNotification => {
+      let found = false
+      notifications.forEach( newNotification => {
+        if(found !== true){
+          if(newNotification._id === existingNotification){
+            found = true
+          }
+        }     
+      })
+      if(!found){
+        // define new notifications as existing notifications where the item is not equal to our current item
+        newNotifications = newNotifications.filter(item => item !== existingNotification)
+      }
+    })
+
+    setMonitorInfo({ ...monitorInfo, notifications: newNotifications});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [notifications]);
 
   const handleCreateMonitor = () => {
     createMonitor(monitorInfo, result => {
@@ -75,7 +110,7 @@ function CreateMonitor() {
               className="form-control"
               required
               checked={monitorInfo.enabled}
-              onChange={handleCheckboxChange }
+              onChange={handleEnableChange }
               name="enabled"
             />
           </div>
@@ -94,11 +129,16 @@ function CreateMonitor() {
 
           <div>
             <label htmlFor="notifications">Notification</label>
-            <select name="notifications" value={monitorInfo.notification} onChange={handleInputChange} onSelect={handleInputChange}>
-              {notifications.map((notification, key) => {
-                  return <option key={key} value={notification._id}>{notification.name}</option>
+              {notifications.length > 0? <div>Check notifications to enable them for this monitor:</div> : <div>You must create a notification first</div>}
+              {notifications && notifications.map((notification, key) => {
+                return(
+                  <div key={key}>
+                    <label htmlFor="vehicle2"> {notification.name}({notification.type})</label><br/>
+                    <input type="checkbox" checked={monitorInfo.notifications[notification._id]} id={notification._id} name={notification.name} value={notification.name} onChange={handleNotificationChange}/>
+                  </div>
+                )
               })}
-            </select>
+   
           </div>
 
           <button onClick={handleCreateMonitor} className="btn btn-success">
