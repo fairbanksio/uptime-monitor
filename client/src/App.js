@@ -27,16 +27,23 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 function App() {
   const auth = useContext(AuthContext);
   return (
-    <MonitorProvider user={auth.user}>
-      <NotificationProvider user={auth.user}>
+    
         <Router>
-          <Switch>
-            <PrivateRoute path="/dashboard" component={Dashboard} />
-            <Route path="/" component={Homepage} />
-          </Switch>
+          
+            <MonitorProvider user={auth.user}>
+              <NotificationProvider user={auth.user}>
+                <Switch>
+                  <PrivateRoute path="/dashboard" component={Dashboard} />
+                </Switch>
+              </NotificationProvider>
+            </MonitorProvider>
+
+            <Switch>
+              <Route path="/" component={Homepage} />
+            </Switch>
+          
         </Router>
-      </NotificationProvider>
-    </MonitorProvider>
+      
   );
 }
 
