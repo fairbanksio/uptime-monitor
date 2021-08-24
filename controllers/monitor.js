@@ -1,4 +1,4 @@
-let Monitor = require('../models/monitor');
+let Monitor = require('../models/monitor')
 var monitoringService = require('../services/monitoring')
 
 // Get all monitors
