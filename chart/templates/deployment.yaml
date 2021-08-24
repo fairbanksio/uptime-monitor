@@ -35,16 +35,22 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8080
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /healthz
               port: http
           readinessProbe:
             httpGet:
-              path: /
+              path: /healthz
               port: http
+          env:          
+            - name: "MONGO_URI"
+              valueFrom:
+                secretKeyRef: 
+                  name: {{ include "uptime-monitor.secretName" . }}
+                  key: mongoUri
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

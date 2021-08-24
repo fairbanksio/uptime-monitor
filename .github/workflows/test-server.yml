@@ -1,0 +1,45 @@
+name: Node.js Server CI
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+env:
+  TERM: xterm
+
+jobs:
+  test-server:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        mongodb-version: ['4.0', '4.2', '4.4']
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup using Node.js v${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.6.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+
+      - name: Run NPM Install
+        run: npm install
+
+      - name: Run NPM Tests
+        id: npm-tests
+        run: npm test
+        env:
+          CI: true

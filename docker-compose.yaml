@@ -1,17 +1,33 @@
 version: '3.7'
 
 services:
-
-  node:
+  server:
     build:
       context: .
-      target: dev
+      target: server-dev
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/app:delegated
+      - node_modules_server:/app/node_modules
+    environment:
+      - MONGO_URI="mongodb://mongodb:27017"
+    healthcheck:
+      disable: true
+    networks:
+      - uptime-monitor
+
+  client:
+    build:
+      context: .
+      target: client-dev
     ports:
       - "3000:3000"
     volumes:
-      - .:/app:delegated
+      - ./client:/app:delegated
+      - node_modules_client:/app/node_modules
     environment:
-      - MONGO_URI="mongodb://mongodb:27017"
+      - REACT_APP_API=http://localhost:8080/api
     healthcheck:
       disable: true
     networks:
@@ -33,4 +49,8 @@ networks:
 
 volumes:
   mongodb-data:
+    driver: local
+  node_modules_server:
+    driver: local
+  node_modules_client:
     driver: local

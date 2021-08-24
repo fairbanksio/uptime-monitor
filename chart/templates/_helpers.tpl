@@ -60,3 +60,18 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{- define "uptime-monitor.createSecret" -}}
+{{- if (not .Values.existingSecret) }}
+    {{- true -}}
+{{- else -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "uptime-monitor.secretName" -}}
+    {{- if .Values.existingSecret -}}
+        {{- printf "%s" .Values.existingSecret -}}
+    {{- else -}}
+        {{- printf "%s" (include "uptime-monitor.fullname" .) -}}
+    {{- end -}}
+{{- end -}}
