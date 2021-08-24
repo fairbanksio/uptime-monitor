@@ -5,12 +5,12 @@ var monitoringService = require('../services/monitoring')
 exports.getAll = (req, res, next) => {
   Monitor.find({owner: req.user._id}).populate('events heartbeats').slice('heartbeats', -20)
     .then(monitors => {
-      res.json(monitors);
+      res.json(monitors)
     })
     .catch(err => {
-      res.status(422).send(err.errors);
-    });
-};
+      res.status(422).send(err.errors)
+    })
+}
 
 // Create monitor
 exports.create = (req, res, next) => {
@@ -28,23 +28,23 @@ exports.create = (req, res, next) => {
   newMonitor.save()
     .then(monitor => {
       monitoringService.startMonitor(monitor._id)
-      res.json(monitor);
+      res.json(monitor)
     })
     .catch(err => {
-      res.status(422).send(err.errors);
-    });
-};
+      res.status(422).send(err.errors)
+    })
+}
 
 // Read one monitor
 exports.getOne = (req, res, next) => {
   Monitor.findOne({_id: req.params.monitorId, owner: req.user._id})
     .then(monitor => {
-      res.json(monitor);
+      res.json(monitor)
     })
     .catch(err => {
-      res.status(422).send(err.errors);
-    });
-};
+      res.status(422).send(err.errors)
+    })
+}
 
 // Update one monitor
 exports.update = (req, res, next) => {
@@ -56,17 +56,17 @@ exports.update = (req, res, next) => {
     ...query.config && { config: query.config },
     ...query.owner && { owner: query.owner },
     ...query.notifications && { notifications: query.notifications },
-  });
+  })
 
   Monitor.findByIdAndUpdate({_id: req.params.monitorId, owner: req.user._id}, updatedMonitor(req.body), {new: true}).populate('events heartbeats').slice('heartbeats', -10)
     .then(monitor => {
       monitoringService.updateMonitor(monitor._id)
-      res.json(monitor);
+      res.json(monitor)
     })
     .catch(err => {
-      res.status(422).send(err.errors);
-    });
-};
+      res.status(422).send(err.errors)
+    })
+}
 
 // Delete one monitor
 exports.delete = (req, res, next) => {
@@ -76,16 +76,16 @@ exports.delete = (req, res, next) => {
       monitoringService.stopMonitor(monitor._id)
     })
     .catch(err => {
-      res.status(422).send(err.errors);
-    });
+      res.status(422).send(err.errors)
+    })
 
   // delete monitor
   Monitor.deleteOne({_id: req.params.monitorId})
     .then(deleteResult => {
-      res.json(deleteResult);
+      res.json(deleteResult)
     })
     .catch(err => {
-      res.status(422).send(err.errors);
-    });
-};
+      res.status(422).send(err.errors)
+    })
+}
 
