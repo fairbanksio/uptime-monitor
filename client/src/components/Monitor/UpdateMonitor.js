@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import {MonitorContext} from '../../contexts/MonitorContext'
 import {NotificationContext} from '../../contexts/NotificationContext'
@@ -39,6 +39,41 @@ function UpdateMonitor(props) {
   const toggleVisible = () => {
     setVisible(!visible)
   }
+
+  const handleNotificationChange = event => {
+    const { id, checked } = event.target;
+    let newNotifications = monitorInfo.notifications
+    
+    if(checked){
+      newNotifications.push(id)
+    } else {
+      newNotifications = newNotifications.filter(item => item !== id)
+    }
+
+    setMonitorInfo({ ...monitorInfo, notifications: newNotifications});
+  };
+
+  useEffect(() => {
+    let newNotifications = monitorInfo.notifications
+    monitorInfo.notifications.forEach( existingNotification => {
+      let found = false
+      notifications.forEach( newNotification => {
+        if(found !== true){
+          if(newNotification._id === existingNotification){
+            found = true
+          }
+        }     
+      })
+      if(!found){
+        // define new notifications as existing notifications where the item is not equal to our current item
+        newNotifications = newNotifications.filter(item => item !== existingNotification)
+      }
+    })
+
+    setMonitorInfo({ ...monitorInfo, notifications: newNotifications});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [notifications]);
+
   if (!visible){
     return(
       <button onClick={toggleVisible} className="btn btn-success">
@@ -101,11 +136,15 @@ function UpdateMonitor(props) {
 
           <div>
           <label htmlFor="notifications">Notification</label>
-            <select name="notifications" value={monitorInfo.notification? monitorInfo.notification._id : 0} onChange={handleInputChange} onSelect={handleInputChange}>
-              {notifications.map((notification, key) => {
-                  return <option key={key} value={notification._id}>{notification.name}</option>
+              {notifications.length > 0? <div>Check notifications to enable them for this monitor:</div> : <div>You must create a notification first</div>}
+              {notifications && notifications.map((notification, key) => {
+                return(
+                  <div key={key}>
+                    <label htmlFor="vehicle2"> {notification.name}({notification.type})</label><br/>
+                    <input type="checkbox" checked={monitorInfo.notifications.find(element => element == notification._id)? true: false}  id={notification._id} name={notification.name} value={notification.name} onChange={handleNotificationChange}/>
+                  </div>
+                )
               })}
-            </select>
           </div>
 
               <button onClick={handleUpdateMonitor} className="btn btn-success">

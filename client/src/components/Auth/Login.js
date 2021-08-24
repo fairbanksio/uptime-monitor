@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
 import {AuthContext} from "../../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
-import {Link} from 'react-router-dom';
+import FriendlyError from "../Util/FriendlyError";
 
 function Login() {
-  const auth = useContext(AuthContext)
+  const {login, loading, error} = useContext(AuthContext)
 
   const history = useHistory();
   //const { user, loading, error, login, login, logout } = auth();
@@ -17,16 +17,15 @@ function Login() {
   };
 
   const loginUser = () => {
-    auth.login(loginInfo.username, loginInfo.password, result => {
+    login(loginInfo.username, loginInfo.password, result => {
       if(result.status === "success"){
-        history.push("/")
+        history.push("/dashboard")
       }
     })
   };
-
+ 
   return (
     <div className="submit-form">
-      Login
         <div>
           <div className="form-group">
             <label htmlFor="username">Username</label>
@@ -53,12 +52,13 @@ function Login() {
               name="password"
             />
           </div>
+          
+          {loading? <>loading</> : <button onClick={loginUser} className="btn btn-success">
+            Login
+          </button>}
 
-          <button onClick={loginUser} className="btn btn-success">
-            Submit
-          </button>
+          {error && <FriendlyError error={error}/>}
           <br />
-          <Link to="/register">Click here to register</Link>
         </div>
     </div>
 

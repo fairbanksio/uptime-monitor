@@ -11,15 +11,15 @@ import AuthProvider from './contexts/AuthContext'
 import MonitorProvider from './contexts/MonitorContext'
 import NotificationProvider from './contexts/NotificationContext'
 
-import Auth from './views/Auth'
 import Dashboard from './views/Dashboard'
+import Homepage from './views/Homepage';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const auth = useContext(AuthContext);
+  const {user, loading} = useContext(AuthContext);
   return (
     <Route {...rest} render={(props) => (
-      auth.user ?
-        <Component {...props} /> : <Redirect to='/login' />
+      user && !loading?
+        <Component {...props} /> : <Redirect to='/' />
     )} />
   )
 }
@@ -27,17 +27,23 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 function App() {
   const auth = useContext(AuthContext);
   return (
-    <MonitorProvider user={auth.user}>
-        <NotificationProvider user={auth.user}>
+    
         <Router>
-          <Switch>
-            <Route path="/register" component={() => <Auth action={"register"}/>} />
-            <Route path="/login" component={() => <Auth action={"login"}/>} />
-            <PrivateRoute path="/" component={Dashboard} />
-          </Switch>
+          
+            <MonitorProvider user={auth.user}>
+              <NotificationProvider user={auth.user}>
+                <Switch>
+                  <PrivateRoute path="/dashboard" component={Dashboard} />
+                </Switch>
+              </NotificationProvider>
+            </MonitorProvider>
+
+            <Switch>
+              <Route path="/" exact={true} component={Homepage} />
+            </Switch>
+          
         </Router>
-      </NotificationProvider>
-    </MonitorProvider>
+      
   );
 }
 

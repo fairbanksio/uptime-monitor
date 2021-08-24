@@ -1,6 +1,6 @@
 {
   "name": "uptime-monitor",
-  "version": "0.1.12",
+  "version": "0.1.22",
   "private": true,
   "scripts": {
     "start": "node index.js",
