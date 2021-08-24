@@ -49,7 +49,7 @@ exports.getOne = (req, res, next) => {
 // Update one monitor
 exports.update = (req, res, next) => {
 	console.log(req.body)
-  Monitor.findByIdAndUpdate({_id: req.params.monitorId, owner: req.user._id}, req.body, {new: true})
+  Monitor.findByIdAndUpdate({_id: req.params.monitorId, owner: req.user._id}, req.body, {new: true}).populate('events heartbeats')
 		.then(monitor => {
 			monitoringService.updateMonitor(monitor._id)
 			res.json(monitor);
