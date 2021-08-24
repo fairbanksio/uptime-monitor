@@ -4,9 +4,9 @@ var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 var mongoose = require('mongoose')
 var passport = require('passport')
-const path = require('path');
-var cors = require('cors');
-const os = require('os');
+const path = require('path')
+var cors = require('cors')
+const os = require('os')
 
 var apiRouter = require('./routes/api')
 
@@ -15,10 +15,12 @@ var monitoringService = require('./services/monitoring')
 require('dotenv').config() // eslint-disable-line
 
 var app = express()
-app.use(cors({
-  origin: '*',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}))
+app.use(
+  cors({
+    origin: '*',
+    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  })
+)
 
 // Initialize and configure passport to use session.
 app.use(passport.initialize())
@@ -28,14 +30,13 @@ require('./config/passport')
 // use morgan to log requests to the console
 var morganOptions = {
   skip: function (req, res) {
-      return req.get('/healthz');  // don't log the healthz heartbeats
-  }
-};
+    return req.get('/healthz') // don't log the healthz heartbeats
+  },
+}
 app.use(logger('dev', morganOptions))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
-
 
 const connectToDB = () => {
   mongoose
@@ -72,7 +73,7 @@ if (process.env.NODE_ENV.trim() === 'production') {
   })
 }
 
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/build')))
 app.use('/api', apiRouter)
 // Handle livenessProbe
 app.get('/healthz', (req, res) => {
@@ -88,8 +89,9 @@ app.get('/healthz', (req, res) => {
     .status(200)
 })
 
-app.get('*', function (req, res, next) { // Route everything except api to client build
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+app.get('*', function (req, res, next) {
+  // Route everything except api to client build
+  res.sendFile(path.join(__dirname + '/client/build/index.html'))
 })
 
 // catch 404 and forward to error handler

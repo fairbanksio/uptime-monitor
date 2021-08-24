@@ -2,16 +2,10 @@ import Login from '../components/Auth/Login'
 import Register from '../components/Auth/Register'
 
 function Auth(props) {
-    
-    return (
+  return (
     <div className="App">
-    {props.action === "login"?
-      <Login/>
-    :
-      <Register/>
-    }
-    
+      {props.action === 'login' ? <Login /> : <Register />}
     </div>
-    );
-  }
-  export default Auth;
+  )
+}
+export default Auth
