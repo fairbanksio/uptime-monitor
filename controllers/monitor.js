@@ -3,7 +3,7 @@ var monitoringService = require('../services/monitoring')
 
 // Get all monitors
 exports.getAll = (req, res, next) => {
-  Monitor.find({owner: req.user._id})
+  Monitor.find({ owner: req.user._id })
     .populate('events heartbeats')
     .slice('heartbeats', -20)
     .then(monitors => {
