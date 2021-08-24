@@ -7,12 +7,12 @@ import Navbar from '../components/Navbar'
 function Dashboard() {
   return (
     <div className="App">
-      <Navbar/>
-      <CreateMonitor/>
-      <CreateNotification/>
-      <ListNotifications/>
-      <ListMonitors/>
+      <Navbar />
+      <CreateMonitor />
+      <CreateNotification />
+      <ListNotifications />
+      <ListMonitors />
     </div>
-  );
+  )
 }
-export default Dashboard;
+export default Dashboard
