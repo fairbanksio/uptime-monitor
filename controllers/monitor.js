@@ -3,7 +3,7 @@ var monitoringService = require('../services/monitoring')
 
 // Get all monitors
 exports.getAll = (req, res, next) => {
-	Monitor.find({owner: req.user._id}).populate('events heartbeats')
+	Monitor.find({owner: req.user._id}).populate('events heartbeats').slice('heartbeats', -20)
 		.then(monitors => {
 			res.json(monitors);
 		})
@@ -49,7 +49,20 @@ exports.getOne = (req, res, next) => {
 // Update one monitor
 exports.update = (req, res, next) => {
 	console.log(req.body)
-  Monitor.findByIdAndUpdate({_id: req.params.monitorId, owner: req.user._id}, req.body, {new: true}).populate('events heartbeats')
+
+	const {name, interval, enabled, type, config, notifications} = req.body
+	const {user} = req
+	var updatedMonitor = {
+		name: name,
+		interval: interval,
+		enabled: enabled,
+		type: type,
+		config: config,
+		owner: user._id,
+		notifications: notifications
+	}
+
+  Monitor.findByIdAndUpdate({_id: req.params.monitorId, owner: req.user._id}, updatedMonitor, {new: true}).populate('events heartbeats').slice('heartbeats', -20)
 		.then(monitor => {
 			monitoringService.updateMonitor(monitor._id)
 			res.json(monitor);
