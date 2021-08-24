@@ -6,7 +6,7 @@ exports.getAll = (req, res, next) => {
   Monitor.find({ owner: req.user._id })
     .populate('events heartbeats')
     .slice('heartbeats', -20)
-    .then(monitors => {
+    .then((monitors) => {
       res.json(monitors)
     })
     .catch((err) => {
