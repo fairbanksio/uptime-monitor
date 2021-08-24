@@ -56,6 +56,7 @@ exports.update = (req, res, next) => {
     req.body,
     { new: true }
   )
+    .populate('events heartbeats')
     .then((monitor) => {
       monitoringService.updateMonitor(monitor._id)
       res.json(monitor)
