@@ -60,13 +60,15 @@ exports.delete = (req, res, next) => {
 	//delete reference from all monitors
 	Monitor.findOne({ notifications: req.params.notificationId }).then(monitor => {
 		let newNotifications = []
-		monitor.notifications.forEach(notification=>{
-			if(notification._id.toString() != req.params.notificationId){
-				newNotifications.push(notification._id.toString())
-			}
-		})
-		monitor.notifications = newNotifications
-		monitor.save()
+		if(monitor){
+			monitor.notifications.forEach(notification=>{
+				if(notification._id.toString() != req.params.notificationId){
+					newNotifications.push(notification._id.toString())
+				}
+			})
+			monitor.notifications = newNotifications
+			monitor.save()
+		}
 		}).then(
 			// delete notification
 			Notification.deleteOne({_id: req.params.notificationId})
@@ -77,6 +79,7 @@ exports.delete = (req, res, next) => {
 					res.status(422).send(err.errors);
 				})
 		).catch(err => {
+			console.log(err)
 			res.status(422).send(err.errors);
 		});
 
