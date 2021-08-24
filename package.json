@@ -1,6 +1,6 @@
 {
   "name": "uptime-monitor",
-  "version": "0.1.21",
+  "version": "0.1.22",
   "private": true,
   "scripts": {
     "start": "node index.js",
@@ -25,7 +25,8 @@
     "performance-now": "^2.1.0"
   },
   "devDependencies": {
-    "jest": "^27.0.6",
+    "babel-jest": "^26.6.0",
+    "jest": "^26.6.0",
     "nodemon": "^2.0.12",
     "superagent": "^6.1.0",
     "supertest": "^6.1.5"
