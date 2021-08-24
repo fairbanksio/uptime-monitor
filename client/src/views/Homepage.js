@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Login from '../components/Auth/Login'
 import Register from '../components/Auth/Register'
+import { Button } from '@chakra-ui/react'
 
 function Homepage(props) {
   const [login, setLogin] = useState(true)
@@ -12,21 +13,27 @@ function Homepage(props) {
           href="/"
           target="_blank"
           rel="noopener noreferrer"
+          style={{
+            'text-decoration': 'none',
+            color: 'white',
+            'font-size': '32px',
+          }}
         >
-          Uptime monitor
+          Uptime Monitor
         </a>
         <hr width={'300'} />
+        &nbsp;
         {login ? <Login /> : <Register />}
         <hr width={'300'} />
-        <span
-          style={{ fontSize: '14px' }}
+        <Button
           onClick={(e) => {
             setLogin(!login)
           }}
-          className="btn btn-success"
+          colorScheme="grey"
+          variant="link"
         >
-          Click here to {!login ? 'login' : 'register'}
-        </span>
+          {!login ? 'login' : 'sign up'}
+        </Button>
       </header>
     </div>
   )
