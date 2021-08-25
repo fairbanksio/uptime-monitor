@@ -16,6 +16,11 @@ var MonitorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  status: {
+    type: String,
+    required: true,
+    default: "DOWN"
+  },
   config: {
     httpUrl: { type: String },
     httpKeyword: { type: String },
@@ -52,6 +57,7 @@ var MonitorSchema = new mongoose.Schema({
       required: true,
     },
   ],
+  
 })
 
 MonitorSchema.methods.start = async function () {
@@ -163,6 +169,7 @@ MonitorSchema.methods.start = async function () {
         this.heartbeats.push(heartbeat._id)
 
         //update the latest model
+        this.status = heartbeat.status
         this.save()
 
         break
