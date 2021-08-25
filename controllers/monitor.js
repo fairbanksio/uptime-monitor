@@ -5,6 +5,7 @@ var monitoringService = require('../services/monitoring')
 exports.getAll = (req, res, next) => {
   Monitor.find({ owner: req.user._id })
     .populate('events heartbeats')
+    .slice('heartbeats', -20)
     .then((monitors) => {
       res.json(monitors)
     })
@@ -29,7 +30,7 @@ exports.create = (req, res, next) => {
   newMonitor
     .save()
     .then((monitor) => {
-      monitoringService.startMonitor(monitor._id)
+      monitoringService.startMonitor(monitor)
       res.json(monitor)
     })
     .catch((err) => {
@@ -50,15 +51,21 @@ exports.getOne = (req, res, next) => {
 
 // Update one monitor
 exports.update = (req, res, next) => {
-  console.log(req.body)
-  Monitor.findByIdAndUpdate(
-    { _id: req.params.monitorId, owner: req.user._id },
-    req.body,
-    { new: true }
-  )
+
+  const updatedMonitor = (query) => ({
+    ...query.name && { name: query.name },
+    ...query.interval && { interval: query.interval },
+    ...query.enabled && { enabled: query.enabled },
+    ...query.config && { config: query.config },
+    ...query.owner && { owner: query.owner },
+    ...query.notifications && { notifications: query.notifications },
+  })
+
+  Monitor.findByIdAndUpdate({_id: req.params.monitorId, owner: req.user._id}, updatedMonitor(req.body), {new: true})
     .populate('events heartbeats')
+    .slice('heartbeats', -20)
     .then((monitor) => {
-      monitoringService.updateMonitor(monitor._id)
+      monitoringService.updateMonitor(monitor)
       res.json(monitor)
     })
     .catch((err) => {
@@ -71,7 +78,7 @@ exports.delete = (req, res, next) => {
   // delete doesn't return an object id and we need it to stop monitor
   Monitor.findOne({ _id: req.params.monitorId, owner: req.user._id })
     .then((monitor) => {
-      monitoringService.stopMonitor(monitor._id)
+      monitoringService.stopMonitor(monitor)
     })
     .catch((err) => {
       res.status(422).send(err.errors)
@@ -86,3 +93,4 @@ exports.delete = (req, res, next) => {
       res.status(422).send(err.errors)
     })
 }
+
