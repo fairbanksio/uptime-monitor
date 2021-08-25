@@ -4,14 +4,6 @@
   color: #fff;
 }
 
-.chakra-input {
-  margin-bottom: 5px;
-}
-
-.chakra-select {
-  margin-bottom: 5px;
-}
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -44,4 +36,20 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.chakra-input {
+  margin-bottom: 5px;
+}
+
+.chakra-select {
+  margin-bottom: 5px;
+}
+
+.header-link {
+  font-size: x-large;
+}
+.header-logo {
+  color: #6b46c1;
+  margin-right: 8px;
 }

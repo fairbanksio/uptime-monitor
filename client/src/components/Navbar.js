@@ -1,12 +1,13 @@
 import React, { useContext } from 'react'
-import { AuthContext } from '../contexts/AuthContext'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faNetworkWired } from '@fortawesome/free-solid-svg-icons'
 
+import { AuthContext } from '../contexts/AuthContext'
 import CreateMonitor from './Monitor/CreateMonitor.js'
 import CreateNotification from './Notification/CreateNotification.js'
 
 import {
   Button,
-  Input,
   Flex,
   Box,
   Spacer,
@@ -18,8 +19,6 @@ import {
   DrawerContent,
   DrawerCloseButton,
   useDisclosure,
-  Select,
-  Checkbox,
 } from '@chakra-ui/react'
 
 function UserDrawer() {
@@ -69,15 +68,18 @@ function UserDrawer() {
 }
 
 function Navbar() {
-  const { user, logout } = useContext(AuthContext)
-
   return (
     <div>
       <Flex>
         <Box p="4">
-          <i class="fas fa-network-wired"></i>
-          <i class="fab fa-twitter"></i>
-          <a href="/dashboard">Uptime Monitor</a>
+          <a href="/dashboard" className="header-link">
+            <FontAwesomeIcon
+              icon={faNetworkWired}
+              className="header-logo"
+              size="lg"
+            />
+            Uptime Monitor
+          </a>
         </Box>
         <Spacer />
         <Box p="4">{UserDrawer()}</Box>
