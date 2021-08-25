@@ -157,7 +157,6 @@ MonitorSchema.methods.start = async function () {
               )
             })
           }
-
         } 
 
 
