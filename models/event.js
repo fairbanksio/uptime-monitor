@@ -17,6 +17,9 @@ var EventSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  duration: {
+    type: String,
+  },
 })
 
 EventSchema.plugin(timestamps) // Automatically adds createdAt and updatedAt timestamps
