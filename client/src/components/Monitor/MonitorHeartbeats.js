@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 
 import { MonitorContext } from '../../contexts/MonitorContext'
 
-function MonitorEvents(monitor) {
+function MonitorHeartbeats(monitor) {
   const { monitors } = useContext(MonitorContext)
   const thisMonitor = monitors.filter(function (el) {
     return el._id === monitor.monitor._id
@@ -12,10 +12,10 @@ function MonitorEvents(monitor) {
     <div>
       Heartbeats:
       <div>
-        {heartbeats.map((event, key) => (
+        {heartbeats.map((heartbeat, key) => (
           <div key={key}>
-            Status: {event.status}, ResponseTime: {event.responseTime}ms,
-            StatusMessage: {event.statusMessage}
+            Status: {heartbeat.status}, ResponseTime: {heartbeat.responseTime}ms,
+            StatusMessage: {heartbeat.statusMessage}, Timestamp: {heartbeat.createdAt},
           </div>
         ))}
       </div>
@@ -23,4 +23,4 @@ function MonitorEvents(monitor) {
   )
 }
 
-export default MonitorEvents
+export default MonitorHeartbeats

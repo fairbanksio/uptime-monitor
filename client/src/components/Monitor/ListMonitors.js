@@ -16,7 +16,8 @@ function ListMonitors() {
             name: {monitor.name}, enabled: {monitor.enabled ? 'true' : 'false'},
             type: {monitor.type}, interval: {monitor.interval}, config:{' '}
             {JSON.stringify(monitor.config)}, notifications:{' '}
-            {JSON.stringify(monitor.notifications)}
+            {JSON.stringify(monitor.notifications)},
+            status: {monitor.status}
             <DeleteMonitor monitorId={monitor._id} />
             <UpdateMonitor monitor={monitor} />
           </div>
