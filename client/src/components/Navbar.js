@@ -1,6 +1,9 @@
 import React, { useContext } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 
+import CreateMonitor from './Monitor/CreateMonitor.js'
+import CreateNotification from './Notification/CreateNotification.js'
+
 import {
   Button,
   Input,
@@ -17,7 +20,6 @@ import {
   useDisclosure,
   Select,
   Checkbox,
-  CheckboxGroup,
 } from '@chakra-ui/react'
 
 function UserDrawer() {
@@ -41,46 +43,19 @@ function UserDrawer() {
         placement="right"
         onClose={onClose}
         finalFocusRef={btnRef}
+        size={'sm'}
       >
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerHeader>Uptime Monitors</DrawerHeader>
           <DrawerBody>
-            <Input placeholder="Name" />
-            <Input placeholder="Interval" />
-            <Input placeholder="Webhook URL" />
-            <Checkbox defaultIsChecked colorScheme="purple">
-              Enabled
-            </Checkbox>
-            <div style={{ marginTop: '10px' }}>
-              <Button variant="solid" colorScheme="purple" mr={3}>
-                Save
-              </Button>
-              <Button variant="ghost" colorScheme="grey" mr={3}>
-                Clear
-              </Button>
-            </div>
+            <CreateMonitor />
           </DrawerBody>
           <hr />
           <DrawerHeader>Notification Agents</DrawerHeader>
           <DrawerBody>
-            <Input placeholder="Name" />
-            <Select disabled placeholder="Type">
-              <option selected value="slack">
-                Slack
-              </option>
-              <option value="slack">Email</option>
-            </Select>
-            <Input placeholder="Slack Webhook URL" />
-            <div style={{ marginTop: '10px' }}>
-              <Button variant="solid" colorScheme="purple" mr={3}>
-                Save
-              </Button>
-              <Button variant="ghost" colorScheme="grey" mr={3}>
-                Clear
-              </Button>
-            </div>
+            <CreateNotification />
           </DrawerBody>
           <DrawerFooter>
             <Button variant="ghost" colorScheme="pink" mr={3} onClick={logout}>
