@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react'
+import { Button, Input, Select } from '@chakra-ui/react'
 
 import { NotificationContext } from '../../contexts/NotificationContext'
 
@@ -33,13 +34,11 @@ function CreateNotification() {
 
   return (
     <div className="submit-form">
-      <h2>Create a notification</h2>
       <div>
         <div className="form-group">
-          <label htmlFor="name">name</label>
-          <input
+          <Input
             type="text"
-            className="form-control"
+            placeholder="Name"
             required
             value={notificationInfo.name}
             onChange={handleInputChange}
@@ -48,32 +47,42 @@ function CreateNotification() {
         </div>
 
         <div className="form-group">
-          <label htmlFor="name">type</label>
-          <input
-            type="text"
-            className="form-control"
-            required
+          <Select
+            placeholder="Notification Type"
             value={notificationInfo.type}
             onChange={handleInputChange}
+            defaultValue="slack"
             name="type"
-          />
+          >
+            <option disabled value="email">
+              Email
+            </option>
+            <option value="slack">Slack</option>
+          </Select>
         </div>
 
         <div className="form-group">
-          <label htmlFor="slackWebhook">slackWebhook</label>
-          <input
+          <Input
             type="text"
-            className="form-control"
+            placeholder="Slack Webhook URL"
             required
             value={notificationInfo.config.slackWebhook}
             onChange={handleConfigChange}
             name="slackWebhook"
           />
         </div>
-
-        <button onClick={handleCreateNotification} className="btn btn-success">
-          Create Notification
-        </button>
+        <div style={{ marginTop: '10px' }}>
+          <Button
+            onClick={handleCreateNotification}
+            variant="solid"
+            colorScheme="purple"
+          >
+            Add
+          </Button>
+          <Button variant="ghost" colorScheme="grey" mr={3}>
+            Clear
+          </Button>
+        </div>
       </div>
     </div>
   )
