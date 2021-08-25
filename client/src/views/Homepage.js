@@ -3,7 +3,7 @@ import Login from '../components/Auth/Login'
 import Register from '../components/Auth/Register'
 import { Button } from '@chakra-ui/react'
 
-function Homepage(props) {
+function Homepage() {
   const [login, setLogin] = useState(true)
   return (
     <div className="App">
