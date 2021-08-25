@@ -61,6 +61,7 @@ MonitorSchema.methods.start = async function () {
     .sort({ field: 'asc', _id: -1 })
     .limit(1)
   const beat = async () => {
+    console.log("beat-" + this.name)
     switch (this.type) {
       case 'http':
         // create hearbeat
@@ -97,55 +98,60 @@ MonitorSchema.methods.start = async function () {
         const endTime = now()
         heartbeat.responseTime = Math.round(endTime - startTime)
 
+        let event = new Event({
+          monitor: this,
+          message: "",
+          type: "",
+        })
+
+        let sendEvent = false
         // Check if current beat is different from last beat
         if (this.previousHeartbeat) {
           if (this.previousHeartbeat.status !== heartbeat.status) {
             // Status changed, trigger an event
             // create hearbeat
-
-            let eventType = ''
+            sendEvent = true
             if (
               this.previousHeartbeat.status === 'UP' &&
               heartbeat.status === 'DOWN'
             ) {
-              eventType = 'DOWN'
+              event.type = 'DOWN'
             } else if (
               this.previousHeartbeat.status === 'DOWN' &&
               heartbeat.status === 'UP'
             ) {
-              eventType = 'UP'
+              event.type = 'UP'
             }
-
-            let event = new Event({
-              monitor: this,
-              message: heartbeat.statusMessage,
-              type: eventType,
-            })
-
-            // save event
-            event.save()
-            this.events.push(event)
-
-            // send event to each notification configuration on the monitor
-            if (this.notifications.length > 0) {
-              this.notifications.forEach((notificationId) => {
-                Notification.findOne({ _id: notificationId }).then(
-                  (notification) => {
-                    notification.notify(event)
-                  }
-                )
-              })
-            }
-
-            //console.log("EVENT: " + this.name + ": " + eventType + " - " + heartbeat.statusMessage)
           }
         }
 
         // save heartbeat
         await heartbeat.save()
-        this.heartbeats.push(heartbeat)
-
         this.previousHeartbeat = heartbeat
+
+        if(sendEvent){
+          event.message = heartbeat.statusMessage
+          // save event
+          await event.save()
+          this.events.push(event._id)
+
+          // send event to each notification configuration on the monitor
+          if (this.notifications.length > 0) {
+            this.notifications.forEach((notificationId) => {
+              Notification.findOne({ _id: notificationId }).then(
+                (notification) => {
+                  notification.notify(event)
+                }
+              )
+            })
+          }
+
+        } 
+
+
+        this.heartbeats.push(heartbeat._id)
+
+        //update the latest model
         this.save()
 
         break
