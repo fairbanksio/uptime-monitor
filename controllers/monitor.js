@@ -30,7 +30,7 @@ exports.create = (req, res, next) => {
   newMonitor
     .save()
     .then((monitor) => {
-      monitoringService.startMonitor(monitor._id)
+      monitoringService.startMonitor(monitor)
       res.json(monitor)
     })
     .catch((err) => {
@@ -63,9 +63,9 @@ exports.update = (req, res, next) => {
 
   Monitor.findByIdAndUpdate({_id: req.params.monitorId, owner: req.user._id}, updatedMonitor(req.body), {new: true})
     .populate('events heartbeats')
-    .slice('heartbeats', -10)
+    .slice('heartbeats', -20)
     .then((monitor) => {
-      monitoringService.updateMonitor(monitor._id)
+      monitoringService.updateMonitor(monitor)
       res.json(monitor)
     })
     .catch((err) => {
@@ -78,7 +78,7 @@ exports.delete = (req, res, next) => {
   // delete doesn't return an object id and we need it to stop monitor
   Monitor.findOne({ _id: req.params.monitorId, owner: req.user._id })
     .then((monitor) => {
-      monitoringService.stopMonitor(monitor._id)
+      monitoringService.stopMonitor(monitor)
     })
     .catch((err) => {
       res.status(422).send(err.errors)
