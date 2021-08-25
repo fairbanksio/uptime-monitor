@@ -14,7 +14,7 @@ function MonitorEvents(monitor) {
       <div>
         {events.map((event, key) => (
           <div key={key}>
-            Type: {event.type}, Message: {event.message}
+            Type: {event.type}, Started: {event.createdAt}, Message: {event.message}, Duration: {event.duration}
           </div>
         ))}
       </div>
