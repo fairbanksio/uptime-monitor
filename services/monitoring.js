@@ -26,44 +26,32 @@ function stopAllMonitors() {
   runningMonitors = []
 }
 
-function startMonitor(monitorId) {
-  // get all monitors
-  Monitor.findOne({ _id: monitorId })
-    .then((monitor) => {
-      if (monitor.enabled) {
-        runningMonitors[monitor.id] = monitor
-        runningMonitors[monitor.id].start()
-      }
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+function startMonitor(monitor) {
+  if (monitor.enabled) {
+    runningMonitors[monitor.id] = monitor
+    runningMonitors[monitor.id].start()
+  }
 }
 
-function updateMonitor(monitorId) {
+function updateMonitor(monitor) {
   //stop existing monitor
-  if (runningMonitors[monitorId]) {
-    runningMonitors[monitorId].stop()
-    runningMonitors[monitorId] = null
+  if (runningMonitors[monitor.id]) {
+    runningMonitors[monitor.id].stop()
+    runningMonitors[monitor.id] = null
   }
 
   // update the monitor, and start it if enabled
-  Monitor.findOne({ _id: monitorId })
-    .then((monitor) => {
-      if (monitor.enabled) {
-        runningMonitors[monitor.id] = monitor
-        runningMonitors[monitor.id].start()
-      }
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+  if (monitor.enabled) {
+    runningMonitors[monitor.id] = monitor
+    runningMonitors[monitor.id].start()
+  }
+
 }
 
-function stopMonitor(monitorId) {
-  if (runningMonitors[monitorId]) {
-    runningMonitors[monitorId].stop()
-    runningMonitors[monitorId] = null
+function stopMonitor(monitor) {
+  if (runningMonitors[monitor.id]) {
+    runningMonitors[monitor.id].stop()
+    runningMonitors[monitor.id] = null
   }
 }
 
