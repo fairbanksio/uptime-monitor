@@ -8,8 +8,6 @@ function Dashboard() {
   return (
     <div className="App">
       <Navbar />
-      <CreateMonitor />
-      <CreateNotification />
       <ListNotifications />
       <ListMonitors />
     </div>

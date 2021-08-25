@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 
+import { Button, Input, Checkbox } from '@chakra-ui/react'
+
 import { MonitorContext } from '../../contexts/MonitorContext'
 import { NotificationContext } from '../../contexts/NotificationContext'
 
@@ -78,13 +80,11 @@ function CreateMonitor() {
 
   return (
     <div className="submit-form">
-      <h2>Create a monitor</h2>
       <div>
         <div className="form-group">
-          <label htmlFor="name">name</label>
-          <input
+          <Input
             type="text"
-            className="form-control"
+            placeholder="Name"
             required
             value={monitorInfo.name}
             onChange={handleInputChange}
@@ -93,11 +93,11 @@ function CreateMonitor() {
         </div>
 
         <div className="form-group">
-          <label htmlFor="name">interval</label>
-          <input
+          <Input
             type="number"
-            className="form-control"
+            placeholder="Interval"
             required
+            disabled
             value={monitorInfo.interval}
             onChange={handleInputChange}
             name="interval"
@@ -105,22 +105,9 @@ function CreateMonitor() {
         </div>
 
         <div className="form-group">
-          <label htmlFor="name">enabled</label>
-          <input
-            type="checkbox"
-            className="form-control"
-            required
-            checked={monitorInfo.enabled}
-            onChange={handleEnableChange}
-            name="enabled"
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="httpUrl">httpUrl</label>
-          <input
+          <Input
             type="text"
-            className="form-control"
+            placeholder="URL"
             required
             value={monitorInfo.config.httpUrl}
             onChange={handleConfigChange}
@@ -129,37 +116,56 @@ function CreateMonitor() {
         </div>
 
         <div>
-          <label htmlFor="notifications">Notification</label>
-          {notifications.length > 0 ? (
-            <div>Check notifications to enable them for this monitor:</div>
-          ) : (
+          <label htmlFor="notifications">Notification Agent(s)</label>
+          {notifications.length > 0 ? null : (
             <div>You must create a notification first</div>
           )}
           {notifications &&
             notifications.map((notification, key) => {
               return (
                 <div key={key}>
-                  <label htmlFor="vehicle2">
-                    {' '}
-                    {notification.name}({notification.type})
-                  </label>
-                  <br />
-                  <input
-                    type="checkbox"
+                  <Checkbox
+                    colorScheme="purple"
                     checked={monitorInfo.notifications[notification._id]}
                     id={notification._id}
                     name={notification.name}
                     value={notification.name}
                     onChange={handleNotificationChange}
-                  />
+                  >
+                    {notification.name}({notification.type})
+                  </Checkbox>
                 </div>
               )
             })}
         </div>
 
-        <button onClick={handleCreateMonitor} className="btn btn-success">
-          Create Monitor
-        </button>
+        <br />
+
+        <div className="form-group">
+          <Checkbox
+            defaultIsChecked
+            colorScheme="purple"
+            required
+            checked={monitorInfo.enabled}
+            onChange={handleEnableChange}
+            name="enabled"
+          >
+            Enable Monitoring
+          </Checkbox>
+        </div>
+
+        <div style={{ marginTop: '10px' }}>
+          <Button
+            onClick={handleCreateMonitor}
+            variant="solid"
+            colorScheme="purple"
+          >
+            Monitor
+          </Button>
+          <Button variant="ghost" colorScheme="grey" mr={3}>
+            Clear
+          </Button>
+        </div>
       </div>
     </div>
   )

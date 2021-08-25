@@ -16,6 +16,11 @@ var MonitorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  status: {
+    type: String,
+    required: true,
+    default: "DOWN"
+  },
   config: {
     httpUrl: { type: String },
     httpKeyword: { type: String },
@@ -52,6 +57,7 @@ var MonitorSchema = new mongoose.Schema({
       required: true,
     },
   ],
+  
 })
 
 MonitorSchema.methods.start = async function () {
@@ -123,6 +129,18 @@ MonitorSchema.methods.start = async function () {
               event.type = 'UP'
             }
           }
+        } else {
+          sendEvent = true
+          // No prior heartbeats but status is down
+          if (heartbeat.status === 'DOWN') {
+            heartbeat.status === 'DOWN'
+            event.type = 'DOWN'
+            event.message.status === heartbeat.status
+          } else if (heartbeat.status === 'UP') {
+            heartbeat.status === 'UP'
+            event.type = 'UP'
+            event.message.status === heartbeat.status
+          }
         }
 
         // save heartbeat
@@ -145,13 +163,13 @@ MonitorSchema.methods.start = async function () {
               )
             })
           }
-
         } 
 
 
         this.heartbeats.push(heartbeat._id)
 
         //update the latest model
+        this.status = heartbeat.status
         this.save()
 
         break

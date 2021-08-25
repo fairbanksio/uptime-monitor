@@ -15,7 +15,6 @@ exports.getAll = (req, res, next) => {
 // Create heartbeat
 exports.create = (req, res, next) => {
   const { monitorId, status, statusMessage } = req.body
-  const { user } = req
   var newHeartbeat = new Heartbeat({
     monitor: monitorId,
     status: status,
@@ -24,7 +23,6 @@ exports.create = (req, res, next) => {
   newHeartbeat
     .save()
     .then((heartbeat) => {
-      heartbeatingService.startHeartbeat(heartbeat._id)
       res.json(heartbeat)
     })
     .catch((err) => {

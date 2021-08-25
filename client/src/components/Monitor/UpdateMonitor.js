@@ -136,9 +136,7 @@ function UpdateMonitor(props) {
 
             <div>
               <label htmlFor="notifications">Notification</label>
-              {notifications.length > 0 ? (
-                <div>Check notifications to enable them for this monitor:</div>
-              ) : (
+              {notifications.length > 0 ? null : (
                 <div>You must create a notification first</div>
               )}
               {notifications &&
