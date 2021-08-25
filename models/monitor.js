@@ -123,6 +123,18 @@ MonitorSchema.methods.start = async function () {
               event.type = 'UP'
             }
           }
+        } else {
+          sendEvent = true
+          // No prior heartbeats but status is down
+          if (heartbeat.status === 'DOWN') {
+            heartbeat.status === 'DOWN'
+            event.type = 'DOWN'
+            event.message.status === heartbeat.status
+          } else if (heartbeat.status === 'UP') {
+            heartbeat.status === 'UP'
+            event.type = 'UP'
+            event.message.status === heartbeat.status
+          }
         }
 
         // save heartbeat
