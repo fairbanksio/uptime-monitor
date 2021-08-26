@@ -15,19 +15,26 @@ function MonitorHeartbeats(monitor) {
     <div>
       Heartbeats:
       <div style={{ maxHeight: 200, overflowX: 'auto' }}>
-        {heartbeats.map((heartbeat, key) => (
-          <div key={key}>
-            {heartbeat.status === 'UP' ? (
-              <FontAwesomeIcon icon={faCircle} style={{ color: 'green' }} />
-            ) : (
-              <FontAwesomeIcon icon={faCircle} style={{ color: 'red' }} />
-            )}{' '}
-            {moment(heartbeat.createdAt).fromNow()}
-            <pre style={{ float: '' }}>
-              {heartbeat.statusMessage + ' in ' + heartbeat.responseTime + 'ms'}
-            </pre>{' '}
-          </div>
-        ))}
+        {heartbeats.length > 0 ? (
+          heartbeats.map((heartbeat, key) => (
+            <div key={key}>
+              {heartbeat.status === 'UP' ? (
+                <FontAwesomeIcon icon={faCircle} style={{ color: 'green' }} />
+              ) : (
+                <FontAwesomeIcon icon={faCircle} style={{ color: 'red' }} />
+              )}{' '}
+              {moment(heartbeat.createdAt).fromNow()}
+              <pre style={{ float: '' }}>
+                {heartbeat.statusMessage +
+                  ' in ' +
+                  heartbeat.responseTime +
+                  'ms'}
+              </pre>{' '}
+            </div>
+          ))
+        ) : (
+          <div>No recent heartbeats</div>
+        )}
       </div>
     </div>
   )
