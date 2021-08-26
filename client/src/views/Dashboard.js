@@ -14,7 +14,7 @@ function Dashboard() {
           <GridItem colSpan={5}>
             <Text fontSize="4xl">Monitors</Text>
             <ListMonitors />
-            <Text fontSize="4xl">Notifications</Text>
+            <Text fontSize="4xl">Notifiers</Text>
             <ListNotifications />
           </GridItem>
           <GridItem colSpan={1} />

@@ -119,9 +119,7 @@ function CreateMonitor() {
 
         <div>
           <label htmlFor="notifications">Notification Agent(s)</label>
-          {notifications.length > 0 ? null : (
-            <div>You must create a notification first</div>
-          )}
+          {notifications.length > 0 ? null : <div>No notifiers configured</div>}
           {notifications &&
             notifications.map((notification, key) => {
               return (
