@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react'
+import { Button } from '@chakra-ui/react'
 
 import { NotificationContext } from '../../contexts/NotificationContext'
 
@@ -32,9 +33,9 @@ function UpdateNotification(props) {
   }
   if (!visible) {
     return (
-      <button onClick={toggleVisible} className="btn btn-success">
-        Update
-      </button>
+      <Button colorScheme="purple" size="xs" onClick={toggleVisible}>
+        update
+      </Button>
     )
   } else {
     return (

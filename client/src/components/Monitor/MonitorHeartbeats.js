@@ -1,4 +1,6 @@
 import React, { useContext } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircle } from '@fortawesome/free-solid-svg-icons'
 
 import { MonitorContext } from '../../contexts/MonitorContext'
 
@@ -11,11 +13,18 @@ function MonitorHeartbeats(monitor) {
   return (
     <div>
       Heartbeats:
-      <div>
+      <div style={{ maxHeight: 200, overflowX: 'auto' }}>
         {heartbeats.map((heartbeat, key) => (
           <div key={key}>
-            Status: {heartbeat.status}, ResponseTime: {heartbeat.responseTime}ms,
-            StatusMessage: {heartbeat.statusMessage}, Timestamp: {heartbeat.createdAt},
+            {heartbeat.status === 'UP' ? (
+              <FontAwesomeIcon icon={faCircle} style={{ color: 'green' }} />
+            ) : (
+              <FontAwesomeIcon icon={faCircle} style={{ color: 'red' }} />
+            )}{' '}
+            {heartbeat.createdAt}
+            <pre style={{ float: '' }}>
+              {heartbeat.statusMessage + ' in ' + heartbeat.responseTime + 'ms'}
+            </pre>{' '}
           </div>
         ))}
       </div>
