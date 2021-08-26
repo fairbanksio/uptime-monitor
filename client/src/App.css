@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background-color: #282c34;
+  background-color: #484b51;
   color: #fff;
 }
 
@@ -52,4 +52,9 @@
 .header-logo {
   color: #6b46c1;
   margin-right: 8px;
+}
+
+.header {
+  background-color: #282c34;
+  margin-bottom: 10px;
 }
