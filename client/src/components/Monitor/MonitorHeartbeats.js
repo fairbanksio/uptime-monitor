@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircle } from '@fortawesome/free-solid-svg-icons'
+import moment from 'moment-timezone'
 
 import { MonitorContext } from '../../contexts/MonitorContext'
 
@@ -21,7 +22,7 @@ function MonitorHeartbeats(monitor) {
             ) : (
               <FontAwesomeIcon icon={faCircle} style={{ color: 'red' }} />
             )}{' '}
-            {heartbeat.createdAt}
+            {moment(heartbeat.createdAt).fromNow()}
             <pre style={{ float: '' }}>
               {heartbeat.statusMessage + ' in ' + heartbeat.responseTime + 'ms'}
             </pre>{' '}
