@@ -17,7 +17,7 @@ function MonitorHeartbeats(monitor) {
   return (
     <div>
       Heartbeats:
-      <div>
+      <div style={{ maxHeight: 200, overflowX: 'auto' }}>
         {heartbeats.map((heartbeat, key) => (
           <div key={key}>
             {heartbeat.status === 'UP' ? (
