@@ -69,7 +69,7 @@ function UserDrawer() {
 
 function Navbar() {
   return (
-    <div>
+    <div className="header">
       <Flex>
         <Box p="4">
           <a href="/dashboard" className="header-link">
