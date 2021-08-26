@@ -17,7 +17,6 @@ exports.getAll = (req, res, next) => {
 
 exports.create = (req, res, next) => {
   const { monitorId, message, type } = req.body
-  const { user } = req
   var newEvent = new Event({
     monitor: monitorId,
     message: message,
@@ -26,7 +25,6 @@ exports.create = (req, res, next) => {
   newEvent
     .save()
     .then((event) => {
-      eventingService.startEvent(event._id)
       res.json(event)
     })
     .catch((err) => {

@@ -6,6 +6,7 @@ let Heartbeat = require('../models/heartbeat')
 let Event = require('../models/event')
 let Notification = require('../models/notification')
 let now = require('performance-now')
+let msToTime = require('../util/msToTime')
 
 var MonitorSchema = new mongoose.Schema({
   name: {
@@ -15,6 +16,11 @@ var MonitorSchema = new mongoose.Schema({
   type: {
     type: String,
     required: true,
+  },
+  status: {
+    type: String,
+    required: true,
+    default: "DOWN"
   },
   config: {
     httpUrl: { type: String },
@@ -52,6 +58,7 @@ var MonitorSchema = new mongoose.Schema({
       required: true,
     },
   ],
+  
 })
 
 MonitorSchema.methods.start = async function () {
@@ -62,6 +69,12 @@ MonitorSchema.methods.start = async function () {
     .limit(1)
   const beat = async () => {
     console.log("beat-" + this.name)
+
+    // get current event
+    let currentEvent = await Event.findOne({ monitor: this._id })
+      .sort({ field: 'asc', _id: -1 })
+      .limit(1)
+
     switch (this.type) {
       case 'http':
         // create hearbeat
@@ -104,13 +117,13 @@ MonitorSchema.methods.start = async function () {
           type: "",
         })
 
-        let sendEvent = false
+        let newEventNeeded = false
         // Check if current beat is different from last beat
         if (this.previousHeartbeat) {
           if (this.previousHeartbeat.status !== heartbeat.status) {
             // Status changed, trigger an event
             // create hearbeat
-            sendEvent = true
+            newEventNeeded= true
             if (
               this.previousHeartbeat.status === 'UP' &&
               heartbeat.status === 'DOWN'
@@ -123,14 +136,28 @@ MonitorSchema.methods.start = async function () {
               event.type = 'UP'
             }
           }
+        } else {
+          newEventNeeded= true
+          // No prior heartbeats but status is down
+          if (heartbeat.status === 'DOWN') {
+            heartbeat.status === 'DOWN'
+            event.type = 'DOWN'
+            event.message.status === heartbeat.status
+          } else if (heartbeat.status === 'UP') {
+            heartbeat.status === 'UP'
+            event.type = 'UP'
+            event.message.status === heartbeat.status
+          }
         }
 
         // save heartbeat
         await heartbeat.save()
         this.previousHeartbeat = heartbeat
 
-        if(sendEvent){
+        if(newEventNeeded){
+          // save the new event
           event.message = heartbeat.statusMessage
+          event.duration = msToTime(Date.now() - heartbeat.createdAt)
           // save event
           await event.save()
           this.events.push(event._id)
@@ -145,13 +172,19 @@ MonitorSchema.methods.start = async function () {
               )
             })
           }
-
-        } 
+        } else {
+          // update existing event
+          if(currentEvent){
+            currentEvent.duration = msToTime(Date.now() - currentEvent.createdAt)
+            currentEvent.save()
+          }
+        }
 
 
         this.heartbeats.push(heartbeat._id)
 
         //update the latest model
+        this.status = heartbeat.status
         this.save()
 
         break
@@ -172,3 +205,4 @@ MonitorSchema.methods.stop = function () {
 MonitorSchema.plugin(timestamps) // Automatically adds createdAt and updatedAt timestamps
 
 module.exports = mongoose.model('Monitor', MonitorSchema)
+
