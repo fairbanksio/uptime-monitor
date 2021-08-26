@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react'
-
 import { Button, Input, Checkbox } from '@chakra-ui/react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSlack } from '@fortawesome/free-brands-svg-icons'
+import { faMailBulk } from '@fortawesome/free-solid-svg-icons'
 
 import { MonitorContext } from '../../contexts/MonitorContext'
 import { NotificationContext } from '../../contexts/NotificationContext'
@@ -132,7 +134,12 @@ function CreateMonitor() {
                     value={notification.name}
                     onChange={handleNotificationChange}
                   >
-                    {notification.name}({notification.type})
+                    {notification.name}{' '}
+                    {notification.type === 'slack' ? (
+                      <FontAwesomeIcon icon={faSlack} />
+                    ) : (
+                      <FontAwesomeIcon icon={faMailBulk} />
+                    )}
                   </Checkbox>
                 </div>
               )
