@@ -12,8 +12,8 @@ function Dashboard() {
         <Grid h="100vh" templateColumns="repeat(7, 1fr)" gap={4}>
           <GridItem colSpan={1} />
           <GridItem colSpan={5}>
-            <ListNotifications />
             <ListMonitors />
+            <ListNotifications />
           </GridItem>
           <GridItem colSpan={1} />
         </Grid>
