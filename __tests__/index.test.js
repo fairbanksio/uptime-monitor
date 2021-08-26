@@ -147,3 +147,49 @@ describe('Notification can be added to monitor', () => {
       })
   })
 })
+
+// Test Pages
+const page = {
+  name: "test-page",
+  slug: "test-page",
+};
+
+let pageId = ""
+describe('Page can be created', () => {
+  test('Response should contain page object plus an id', (done) => {
+    request(app)
+      .post('/api/pages').set('Authorization', authToken).send(page)
+      .then((response) => {
+        expect(response.statusCode).toBe(200)
+        expect(response.body).toMatchObject({
+          _id: expect.any(String),
+          name: "test-page",
+          type: "standard",
+          slug: "test-page"
+        })
+        pageId = response.body._id
+        done()  
+      })
+  })
+})
+
+// Test Updating Page
+describe('Monitor can be added to page', () => {
+  test('Response should contain page object with monitor array', (done) => {
+    request(app)
+      .post('/api/pages/'+pageId).set('Authorization', authToken).send({
+        monitors: [monitorId]
+      })
+      .then((response) => {
+        expect(response.statusCode).toBe(200)
+        expect(response.body).toMatchObject({
+          _id: expect.any(String),
+          name: "test-page",
+          slug: "test-page",
+          type: "standard",
+          monitors: expect.arrayContaining([monitorId])
+        })
+        done()
+      })
+  })
+})
