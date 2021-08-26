@@ -4,9 +4,10 @@
   color: #fff;
 }
 
-.App-logo {
-  height: 40vmin;
+.login-logo {
+  height: 10vmin;
   pointer-events: none;
+  color: #6b46c1;
 }
 
 .App-header {
