@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
+import { Button } from '@chakra-ui/react'
 
 import { MonitorContext } from '../../contexts/MonitorContext'
 import { NotificationContext } from '../../contexts/NotificationContext'
@@ -76,9 +77,9 @@ function UpdateMonitor(props) {
 
   if (!visible) {
     return (
-      <button onClick={toggleVisible} className="btn btn-success">
-        Update
-      </button>
+      <Button colorScheme="purple" size="xs" onClick={toggleVisible}>
+        update
+      </Button>
     )
   } else {
     return (

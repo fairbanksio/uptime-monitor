@@ -1,4 +1,6 @@
 import React, { useContext } from 'react'
+import { Text } from '@chakra-ui/react'
+
 import DeleteMonitor from './DeleteMonitor'
 import UpdateMonitor from './UpdateMonitor'
 import MonitorEvents from './MonitorEvents'
@@ -9,20 +11,16 @@ function ListMonitors() {
   const { monitors } = useContext(MonitorContext)
   return (
     <div>
-      <h2>Monitors List:</h2>
       {monitors.map((monitor, key) => (
         <div key={key}>
-          <div className="user">
-            name: {monitor.name}, enabled: {monitor.enabled ? 'true' : 'false'},
-            type: {monitor.type}, interval: {monitor.interval}, config:{' '}
-            {JSON.stringify(monitor.config)}, notifications:{' '}
-            {JSON.stringify(monitor.notifications)},
-            status: {monitor.status}
+          <div>
+            <Text fontSize="2xl">{monitor.name}</Text>
+            <UpdateMonitor monitor={monitor} />{' '}
             <DeleteMonitor monitorId={monitor._id} />
-            <UpdateMonitor monitor={monitor} />
           </div>
-          <MonitorEvents monitor={monitor} />
           <MonitorHeartbeats monitor={monitor} />
+          <MonitorEvents monitor={monitor} />
+          <br />
         </div>
       ))}
     </div>
