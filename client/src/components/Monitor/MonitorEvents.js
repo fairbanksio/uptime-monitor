@@ -12,11 +12,16 @@ function MonitorEvents(monitor) {
     <div>
       Events:
       <div>
-        {events.map((event, key) => (
-          <div key={key}>
-            Type: {event.type}, Started: {event.createdAt}, Message: {event.message}, Duration: {event.duration}
-          </div>
-        ))}
+        {events.length > 0 ? (
+          events.map((event, key) => (
+            <div key={key}>
+              Type: {event.type}, Started: {event.createdAt}, Message:{' '}
+              {event.message}, Duration: {event.duration}
+            </div>
+          ))
+        ) : (
+          <div>No recent events</div>
+        )}
       </div>
     </div>
   )

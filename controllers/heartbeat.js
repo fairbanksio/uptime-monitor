@@ -4,6 +4,7 @@ let Monitor = require('../models/monitor')
 // Get all heartbeats
 exports.getAll = (req, res, next) => {
   Heartbeat.find({ owner: req.user._id })
+    .sort({ createdAt: 1 })
     .then((heartbeats) => {
       res.json(heartbeats)
     })
