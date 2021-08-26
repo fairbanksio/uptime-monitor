@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react'
-import { AuthContext } from '../../contexts/AuthContext'
 import { useHistory } from 'react-router-dom'
-import FriendlyError from '../Util/FriendlyError'
 import { Button, Input } from '@chakra-ui/react'
+
+import { AuthContext } from '../../contexts/AuthContext'
+import FriendlyError from '../Util/FriendlyError'
 
 function Login() {
   const { login, loading, error } = useContext(AuthContext)
