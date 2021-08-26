@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Text } from '@chakra-ui/react'
+import { Box, Grid, Text } from '@chakra-ui/react'
 
 import DeleteMonitor from './DeleteMonitor'
 import UpdateMonitor from './UpdateMonitor'
@@ -18,8 +18,15 @@ function ListMonitors() {
             <UpdateMonitor monitor={monitor} />{' '}
             <DeleteMonitor monitorId={monitor._id} />
           </div>
-          <MonitorHeartbeats monitor={monitor} />
-          <MonitorEvents monitor={monitor} />
+
+          <Grid templateColumns="repeat(2, 1fr)" gap={6}>
+            <Box w="100%">
+              <MonitorEvents monitor={monitor} />
+            </Box>
+            <Box w="100%">
+              <MonitorHeartbeats monitor={monitor} />
+            </Box>
+          </Grid>
           <br />
         </div>
       ))}
