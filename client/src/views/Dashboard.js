@@ -8,14 +8,16 @@ function Dashboard() {
   return (
     <div className="App">
       <Navbar />
-      <Grid h="100vh" templateColumns="repeat(6, 1fr)" gap={4}>
-        <GridItem colSpan={1} />
-        <GridItem colSpan={4}>
-          <ListNotifications />
-          <ListMonitors />
-        </GridItem>
-        <GridItem colSpan={1} />
-      </Grid>
+      <div className="Content">
+        <Grid h="100vh" templateColumns="repeat(7, 1fr)" gap={4}>
+          <GridItem colSpan={1} />
+          <GridItem colSpan={5}>
+            <ListNotifications />
+            <ListMonitors />
+          </GridItem>
+          <GridItem colSpan={1} />
+        </Grid>
+      </div>
     </div>
   )
 }
