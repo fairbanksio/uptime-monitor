@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { Button } from '@chakra-ui/react'
 
 import { NotificationContext } from '../../contexts/NotificationContext'
 
@@ -15,9 +16,9 @@ function DeleteNotification(props) {
   }
 
   return (
-    <button className="user" onClick={handleDeleteNotification}>
+    <Button colorScheme="purple" size="xs" onClick={handleDeleteNotification}>
       delete
-    </button>
+    </Button>
   )
 }
 

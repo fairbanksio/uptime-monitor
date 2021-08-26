@@ -1,9 +1,5 @@
 import React, { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faTimesCircle,
-  faCheckCircle,
-} from '@fortawesome/free-regular-svg-icons'
 import { faCircle } from '@fortawesome/free-solid-svg-icons'
 
 import { MonitorContext } from '../../contexts/MonitorContext'
@@ -25,8 +21,10 @@ function MonitorHeartbeats(monitor) {
             ) : (
               <FontAwesomeIcon icon={faCircle} style={{ color: 'red' }} />
             )}{' '}
-            ResponseTime: {heartbeat.responseTime}ms || StatusMessage:{' '}
-            {heartbeat.statusMessage} || Timestamp: {heartbeat.createdAt}
+            {heartbeat.createdAt}
+            <pre style={{ float: '' }}>
+              {heartbeat.statusMessage + ' in ' + heartbeat.responseTime + 'ms'}
+            </pre>{' '}
           </div>
         ))}
       </div>
