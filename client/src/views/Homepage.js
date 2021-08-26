@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+import { Button, Text } from '@chakra-ui/react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faNetworkWired } from '@fortawesome/free-solid-svg-icons'
+
 import Login from '../components/Auth/Login'
 import Register from '../components/Auth/Register'
-import { Button } from '@chakra-ui/react'
 
 function Homepage() {
   const [login, setLogin] = useState(true)
@@ -19,6 +22,12 @@ function Homepage() {
             'font-size': '32px',
           }}
         >
+          <FontAwesomeIcon
+            icon={faNetworkWired}
+            className="login-logo"
+            size="5x"
+          />
+          <br />
           Uptime Monitor
         </a>
         <hr width={'300'} />
