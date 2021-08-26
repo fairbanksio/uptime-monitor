@@ -11,18 +11,22 @@ function ListNotifications() {
   const { notifications } = useContext(NotificationContext)
   return (
     <div>
-      {notifications.map((notification, key) => (
-        <div key={key} className="user">
-          {notification.name} (
-          {notification.type === 'slack' ? (
-            <FontAwesomeIcon icon={faSlack} />
-          ) : (
-            <FontAwesomeIcon icon={faMailBulk} />
-          )}
-          ) <UpdateNotification notification={notification} />{' '}
-          <DeleteNotification notificationId={notification._id} />
-        </div>
-      ))}
+      {notifications.length > 0 ? (
+        notifications.map((notification, key) => (
+          <div key={key} className="user">
+            {notification.name} (
+            {notification.type === 'slack' ? (
+              <FontAwesomeIcon icon={faSlack} />
+            ) : (
+              <FontAwesomeIcon icon={faMailBulk} />
+            )}
+            ) <UpdateNotification notification={notification} />{' '}
+            <DeleteNotification notificationId={notification._id} />
+          </div>
+        ))
+      ) : (
+        <div>No notification agent configured</div>
+      )}
     </div>
   )
 }

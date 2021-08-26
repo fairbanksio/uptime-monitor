@@ -138,7 +138,7 @@ function UpdateMonitor(props) {
             <div>
               <label htmlFor="notifications">Notification</label>
               {notifications.length > 0 ? null : (
-                <div>You must create a notification first</div>
+                <div>No notifiers configured</div>
               )}
               {notifications &&
                 notifications.map((notification, key) => {
