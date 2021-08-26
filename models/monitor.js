@@ -174,9 +174,10 @@ MonitorSchema.methods.start = async function () {
           }
         } else {
           // update existing event
-          console.log(Date.now() - currentEvent.createdAt)
-          currentEvent.duration = msToTime(Date.now() - currentEvent.createdAt)
-          currentEvent.save()
+          if(currentEvent){
+            currentEvent.duration = msToTime(Date.now() - currentEvent.createdAt)
+            currentEvent.save()
+          }
         }
 
 
