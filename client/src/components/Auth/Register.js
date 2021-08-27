@@ -1,13 +1,13 @@
 import React, { useState, useContext } from 'react'
+import { createStandaloneToast, Button, Input } from '@chakra-ui/react'
+
 import { AuthContext } from '../../contexts/AuthContext'
 import { useHistory } from 'react-router-dom'
-import FriendlyError from '../Util/FriendlyError'
-import { Button, Input } from '@chakra-ui/react'
 
 function Register() {
-  const { register, error } = useContext(AuthContext)
+  const { register } = useContext(AuthContext)
+  const toast = createStandaloneToast()
   const history = useHistory()
-  //const { user, loading, error, login, register, logout } = auth();
 
   const [registerInfo, setRegisterInfo] = useState({
     username: '',
@@ -27,50 +27,73 @@ function Register() {
 
   const registerUser = () => {
     register(registerInfo.username, registerInfo.password, (result) => {
-      if (result.status === 'success') {
-        history.push('/')
+      if (result && result.status === 'success') {
+        const id = 'register-success-toast'
+        if (!toast.isActive(id)) {
+          toast({
+            title: 'Account created.',
+            description: "We've created your account for you.",
+            status: 'success',
+            variant: 'subtle',
+            duration: 9000,
+            isClosable: true,
+          })
+        }
+        setTimeout(() => {
+          history.push('/')
+        }, 2000)
+      } else {
+        const id = 'register-error-toast'
+        if (!toast.isActive(id)) {
+          toast({
+            id,
+            title: 'An error occurred.',
+            description: 'Unable to create user account.',
+            status: 'error',
+            variant: 'subtle',
+            duration: 9000,
+            isClosable: true,
+          })
+        }
       }
     })
   }
 
   return (
-    <div className="submit-form">
-      <div>
-        <div className="form-group">
-          <Input
-            type="text"
-            id="username"
-            required
-            value={registerInfo.username}
-            onChange={handleInputChange}
-            name="username"
-            placeholder="username"
-            size="md"
-            width={'300'}
-          />
-        </div>
-        <div className="form-group">
-          <Input
-            type="password"
-            id="password"
-            required
-            value={registerInfo.password}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            name="password"
-            placeholder="password"
-            size="md"
-            width={'300'}
-          />
-        </div>
-        <br />
-        <Button onClick={registerUser} colorScheme="purple">
-          Register
-        </Button>
-        <br />
-        {error && <FriendlyError error={error} />}
-        <br />
-      </div>
+    <div>
+      <Input
+        type="text"
+        id="username"
+        required
+        value={registerInfo.username}
+        onChange={handleInputChange}
+        name="username"
+        placeholder="username"
+        size="md"
+        width={'300'}
+      />
+      <br />
+      <Input
+        type="password"
+        id="password"
+        required
+        value={registerInfo.password}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
+        name="password"
+        placeholder="password"
+        size="md"
+        width={'300'}
+      />
+
+      <br />
+
+      <Button onClick={registerUser} colorScheme="purple">
+        Register
+      </Button>
+
+      <br />
+      <br />
     </div>
   )
 }
