@@ -10,19 +10,16 @@ function MonitorEvents(monitor) {
   const events = thisMonitor.events
   return (
     <div>
-      Events:
-      <div>
-        {events.length > 0 ? (
-          events.map((event, key) => (
-            <div key={key}>
-              Type: {event.type}, Started: {event.createdAt}, Message:{' '}
-              {event.message}, Duration: {event.duration}
-            </div>
-          ))
-        ) : (
-          <div>No recent events</div>
-        )}
-      </div>
+      {events.length > 0 ? (
+        events.map((event, key) => (
+          <div key={key}>
+            Type: {event.type}, Started: {event.createdAt}, Message:{' '}
+            {event.message}, Duration: {event.duration}
+          </div>
+        ))
+      ) : (
+        <div>No recent events</div>
+      )}
     </div>
   )
 }
