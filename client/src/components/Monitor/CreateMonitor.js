@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Button, Input, Checkbox } from '@chakra-ui/react'
+import { Button, Center, Checkbox, Input, Select } from '@chakra-ui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSlack } from '@fortawesome/free-brands-svg-icons'
 import { faMailBulk } from '@fortawesome/free-solid-svg-icons'
@@ -81,96 +81,91 @@ function CreateMonitor() {
   }
 
   return (
-    <div className="submit-form">
+    <div>
+      <Input
+        type="text"
+        placeholder="Name"
+        isRequired={true}
+        value={monitorInfo.name}
+        onChange={handleInputChange}
+        name="name"
+      />
+
+      <Center>
+        <Select
+          placeholder="Interval"
+          isRequired={true}
+          onChange={handleInputChange}
+          name="interval"
+        >
+          <option value="60">Every minute</option>
+          <option value="300">Every 5 mins</option>
+          <option value="600">Every 10 mins</option>
+        </Select>
+      </Center>
+
+      <Input
+        type="text"
+        placeholder="URL"
+        isRequired={true}
+        value={monitorInfo.config.httpUrl}
+        onChange={handleConfigChange}
+        name="httpUrl"
+      />
+
       <div>
-        <div className="form-group">
-          <Input
-            type="text"
-            placeholder="Name"
-            required
-            value={monitorInfo.name}
-            onChange={handleInputChange}
-            name="name"
-          />
-        </div>
+        <label htmlFor="notifications">Notification Agent(s)</label>
+        {notifications.length > 0 ? null : <div>No notifiers configured</div>}
+        {notifications &&
+          notifications.map((notification, key) => {
+            return (
+              <div key={key}>
+                <Checkbox
+                  colorScheme="purple"
+                  checked={monitorInfo.notifications[notification._id]}
+                  id={notification._id}
+                  name={notification.name}
+                  value={notification.name}
+                  onChange={handleNotificationChange}
+                >
+                  {notification.name}{' '}
+                  {notification.type === 'slack' ? (
+                    <FontAwesomeIcon icon={faSlack} />
+                  ) : (
+                    <FontAwesomeIcon icon={faMailBulk} />
+                  )}
+                </Checkbox>
+              </div>
+            )
+          })}
+      </div>
 
-        <div className="form-group">
-          <Input
-            type="number"
-            placeholder="Interval"
-            required
-            disabled
-            value={monitorInfo.interval}
-            onChange={handleInputChange}
-            name="interval"
-          />
-        </div>
+      <br />
 
-        <div className="form-group">
-          <Input
-            type="text"
-            placeholder="URL"
-            required
-            value={monitorInfo.config.httpUrl}
-            onChange={handleConfigChange}
-            name="httpUrl"
-          />
-        </div>
+      <div className="form-group">
+        <Checkbox
+          defaultIsChecked
+          colorScheme="purple"
+          isRequired={true}
+          checked={monitorInfo.enabled}
+          onChange={handleEnableChange}
+          name="enabled"
+        >
+          Enable Monitoring
+        </Checkbox>
+      </div>
 
-        <div>
-          <label htmlFor="notifications">Notification Agent(s)</label>
-          {notifications.length > 0 ? null : <div>No notifiers configured</div>}
-          {notifications &&
-            notifications.map((notification, key) => {
-              return (
-                <div key={key}>
-                  <Checkbox
-                    colorScheme="purple"
-                    checked={monitorInfo.notifications[notification._id]}
-                    id={notification._id}
-                    name={notification.name}
-                    value={notification.name}
-                    onChange={handleNotificationChange}
-                  >
-                    {notification.name}{' '}
-                    {notification.type === 'slack' ? (
-                      <FontAwesomeIcon icon={faSlack} />
-                    ) : (
-                      <FontAwesomeIcon icon={faMailBulk} />
-                    )}
-                  </Checkbox>
-                </div>
-              )
-            })}
-        </div>
-
-        <br />
-
-        <div className="form-group">
-          <Checkbox
-            defaultIsChecked
-            colorScheme="purple"
-            required
-            checked={monitorInfo.enabled}
-            onChange={handleEnableChange}
-            name="enabled"
-          >
-            Enable Monitoring
-          </Checkbox>
-        </div>
-
-        <div style={{ marginTop: '10px' }}>
-          <Button
-            onClick={handleCreateMonitor}
-            variant="solid"
-            colorScheme="purple"
-          >
-            Monitor
-          </Button>
-          <Button variant="ghost" colorScheme="grey" mr={3}>
-            Clear
-          </Button>
-        </div>
+      <div style={{ marginTop: '10px' }}>
+        <Button
+          onClick={handleCreateMonitor}
+          variant="solid"
+          colorScheme="purple"
+        >
+          Monitor
+        </Button>
+        <Button variant="ghost" colorScheme="grey" mr={3}>
+          Clear
+        </Button>
       </div>
     </div>
   )
