@@ -41,7 +41,7 @@ function Homepage() {
           colorScheme="grey"
           variant="link"
         >
-          {!login ? 'login' : 'sign up'}
+          {!login ? 'login' : 'register'}
         </Button>
       </header>
     </div>
