@@ -19,6 +19,12 @@ function Register() {
     setRegisterInfo({ ...registerInfo, [name]: value })
   }
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      registerUser()
+    }
+  }
+
   const registerUser = () => {
     register(registerInfo.username, registerInfo.password, (result) => {
       if (result.status === 'success') {
@@ -50,6 +56,7 @@ function Register() {
             required
             value={registerInfo.password}
             onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
             name="password"
             placeholder="password"
             size="md"

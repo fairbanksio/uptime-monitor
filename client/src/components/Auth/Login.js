@@ -18,6 +18,12 @@ function Login() {
     setRegisterInfo({ ...loginInfo, [name]: value })
   }
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      loginUser()
+    }
+  }
+
   const loginUser = () => {
     login(loginInfo.username, loginInfo.password, (result) => {
       if (result.status === 'success') {
@@ -49,6 +55,7 @@ function Login() {
             required
             value={loginInfo.password}
             onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
             name="password"
             placeholder="password"
             size="md"
