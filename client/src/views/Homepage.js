@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Text } from '@chakra-ui/react'
+import { Button } from '@chakra-ui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faNetworkWired } from '@fortawesome/free-solid-svg-icons'
 
@@ -17,9 +17,9 @@ function Homepage() {
           target="_blank"
           rel="noopener noreferrer"
           style={{
-            'text-decoration': 'none',
+            textDecoration: 'none',
             color: 'white',
-            'font-size': '32px',
+            fontSize: '32px',
           }}
         >
           <FontAwesomeIcon
