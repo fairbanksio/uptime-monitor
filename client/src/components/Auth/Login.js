@@ -39,7 +39,7 @@ function Login() {
           <Input
             type="text"
             id="username"
-            required
+            isRequired={true}
             value={loginInfo.username}
             onChange={handleInputChange}
             name="username"
@@ -52,7 +52,7 @@ function Login() {
           <Input
             type="password"
             id="password"
-            required
+            isRequired={true}
             value={loginInfo.password}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
