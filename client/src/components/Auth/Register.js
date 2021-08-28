@@ -30,10 +30,10 @@ function Register() {
 
   const verifyForm = () => {
     isFormValid(false) // Reset the state for people having to retry
-    if (loginInfo.username && loginInfo.username.length > 1) {
+    if (registerInfo.username && registerInfo.username.length > 1) {
       isInvalidUser(false)
     } else isInvalidUser(true)
-    if (loginInfo.password && loginInfo.password.length > 1) {
+    if (registerInfo.password && registerInfo.password.length > 1) {
       isInvalidPassword(false)
     } else isInvalidPassword(true)
     if (invalidUser === false && invalidPassword === false) {
