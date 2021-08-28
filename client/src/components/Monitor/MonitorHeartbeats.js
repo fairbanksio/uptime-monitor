@@ -1,6 +1,16 @@
 import React, { useContext } from 'react'
+import {
+  Center,
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+} from '@chakra-ui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment-timezone'
 
 import { MonitorContext } from '../../contexts/MonitorContext'
@@ -12,25 +22,55 @@ function MonitorHeartbeats(monitor) {
   })[0]
   const heartbeats = thisMonitor.heartbeats
   return (
-    <div style={{ maxHeight: 200, overflowX: 'auto' }}>
-      {heartbeats.length > 0 ? (
-        heartbeats.map((heartbeat, key) => (
-          <div key={key}>
-            {heartbeat.status === 'UP' ? (
-              <FontAwesomeIcon icon={faCircle} style={{ color: 'green' }} />
-            ) : (
-              <FontAwesomeIcon icon={faCircle} style={{ color: 'red' }} />
-            )}{' '}
-            {moment(heartbeat.createdAt).fromNow()}
-            <pre style={{ float: '' }}>
-              {heartbeat.statusMessage + ' in ' + heartbeat.responseTime + 'ms'}
-            </pre>{' '}
-          </div>
-        ))
-      ) : (
-        <div>No recent heartbeats</div>
-      )}
-    </div>
+    <Table variant="simple">
+      <Thead>
+        <Tr>
+          <Th>Status</Th>
+          <Th>Time</Th>
+          <Th>Status Message</Th>
+          <Th isNumeric>Response Time (ms)</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        {heartbeats.length > 0 ? (
+          heartbeats.map((heartbeat, key) => (
+            <Tr key={key}>
+              <Td>
+                <Center>
+                  {heartbeat.status === 'UP' ? (
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      style={{ color: 'green' }}
+                    />
+                  ) : (
+                    <FontAwesomeIcon icon={faTimes} style={{ color: 'red' }} />
+                  )}
+                </Center>
+              </Td>
+              <Td>{moment(heartbeat.createdAt).fromNow()}</Td>
+              <Td>
+                <pre>{heartbeat.statusMessage}</pre>
+              </Td>
+              <Td>
+                <Center>{heartbeat.responseTime}</Center>
+              </Td>
+            </Tr>
+          ))
+        ) : (
+          <Tr key={'no-recent-heartbeats'}>
+            <Td colspan="4">No recent heartbeats</Td>
+          </Tr>
+        )}
+      </Tbody>
+      <Tfoot>
+        <Tr>
+          <Th>Status</Th>
+          <Th>Time</Th>
+          <Th>Status Message</Th>
+          <Th isNumeric>Response Time (ms)</Th>
+        </Tr>
+      </Tfoot>
+    </Table>
   )
 }
 

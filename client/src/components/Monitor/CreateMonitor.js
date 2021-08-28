@@ -6,7 +6,6 @@ import {
   createStandaloneToast,
   Input,
   Select,
-  useDisclosure,
 } from '@chakra-ui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSlack } from '@fortawesome/free-brands-svg-icons'

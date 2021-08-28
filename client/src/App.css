@@ -32,6 +32,10 @@
   margin-bottom: 5px;
 }
 
+.chakra-table th {
+  color: #fff;
+}
+
 .header-link {
   font-size: x-large;
 }
