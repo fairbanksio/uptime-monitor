@@ -1,14 +1,5 @@
 import React, { useContext } from 'react'
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-} from '@chakra-ui/react'
+import { Table, Thead, Tbody, Tfoot, Tr, Th, Td } from '@chakra-ui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment-timezone'
