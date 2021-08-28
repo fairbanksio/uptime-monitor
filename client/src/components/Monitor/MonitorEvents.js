@@ -1,5 +1,14 @@
 import React, { useContext } from 'react'
-import { Table, Thead, Tbody, Tfoot, Tr, Th, Td } from '@chakra-ui/react'
+import {
+  Center,
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+} from '@chakra-ui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment-timezone'
@@ -7,6 +16,7 @@ import moment from 'moment-timezone'
 import { MonitorContext } from '../../contexts/MonitorContext'
 
 function splitDuration(duration) {
+  console.log(duration)
   let hr, min, sec, formattedDuration
   try {
     duration = duration.split(':')
@@ -21,29 +31,22 @@ function splitDuration(duration) {
   }
 
   hr = Number(duration[0])
-  min = Number(duration[1])
-  sec = Number(duration[2])
-
   if (hr === 0) {
     hr = ''
-  } else if (hr === 1) {
-    hr = hr + ' hr, '
   } else {
-    hr = hr + ' hrs, '
+    hr = hr + 'h '
   }
 
+  min = Number(duration[1])
   if (min === 0) {
     min = '0 min '
-  } else if (min === 1) {
-    min = min + ' min,'
   } else {
-    min = min + ' mins, '
+    min = min + 'm '
   }
 
-  if (sec === 1) {
-    sec = sec + ' sec'
-  } else {
-    sec = sec + ' secs'
+  sec = Number(duration[2])
+  if (sec) {
+    sec = sec + 's'
   }
 
   formattedDuration = hr + min + sec
@@ -99,7 +102,9 @@ function MonitorEvents(monitor) {
           ))
         ) : (
           <Tr key={'no-recent-events'}>
-            <Td colspan="4">No recent events</Td>
+            <Td colspan="4">
+              <Center>No recent events</Center>
+            </Td>
           </Tr>
         )}
       </Tbody>
