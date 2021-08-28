@@ -43,7 +43,12 @@ function Register() {
 
   const registerUser = () => {
     verifyForm()
-    if (validForm === true) {
+    if (
+      validForm === true &&
+      registerInfo &&
+      registerInfo.username.length > 1 &&
+      registerInfo.password.length > 1
+    ) {
       register(registerInfo.username, registerInfo.password, (result) => {
         if (result && result.status === 'success') {
           const id = 'register-success-toast'
@@ -79,7 +84,7 @@ function Register() {
       setTimeout(() => {
         isInvalidUser(false)
         isInvalidPassword(false)
-      }, 3000)
+      }, 1200)
     }
   }
 
