@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Button } from '@chakra-ui/react'
+import { Button, Center, Input, Select } from '@chakra-ui/react'
 
 import { NotificationContext } from '../../contexts/NotificationContext'
 
@@ -40,53 +40,42 @@ function UpdateNotification(props) {
   } else {
     return (
       <div>
-        <div className="submit-form">
-          <h2>Update a notification</h2>
-          <div>
-            <div className="form-group">
-              <label htmlFor="name">name</label>
-              <input
-                type="text"
-                className="form-control"
-                required
-                value={notificationInfo.name}
-                onChange={handleInputChange}
-                name="name"
-              />
-            </div>
+        <Input
+          type="text"
+          placeholder="Name"
+          isRequired={true}
+          value={notificationInfo.name}
+          onChange={handleInputChange}
+          name="name"
+        />
+        <Center>
+          <Select
+            placeholder="Notification Type"
+            value={notificationInfo.type}
+            onChange={handleInputChange}
+            name="type"
+          >
+            <option value="email">Email</option>
+            <option value="slack">Slack</option>
+          </Select>{' '}
+        </Center>
 
-            <div className="form-group">
-              <label htmlFor="name">type</label>
-              <input
-                type="text"
-                className="form-control"
-                required
-                value={notificationInfo.type}
-                onChange={handleInputChange}
-                name="type"
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="slackWebhook">slackWebhook</label>
-              <input
-                type="text"
-                className="form-control"
-                required
-                value={notificationInfo.config.slackWebhook}
-                onChange={handleConfigChange}
-                name="slackWebhook"
-              />
-            </div>
-
-            <button
-              onClick={handleUpdateNotification}
-              className="btn btn-success"
-            >
-              Update Notification
-            </button>
-          </div>
-        </div>
+        <Input
+          type="text"
+          placeholder="URL"
+          isRequired={true}
+          value={notificationInfo.config.slackWebhook}
+          onChange={handleConfigChange}
+          name="slackWebhook"
+        />
+        <br />
+        <Button
+          colorScheme="purple"
+          size="xs"
+          onClick={handleUpdateNotification}
+        >
+          update
+        </Button>
       </div>
     )
   }

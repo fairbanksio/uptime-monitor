@@ -2,6 +2,9 @@ let mongoose = require('mongoose')
 let Schema = mongoose.Schema
 let timestamps = require('mongoose-timestamp')
 const axios = require('axios')
+const axiosRetry = require('axios-retry')
+
+axiosRetry(axios, { retries: 1 })
 
 var NotificationSchema = new mongoose.Schema({
   monitors: [
