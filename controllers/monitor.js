@@ -4,7 +4,10 @@ var monitoringService = require('../services/monitoring')
 // Get all monitors
 exports.getAll = (req, res, next) => {
   Monitor.find({ owner: req.user._id })
-    .populate('events heartbeats')
+    .populate({
+      path: 'events heartbeats',
+      options: { sort: { createdAt: -1 }, limit: 5 },
+    })
     .slice('heartbeats', -20)
     .then((monitors) => {
       res.json(monitors)
@@ -51,17 +54,20 @@ exports.getOne = (req, res, next) => {
 
 // Update one monitor
 exports.update = (req, res, next) => {
-
   const updatedMonitor = (query) => ({
-    ...query.name && { name: query.name },
-    ...query.interval && { interval: query.interval },
-    ...query.enabled && { enabled: query.enabled },
-    ...query.config && { config: query.config },
-    ...query.owner && { owner: query.owner },
-    ...query.notifications && { notifications: query.notifications },
+    ...(query.name && { name: query.name }),
+    ...(query.interval && { interval: query.interval }),
+    ...(query.enabled && { enabled: query.enabled }),
+    ...(query.config && { config: query.config }),
+    ...(query.owner && { owner: query.owner }),
+    ...(query.notifications && { notifications: query.notifications }),
   })
 
-  Monitor.findByIdAndUpdate({_id: req.params.monitorId, owner: req.user._id}, updatedMonitor(req.body), {new: true})
+  Monitor.findByIdAndUpdate(
+    { _id: req.params.monitorId, owner: req.user._id },
+    updatedMonitor(req.body),
+    { new: true }
+  )
     .populate('events heartbeats')
     .slice('heartbeats', -20)
     .then((monitor) => {
@@ -93,4 +99,3 @@ exports.delete = (req, res, next) => {
       res.status(422).send(err.errors)
     })
 }
-
