@@ -1,5 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Button, Center, Checkbox, Input, Select } from '@chakra-ui/react'
+import {
+  Button,
+  Center,
+  Checkbox,
+  createStandaloneToast,
+  Input,
+  Select,
+  useDisclosure,
+} from '@chakra-ui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSlack } from '@fortawesome/free-brands-svg-icons'
 import { faMailBulk } from '@fortawesome/free-solid-svg-icons'
@@ -10,10 +18,12 @@ import { NotificationContext } from '../../contexts/NotificationContext'
 function CreateMonitor() {
   const { createMonitor } = useContext(MonitorContext)
   const { notifications } = useContext(NotificationContext)
-  const [monitorInfo, setMonitorInfo] = useState({
+  const toast = createStandaloneToast()
+
+  let [monitorInfo, setMonitorInfo] = useState({
     name: '',
     type: 'http',
-    interval: 60,
+    interval: null,
     enabled: true,
     config: {
       httpUrl: '',
@@ -24,6 +34,12 @@ function CreateMonitor() {
   const handleInputChange = (event) => {
     const { name, value } = event.target
     setMonitorInfo({ ...monitorInfo, [name]: value })
+  }
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleCreateMonitor()
+    }
   }
 
   const handleEnableChange = (event) => {
@@ -72,10 +88,35 @@ function CreateMonitor() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notifications])
 
+  const handleClear = () => {
+    monitorInfo = setMonitorInfo({
+      name: '',
+      type: 'http',
+      interval: null,
+      enabled: true,
+      config: {
+        httpUrl: '',
+      },
+      notifications: [],
+    })
+  }
+
   const handleCreateMonitor = () => {
     createMonitor(monitorInfo, (result) => {
       if (result.status === 'success') {
-        //history.push("/")
+        const id = 'monitor-created-toast'
+        if (!toast.isActive(id)) {
+          toast({
+            id,
+            title: 'Monitor created.',
+            description: 'Your monitor is now running.',
+            status: 'success',
+            variant: 'subtle',
+            duration: 3000,
+            isClosable: true,
+          })
+        }
+        handleClear()
       }
     })
   }
@@ -88,6 +129,7 @@ function CreateMonitor() {
         isRequired={true}
         value={monitorInfo.name}
         onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
         name="name"
       />
 
@@ -110,6 +152,7 @@ function CreateMonitor() {
         isRequired={true}
         value={monitorInfo.config.httpUrl}
         onChange={handleConfigChange}
+        onKeyDown={handleKeyDown}
         name="httpUrl"
       />
 
@@ -163,7 +206,7 @@ function CreateMonitor() {
         >
           Monitor
         </Button>
-        <Button variant="ghost" colorScheme="grey" mr={3}>
+        <Button variant="ghost" colorScheme="grey" onClick={handleClear}>
           Clear
         </Button>
       </div>
