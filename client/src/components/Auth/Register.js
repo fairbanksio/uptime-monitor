@@ -75,6 +75,11 @@ function Register() {
           }
         }
       })
+    } else {
+      setTimeout(() => {
+        isInvalidUser(false)
+        isInvalidPassword(false)
+      }, 3000)
     }
   }
 

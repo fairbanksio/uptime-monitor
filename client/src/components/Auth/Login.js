@@ -78,12 +78,17 @@ function Login() {
           }
         }
       })
+    } else {
+      setTimeout(() => {
+        isInvalidUser(false)
+        isInvalidPassword(false)
+      }, 3000)
     }
   }
 
   return (
     <div className="submit-form">
-      <FormControl id="username" isRequired>
+      <FormControl id="username">
         <Input
           type="text"
           id="username"
@@ -96,7 +101,7 @@ function Login() {
           isInvalid={invalidUser}
         />
       </FormControl>
-      <FormControl id="password" isRequired>
+      <FormControl id="password">
         <Input
           type="password"
           id="password"
