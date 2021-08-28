@@ -25,7 +25,7 @@ function ListMonitors() {
                   {monitor.config.httpUrl}
                 </Text>
               </a>
-              <UpdateMonitor monitor={monitor} />
+              <UpdateMonitor monitor={monitor} />{' '}
               <DeleteMonitor monitorId={monitor._id} />
             </div>
 
