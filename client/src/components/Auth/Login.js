@@ -5,13 +5,12 @@ import {
   Button,
   FormControl,
   Input,
-  Text,
 } from '@chakra-ui/react'
 
 import { AuthContext } from '../../contexts/AuthContext'
 
 function Login() {
-  const { login, loading, error } = useContext(AuthContext)
+  const { login, loading } = useContext(AuthContext)
   const toast = createStandaloneToast()
   const history = useHistory()
 
