@@ -45,7 +45,12 @@ function Login() {
 
   const loginUser = () => {
     verifyForm()
-    if (validForm === true) {
+    if (
+      validForm === true &&
+      loginInfo &&
+      loginInfo.username.length > 1 &&
+      loginInfo.password.length > 1
+    ) {
       login(loginInfo.username, loginInfo.password, (result) => {
         if (result && result.status === 'success') {
           const id = 'logged-in-toast'
@@ -82,7 +87,7 @@ function Login() {
       setTimeout(() => {
         isInvalidUser(false)
         isInvalidPassword(false)
-      }, 3000)
+      }, 1200)
     }
   }
 
