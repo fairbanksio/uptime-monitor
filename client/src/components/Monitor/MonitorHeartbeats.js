@@ -22,7 +22,7 @@ function MonitorHeartbeats(monitor) {
   })[0]
   const heartbeats = thisMonitor.heartbeats
   return (
-    <Table variant="simple">
+    <Table size="sm" variant="simple">
       <Thead>
         <Tr>
           <Th>Status</Th>
@@ -47,7 +47,9 @@ function MonitorHeartbeats(monitor) {
                   )}
                 </Center>
               </Td>
-              <Td>{moment(heartbeat.createdAt).fromNow()}</Td>
+              <Td style={{ fontSize: '12px' }}>
+                {moment(heartbeat.createdAt).fromNow()}
+              </Td>
               <Td>
                 <pre>{heartbeat.statusMessage}</pre>
               </Td>
