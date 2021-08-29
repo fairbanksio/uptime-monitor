@@ -205,7 +205,7 @@ function CreateMonitor() {
         >
           Monitor
         </Button>
-        <Button variant="ghost" colorScheme="grey" onClick={handleClear}>
+        <Button onClick={handleClear} variant="ghost" colorScheme="grey">
           Clear
         </Button>
       </div>
