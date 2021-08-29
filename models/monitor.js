@@ -3,14 +3,14 @@ const Schema = mongoose.Schema
 const timestamps = require('mongoose-timestamp')
 const axios = require('axios')
 const axiosRetry = require('axios-retry')
-
-axiosRetry(axios, { retries: 1 })
+const now = require('performance-now')
 
 let Heartbeat = require('../models/heartbeat')
 let Event = require('../models/event')
 let Notification = require('../models/notification')
-let now = require('performance-now')
 let msToTime = require('../util/msToTime')
+
+axiosRetry(axios, { retries: 1 })
 
 var MonitorSchema = new mongoose.Schema({
   name: {
