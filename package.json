@@ -22,6 +22,7 @@
     "mongoose-timestamp": "^0.6.0",
     "morgan": "~1.9.1",
     "passport": "^0.4.1",
+    "passport-google-token": "^0.1.2",
     "passport-jwt": "^4.0.0",
     "performance-now": "^2.1.0"
   },
