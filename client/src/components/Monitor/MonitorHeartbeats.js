@@ -53,7 +53,7 @@ function MonitorHeartbeats(monitor) {
               <Td>
                 <pre>{heartbeat.statusMessage}</pre>
               </Td>
-              <Td>
+              <Td style={{ fontSize: '12px' }}>
                 <Center>{heartbeat.responseTime}</Center>
               </Td>
             </Tr>
