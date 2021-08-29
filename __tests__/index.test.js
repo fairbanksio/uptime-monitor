@@ -5,7 +5,7 @@ const app = require('../app')
 require('dotenv').config({ path: '.env.sample' }) // eslint-disable-line
 
 afterAll(() => mongoose.disconnect())
-
+let username = "testUser2" + Math.random()* 100;
 // Test API is running
 describe('Verify the site loads', () => {
   test('Response should equal HTTP 200', (done) => {
@@ -20,7 +20,7 @@ describe('Verify the site loads', () => {
 
 // Test auth
 const user = {
-  username: "testUser",
+  username: username,
   password: "testPassword"
 };
 
@@ -32,7 +32,7 @@ describe('User can register', () => {
         expect(response.statusCode).toBe(200)
         expect(response.body).toMatchObject({
           _id: expect.any(String),
-          username: "testUser",
+          username: username,
           password: expect.any(String)
         })
         done()
@@ -50,7 +50,7 @@ describe('User can authenticate', () => {
         expect(response.statusCode).toBe(200)
         expect(response.body).toMatchObject({
           _id: expect.any(String),
-          username: "testUser",
+          username: username,
           token: expect.any(String)
         })
         authToken = authToken + response.body.token
