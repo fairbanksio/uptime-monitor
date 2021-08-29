@@ -16,7 +16,6 @@ import moment from 'moment-timezone'
 import { MonitorContext } from '../../contexts/MonitorContext'
 
 function splitDuration(duration) {
-  console.log(duration)
   let hr, min, sec, formattedDuration
   try {
     duration = duration.split(':')
