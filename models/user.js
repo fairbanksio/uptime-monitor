@@ -14,9 +14,9 @@ var UserSchema = new mongoose.Schema({
   },
   token: {
     type: String,
-  },email: {
+  },
+  email: {
     type: String,
-    required: true,
     trim: true,
     unique: true,
     match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ // eslint-disable-line
