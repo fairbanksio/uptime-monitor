@@ -55,3 +55,19 @@ exports.logout = (req, res, next) => {
       res.status(422).send(err.errors)
     })
 }
+
+exports.loginGoogle = (req, res) => {
+  if (!req.user) {
+    return res.send(401, 'User Not Authenticated');
+  }
+  User.findOne({
+    _id: req.user.id
+  }, function (err, user) {
+    // if user is found and password is right create a token
+    var token = jwt.sign(user.toJSON(), settings.secret);
+
+    res.json({ success: true, token: 'JWT ' + token, username: user.username, name: user.name, admin: user.admin, id: user._id});
+
+  });
+}
+
