@@ -100,10 +100,6 @@ function Login() {
     })
   }
 
-  const handleGoogleFailure = (e) => {
-    console.log(e)
-  }
-
   return (
     <div className="submit-form">
       <FormControl id="username">
