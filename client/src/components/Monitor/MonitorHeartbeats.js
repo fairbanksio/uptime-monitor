@@ -28,33 +28,30 @@ function MonitorHeartbeats(monitor) {
           <Th>Status</Th>
           <Th>Time</Th>
           <Th>Status Message</Th>
-          <Th isNumeric>Response Time (ms)</Th>
+          <Th isNumeric style={{ width: '150px' }}>
+            Response Time
+          </Th>
         </Tr>
       </Thead>
       <Tbody>
         {heartbeats.length > 0 ? (
           heartbeats.map((heartbeat, key) => (
             <Tr key={key}>
-              <Td>
-                <Center>
-                  {heartbeat.status === 'UP' ? (
-                    <FontAwesomeIcon
-                      icon={faCheck}
-                      style={{ color: 'green' }}
-                    />
-                  ) : (
-                    <FontAwesomeIcon icon={faTimes} style={{ color: 'red' }} />
-                  )}
-                </Center>
+              <Td style={{ paddingLeft: '27px', width: '15px' }}>
+                {heartbeat.status === 'UP' ? (
+                  <FontAwesomeIcon icon={faCheck} style={{ color: 'green' }} />
+                ) : (
+                  <FontAwesomeIcon icon={faTimes} style={{ color: 'red' }} />
+                )}
               </Td>
               <Td style={{ fontSize: '12px' }}>
                 {moment(heartbeat.createdAt).fromNow()}
               </Td>
               <Td>
-                <pre>{heartbeat.statusMessage}</pre>
+                <code>{heartbeat.statusMessage}</code>
               </Td>
               <Td style={{ fontSize: '12px' }}>
-                <Center>{heartbeat.responseTime}</Center>
+                <Center>{heartbeat.responseTime} ms</Center>
               </Td>
             </Tr>
           ))
@@ -71,7 +68,7 @@ function MonitorHeartbeats(monitor) {
           <Th>Status</Th>
           <Th>Time</Th>
           <Th>Status Message</Th>
-          <Th isNumeric>Response Time (ms)</Th>
+          <Th isNumeric>Response Time</Th>
         </Tr>
       </Tfoot>
     </Table>

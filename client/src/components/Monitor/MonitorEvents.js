@@ -10,7 +10,7 @@ import {
   Td,
 } from '@chakra-ui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment-timezone'
 
 import { MonitorContext } from '../../contexts/MonitorContext'
@@ -64,40 +64,36 @@ function MonitorEvents(monitor) {
       <Thead>
         <Tr>
           <Th>Type</Th>
-          <Th>Event Timestamp</Th>
+          <Th>Timestamp</Th>
           <Th>Status</Th>
-          <Th>Event Duration</Th>
+          <Th style={{ width: '150px' }}>Event Duration</Th>
         </Tr>
       </Thead>
       <Tbody>
         {events.length > 0 ? (
           events.map((event, key) => (
             <Tr key={key}>
-              <Td>
+              <Td style={{ paddingLeft: '20px' }}>
                 {event.type && event.type === 'UP' ? (
                   <FontAwesomeIcon
-                    icon={faCaretUp}
+                    icon={faArrowUp}
                     style={{ color: 'green' }}
-                    size="2x"
                   />
                 ) : (
                   <FontAwesomeIcon
-                    icon={faCaretDown}
+                    icon={faArrowDown}
                     style={{ color: 'red' }}
-                    size="2x"
                   />
                 )}
               </Td>
-              <Td style={{ fontSize: '12px' }}>
-                {moment(event.createdAt)
-                  .tz(userTZ)
-                  .format('MMM Do YYYY, h:mm:ss a')}
+              <Td style={{ fontSize: '12px', width: '175px' }}>
+                {moment(event.createdAt).tz(userTZ).format('MMM Do, h:mm:ss a')}
               </Td>
               <Td>
-                <pre>{event.message}</pre>
+                <code>{event.message}</code>
               </Td>
               <Td style={{ fontSize: '12px' }}>
-                {splitDuration(event.duration)}
+                <Center>{splitDuration(event.duration)}</Center>
               </Td>
             </Tr>
           ))
@@ -112,7 +108,7 @@ function MonitorEvents(monitor) {
       <Tfoot>
         <Tr>
           <Th>Type</Th>
-          <Th>Event Timestamp</Th>
+          <Th>Timestamp</Th>
           <Th>Status</Th>
           <Th>Event Duration</Th>
         </Tr>
