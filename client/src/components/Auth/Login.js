@@ -3,18 +3,19 @@ import { AuthContext } from '../../contexts/AuthContext'
 import { useHistory } from 'react-router-dom'
 import FriendlyError from '../Util/FriendlyError'
 import { Button, Input } from '@chakra-ui/react'
+import { GoogleLogin } from 'react-google-login';
 
 function Login() {
-  const { login, loading, error } = useContext(AuthContext)
+  const { login, loginGoogle, loading, error } = useContext(AuthContext)
 
   const history = useHistory()
   //const { user, loading, error, login, login, logout } = auth();
 
-  const [loginInfo, setRegisterInfo] = useState({ username: '', password: '' })
+  const [loginInfo, setLoginInfo] = useState({ username: '', password: '' })
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
-    setRegisterInfo({ ...loginInfo, [name]: value })
+    setLoginInfo({ ...loginInfo, [name]: value })
   }
 
   const loginUser = () => {
@@ -25,6 +26,18 @@ function Login() {
     })
   }
 
+  const handleGoogleSignIn = (response) => {
+    loginGoogle(response, result => {
+      if (result.status === 'success') {
+        history.push('/dashboard')
+      }
+    });
+  }
+
+  const handleGoogleFailure = e => {
+    console.log(e)
+  }
+ 
   return (
     <div className="submit-form">
       <div>
@@ -62,6 +75,16 @@ function Login() {
             Login
           </Button>
         )}
+        <GoogleLogin
+              clientId={process.env.REACT_APP_GOOGLE_CLIENT ? process.env.REACT_APP_GOOGLE_CLIENT : window.REACT_APP_GOOGLE_CLIENT}
+              onSuccess={(response) => handleGoogleSignIn(response)}
+              onFailure={(error) => console.log(error)}
+              render={renderProps => (
+                <Button
+
+                  
+                  onClick={renderProps.onClick} />
+              )} />
         <br />
         {error && <FriendlyError error={error} />}
         <br />

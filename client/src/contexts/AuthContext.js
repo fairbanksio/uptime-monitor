@@ -59,6 +59,27 @@ const AuthProvider = (props) => {
       .finally(() => setLoading(false))
   }
 
+  // login
+  const loginGoogle = (googleResponse, cb) => {
+    setError(undefined)
+    setLoading(true)
+    authService
+      .loginGoogle(googleResponse)
+      .then((user) => {
+        setUser(user.data)
+        localStorage.setItem('jwtToken', user.data.token)
+        axiosClient.defaults.headers.common = {
+          authorization: 'jwt ' + localStorage.getItem('jwtToken'),
+        }
+        cb({ result: user.data, status: 'success' })
+      })
+      .catch((error) => {
+        setError(error)
+        cb({ result: error, status: 'failure' })
+      })
+      .finally(() => setLoading(false))
+  }
+
   // register
   const register = (username, password, cb) => {
     setError(undefined)
@@ -91,6 +112,7 @@ const AuthProvider = (props) => {
       loading,
       error,
       login,
+      loginGoogle,
       register,
       logout,
     }), // eslint-disable-next-line
