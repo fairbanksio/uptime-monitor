@@ -57,7 +57,16 @@ function UserDrawer() {
             <CreateNotification />
           </DrawerBody>
           <DrawerFooter>
-            <Button variant="ghost" colorScheme="pink" mr={3} onClick={logout}>
+            <Button
+              variant="ghost"
+              colorScheme="pink"
+              mr={3}
+              onClick={function () {
+                setTimeout(() => {
+                  logout()
+                }, 1000)
+              }}
+            >
               Logout
             </Button>
           </DrawerFooter>
@@ -69,7 +78,7 @@ function UserDrawer() {
 
 function Navbar() {
   return (
-    <div>
+    <div className="header">
       <Flex>
         <Box p="4">
           <a href="/dashboard" className="header-link">

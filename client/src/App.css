@@ -1,18 +1,13 @@
 .App {
   text-align: center;
-  background-color: #282c34;
+  background-color: #484b51;
   color: #fff;
 }
 
-.App-logo {
-  height: 40vmin;
+.login-logo {
+  height: 10vmin;
   pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  color: #6b46c1;
 }
 
 .App-header {
@@ -26,16 +21,7 @@
 }
 
 .App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  color: #6b46c1;
 }
 
 .chakra-input {
@@ -46,10 +32,44 @@
   margin-bottom: 5px;
 }
 
+.chakra-table th {
+  color: #fff;
+}
+
 .header-link {
   font-size: x-large;
 }
+
 .header-logo {
   color: #6b46c1;
   margin-right: 8px;
+}
+
+.header {
+  background-color: #282c34;
+  margin-bottom: 10px;
+}
+
+.Content {
+  /* Works on Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #6b46c1 #484b51;
+  /* Works on Firefox */
+  overflow-x: auto;
+  height: 88vh;
+}
+
+/* Works on Chrome, Edge, and Safari */
+.Content::-webkit-scrollbar {
+  width: 12px;
+}
+
+.Content::-webkit-scrollbar-track {
+  background: #484b51;
+}
+
+.Content::-webkit-scrollbar-thumb {
+  background-color: #6b46c1;
+  border-radius: 20px;
+  border: 3px solid #484b51;
 }

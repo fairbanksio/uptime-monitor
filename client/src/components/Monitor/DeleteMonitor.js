@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { Button } from '@chakra-ui/react'
 
 import { MonitorContext } from '../../contexts/MonitorContext'
 
@@ -15,9 +16,9 @@ function DeleteMonitor(props) {
   }
 
   return (
-    <button className="user" onClick={handleDeleteMonitor}>
+    <Button colorScheme="purple" size="xs" onClick={handleDeleteMonitor}>
       delete
-    </button>
+    </Button>
   )
 }
 

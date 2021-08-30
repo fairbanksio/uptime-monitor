@@ -1,4 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react'
+import { Button, Center, Checkbox, Input, Select } from '@chakra-ui/react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSlack } from '@fortawesome/free-brands-svg-icons'
+import { faMailBulk } from '@fortawesome/free-solid-svg-icons'
 
 import { MonitorContext } from '../../contexts/MonitorContext'
 import { NotificationContext } from '../../contexts/NotificationContext'
@@ -76,102 +80,92 @@ function UpdateMonitor(props) {
 
   if (!visible) {
     return (
-      <button onClick={toggleVisible} className="btn btn-success">
-        Update
-      </button>
+      <Button colorScheme="purple" size="xs" onClick={toggleVisible}>
+        update
+      </Button>
     )
   } else {
     return (
       <div>
-        <div className="submit-form">
-          <h2>Update a monitor</h2>
-          <div>
-            <div className="form-group">
-              <label htmlFor="name">name</label>
-              <input
-                type="text"
-                className="form-control"
-                required
-                value={monitorInfo.name}
-                onChange={handleInputChange}
-                name="name"
-              />
-            </div>
+        <Input
+          type="text"
+          placeholder="Name"
+          isRequired={true}
+          value={monitorInfo.name}
+          onChange={handleInputChange}
+          name="name"
+          width={250}
+        />
+        <Center>
+          <Select
+            placeholder="Interval"
+            isRequired={true}
+            value={monitorInfo.interval}
+            onChange={handleInputChange}
+            name="interval"
+            width={250}
+          >
+            <option value="60">Every minute</option>
+            <option value="300">Every 5 mins</option>
+            <option value="600">Every 10 mins</option>
+          </Select>{' '}
+        </Center>
 
-            <div className="form-group">
-              <label htmlFor="name">interval</label>
-              <input
-                type="number"
-                className="form-control"
-                required
-                value={monitorInfo.interval}
-                onChange={handleInputChange}
-                name="interval"
-              />
-            </div>
+        <Input
+          type="text"
+          placeholder="URL"
+          isRequired={true}
+          value={monitorInfo.config.httpUrl}
+          onChange={handleConfigChange}
+          name="httpUrl"
+          width={250}
+        />
 
-            <div className="form-group">
-              <label htmlFor="name">enabled</label>
-              <input
-                type="checkbox"
-                className="form-control"
-                required
-                checked={monitorInfo.enabled}
-                onChange={handleCheckboxChange}
-                name="enabled"
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="httpUrl">httpUrl</label>
-              <input
-                type="text"
-                className="form-control"
-                required
-                value={monitorInfo.config.httpUrl}
-                onChange={handleConfigChange}
-                name="httpUrl"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="notifications">Notification</label>
-              {notifications.length > 0 ? null : (
-                <div>You must create a notification first</div>
-              )}
-              {notifications &&
-                notifications.map((notification, key) => {
-                  return (
-                    <div key={key}>
-                      <label htmlFor="vehicle2">
-                        {' '}
-                        {notification.name}({notification.type})
-                      </label>
-                      <br />
-                      <input
-                        type="checkbox"
-                        checked={
-                          monitorInfo.notifications.find(
-                            (element) => element === notification._id
-                          )
-                            ? true
-                            : false
-                        }
-                        id={notification._id}
-                        name={notification.name}
-                        value={notification.name}
-                        onChange={handleNotificationChange}
-                      />
-                    </div>
-                  )
-                })}
-            </div>
-
-            <button onClick={handleUpdateMonitor} className="btn btn-success">
-              Update Monitor
-            </button>
-          </div>
+        <div>
+          <label htmlFor="notifications">Notification Agent(s)</label>
+          {notifications.length > 0 ? null : <div>No notifiers configured</div>}
+          {notifications &&
+            notifications.map((notification, key) => {
+              return (
+                <div key={key}>
+                  <Checkbox
+                    colorScheme="purple"
+                    checked={monitorInfo.notifications[notification._id]}
+                    id={notification._id}
+                    name={notification.name}
+                    defaultValue={notification.name}
+                    onChange={handleNotificationChange}
+                  >
+                    {notification.name}{' '}
+                    {notification.type === 'slack' ? (
+                      <FontAwesomeIcon icon={faSlack} />
+                    ) : (
+                      <FontAwesomeIcon icon={faMailBulk} />
+                    )}
+                  </Checkbox>
+                </div>
+              )
+            })}
         </div>
+
+        <br />
+
+        <div className="form-group">
+          <Checkbox
+            defaultIsChecked
+            colorScheme="purple"
+            isRequired={true}
+            checked={monitorInfo.enabled}
+            onChange={handleCheckboxChange}
+            name="enabled"
+          >
+            Enable Monitoring
+          </Checkbox>
+        </div>
+
+        <Button colorScheme="purple" size="xs" onClick={handleUpdateMonitor}>
+          update
+        </Button>
       </div>
     )
   }

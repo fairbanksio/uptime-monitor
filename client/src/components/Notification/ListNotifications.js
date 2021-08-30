@@ -1,4 +1,7 @@
 import React, { useContext } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSlack } from '@fortawesome/free-brands-svg-icons'
+import { faMailBulk } from '@fortawesome/free-solid-svg-icons'
 
 import DeleteNotification from './DeleteNotification'
 import UpdateNotification from './UpdateNotification'
@@ -8,17 +11,22 @@ function ListNotifications() {
   const { notifications } = useContext(NotificationContext)
   return (
     <div>
-      <h2>Notifications List:</h2>
-      <div>
-        {notifications.map((notification, key) => (
+      {notifications.length > 0 ? (
+        notifications.map((notification, key) => (
           <div key={key} className="user">
-            id: {notification._id}, name: {notification.name}, type:{' '}
-            {notification.type}, config: {JSON.stringify(notification.config)}
+            {notification.name}{' '}
+            {notification.type === 'slack' ? (
+              <FontAwesomeIcon icon={faSlack} />
+            ) : (
+              <FontAwesomeIcon icon={faMailBulk} />
+            )}{' '}
+            <UpdateNotification notification={notification} />{' '}
             <DeleteNotification notificationId={notification._id} />
-            <UpdateNotification notification={notification} />
           </div>
-        ))}
-      </div>
+        ))
+      ) : (
+        <div>No notification agent configured</div>
+      )}
     </div>
   )
 }
