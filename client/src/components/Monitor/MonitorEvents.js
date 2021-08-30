@@ -38,13 +38,15 @@ function splitDuration(duration) {
 
   min = Number(duration[1])
   if (min === 0) {
-    min = '0 min '
+    min = '0m '
   } else {
     min = min + 'm '
   }
 
   sec = Number(duration[2])
-  if (sec) {
+  if (sec === 0) {
+    sec = '0s'
+  } else {
     sec = sec + 's'
   }
 
