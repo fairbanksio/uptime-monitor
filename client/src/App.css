@@ -2,6 +2,7 @@
   text-align: center;
   background-color: #484b51;
   color: #fff;
+  text-shadow: 0 0 3px #000;
 }
 
 .login-logo {
@@ -22,6 +23,7 @@
 
 .App-link {
   color: #6b46c1;
+  text-shadow: 0 0 3px #000;
 }
 
 .chakra-input {
@@ -34,10 +36,13 @@
 
 .chakra-table th {
   color: #fff;
+  text-shadow: 0 0 3px #000;
+  font-size: x-small;
 }
 
 .header-link {
   font-size: x-large;
+  text-shadow: 0 0 3px #000;
 }
 
 .header-logo {
@@ -72,4 +77,21 @@
   background-color: #6b46c1;
   border-radius: 20px;
   border: 3px solid #484b51;
+}
+
+/* For all <code> */
+code {
+  font-family: MyFancyCustomFont, monospace;
+  font-size: inherit;
+}
+
+/* Code in text */
+p > code,
+li > code,
+dd > code,
+td > code {
+  background: #868686;
+  box-decoration-break: clone;
+  padding: 0.1rem 0.3rem 0.2rem;
+  border-radius: 0.2rem;
 }
