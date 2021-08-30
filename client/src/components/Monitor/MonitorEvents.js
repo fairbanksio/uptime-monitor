@@ -95,7 +95,7 @@ function MonitorEvents(monitor) {
                 <code>{event.message}</code>
               </Td>
               <Td style={{ fontSize: '12px' }}>
-                <Center>{splitDuration(event.duration)}</Center>
+                {splitDuration(event.duration)}
               </Td>
             </Tr>
           ))
