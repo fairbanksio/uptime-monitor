@@ -1,8 +1,14 @@
 import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import FriendlyError from '../Util/FriendlyError'
-import { Button, Input } from '@chakra-ui/react'
-import { GoogleLogin } from 'react-google-login';
+import {
+  Button,
+  Input,
+  createStandaloneToast,
+  FormControl,
+} from '@chakra-ui/react'
+import { GoogleLogin } from 'react-google-login'
+import { AuthContext } from '../../contexts/AuthContext'
 
 function Login() {
   const { login, loginGoogle, loading, error } = useContext(AuthContext)
@@ -87,17 +93,17 @@ function Login() {
   }
 
   const handleGoogleSignIn = (response) => {
-    loginGoogle(response, result => {
+    loginGoogle(response, (result) => {
       if (result.status === 'success') {
         history.push('/dashboard')
       }
-    });
+    })
   }
 
-  const handleGoogleFailure = e => {
+  const handleGoogleFailure = (e) => {
     console.log(e)
   }
- 
+
   return (
     <div className="submit-form">
       <FormControl id="username">
@@ -143,15 +149,15 @@ function Login() {
           </Button>
 
           <GoogleLogin
-            clientId={process.env.REACT_APP_GOOGLE_CLIENT ? process.env.REACT_APP_GOOGLE_CLIENT : window.REACT_APP_GOOGLE_CLIENT}
+            clientId={
+              process.env.REACT_APP_GOOGLE_CLIENT
+                ? process.env.REACT_APP_GOOGLE_CLIENT
+                : window.REACT_APP_GOOGLE_CLIENT
+            }
             onSuccess={(response) => handleGoogleSignIn(response)}
             onFailure={(error) => console.log(error)}
-            render={renderProps => (
-              <Button
-
-                
-                onClick={renderProps.onClick} />
-            )} />
+            render={(renderProps) => <Button onClick={renderProps.onClick} />}
+          />
 
           <br />
           {error && <FriendlyError error={error} />}
