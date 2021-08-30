@@ -12,6 +12,8 @@ services:
       - node_modules_server:/app/node_modules
     environment:
       - MONGO_URI="mongodb://mongodb:27017"
+      - GOOGLE_SECRET=${GOOGLE_SECRET}
+      - GOOGLE_CLIENT=${GOOGLE_CLIENT}
     healthcheck:
       disable: true
     networks:
@@ -28,6 +30,7 @@ services:
       - node_modules_client:/app/node_modules
     environment:
       - REACT_APP_API=${REACT_APP_API}
+      - REACT_APP_GOOGLE_CLIENT=${REACT_APP_GOOGLE_CLIENT}
     healthcheck:
       disable: true
     networks:

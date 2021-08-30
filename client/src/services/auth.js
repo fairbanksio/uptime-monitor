@@ -7,12 +7,19 @@ const login = (username, password) => {
   })
 }
 
+const loginGoogle = (response) => {
+  return axiosClient.post('/auth/google', {
+    access_token: response.accessToken
+  })
+};
+
 //const logout = () => {
 //  return axiosClient.post("/auth/logout");
 //};
 
 const exports = {
   login,
+  loginGoogle,
   //logout
 }
 export default exports

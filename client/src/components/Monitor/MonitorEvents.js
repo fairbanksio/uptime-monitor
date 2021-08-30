@@ -16,7 +16,6 @@ import moment from 'moment-timezone'
 import { MonitorContext } from '../../contexts/MonitorContext'
 
 function splitDuration(duration) {
-  console.log(duration)
   let hr, min, sec, formattedDuration
   try {
     duration = duration.split(':')
@@ -89,15 +88,17 @@ function MonitorEvents(monitor) {
                   />
                 )}
               </Td>
-              <Td>
+              <Td style={{ fontSize: '12px' }}>
                 {moment(event.createdAt)
                   .tz(userTZ)
-                  .format('MMMM Do YYYY, h:mm:ss a')}
+                  .format('MMM Do YYYY, h:mm:ss a')}
               </Td>
               <Td>
                 <pre>{event.message}</pre>
               </Td>
-              <Td>{splitDuration(event.duration)}</Td>
+              <Td style={{ fontSize: '12px' }}>
+                {splitDuration(event.duration)}
+              </Td>
             </Tr>
           ))
         ) : (

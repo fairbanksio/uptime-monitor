@@ -14,13 +14,13 @@ function ListNotifications() {
       {notifications.length > 0 ? (
         notifications.map((notification, key) => (
           <div key={key} className="user">
-            {notification.name} (
+            {notification.name}{' '}
             {notification.type === 'slack' ? (
               <FontAwesomeIcon icon={faSlack} />
             ) : (
               <FontAwesomeIcon icon={faMailBulk} />
-            )}
-            ) <UpdateNotification notification={notification} />{' '}
+            )}{' '}
+            <UpdateNotification notification={notification} />{' '}
             <DeleteNotification notificationId={notification._id} />
           </div>
         ))
