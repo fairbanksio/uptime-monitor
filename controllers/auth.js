@@ -63,10 +63,12 @@ exports.loginGoogle = (req, res) => {
   User.findOne({
     _id: req.user.id
   }, function (err, user) {
-    // if user is found and password is right create a token
-    var token = jwt.sign(user.toJSON(), settings.jwtSecret);
 
-    res.json({ success: true, token: 'JWT ' + token, username: user.username, name: user.name, admin: user.admin, id: user._id});
+    var token = ''
+    delete user['password']
+    // return the information including token as JSON
+    user.token = jwt.sign(user.toJSON(), settings.jwtSecret)
+    res.json(user)
 
   });
 }
