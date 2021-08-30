@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+data:
+  config.js: |
+    window.REACT_APP_GOOGLE_CLIENT="{{ .Values.googleClient }}"
