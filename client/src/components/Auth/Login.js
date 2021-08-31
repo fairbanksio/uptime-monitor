@@ -5,10 +5,12 @@ import {
   Button,
   Input,
   createStandaloneToast,
-  FormControl,
+  FormControl
 } from '@chakra-ui/react'
 import { GoogleLogin } from 'react-google-login'
 import { AuthContext } from '../../contexts/AuthContext'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 
 function Login() {
   const { login, loginGoogle, loading, error } = useContext(AuthContext)
@@ -143,7 +145,7 @@ function Login() {
           <Button onClick={loginUser} colorScheme="purple">
             Login
           </Button>
-
+          <br/>
           <GoogleLogin
             clientId={
               process.env.REACT_APP_GOOGLE_CLIENT
@@ -152,7 +154,15 @@ function Login() {
             }
             onSuccess={(response) => handleGoogleSignIn(response)}
             onFailure={(error) => console.log(error)}
-            render={(renderProps) => <Button onClick={renderProps.onClick} />}
+            render={(renderProps) => 
+            <Button onClick={renderProps.onClick} color='black'>
+              <FontAwesomeIcon
+                icon={faGoogle}
+                className="header-logo"
+                size="lg"
+              />
+              Login with Google
+            </Button>}
           />
 
           <br />
