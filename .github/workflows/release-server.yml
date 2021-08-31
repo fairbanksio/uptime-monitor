@@ -28,6 +28,8 @@ jobs:
           PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
           # Update chart version
           sed -r -i "s/(version:[^*]|appVersion:[^*])([[:alnum:].]*)/\1$PACKAGE_VERSION/g" ./chart/Chart.yaml
+          # Update client package.json version
+          sed -r -i 's/(\"version\":[^*]\")([[:alnum:].]*)/\1$PACKAGE_VERSION/g' ./client/package.json
           # Output new version for other steps
           echo "::set-output name=version::$PACKAGE_VERSION"
 
