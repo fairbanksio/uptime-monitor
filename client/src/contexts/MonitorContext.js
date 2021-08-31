@@ -1,7 +1,8 @@
 import React, { createContext, useEffect, useMemo, useState } from 'react'
 import useIsMountedRef from '../util/isMountedRef'
 import monitorService from '../services/monitor'
-
+import { createStandaloneToast } from '@chakra-ui/react'
+import {friendlyToast} from '../components/Util/FriendlyError'
 export const MonitorContext = createContext()
 
 const MonitorProvider = ({ user, children }) => {
@@ -10,6 +11,8 @@ const MonitorProvider = ({ user, children }) => {
   const [error, setError] = useState()
   const [loading, setLoading] = useState(false)
   const [loadingInitial, setLoadingInitial] = useState(true)
+
+  const toast = createStandaloneToast()
 
   // refresh monitors
   useEffect(() => {
@@ -34,6 +37,24 @@ const MonitorProvider = ({ user, children }) => {
       }
     }
   }, [user, isMountedRef])
+
+  useEffect(() => {
+    if (error){
+      const id = 'monitor-context-toast'
+        if (!toast.isActive(id)) {
+          toast({
+            id,
+            title: 'There was a problem with your request',
+            description: friendlyToast(error),
+            status: 'error',
+            variant: 'subtle',
+            duration: 2000,
+            isClosable: true,
+          })
+        }
+    } 
+    setError(undefined)// eslint-disable-next-line
+  }, [error])
 
   // Create Monitor
   const createMonitor = (payload, cb) => {

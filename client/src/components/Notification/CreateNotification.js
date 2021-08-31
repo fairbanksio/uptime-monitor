@@ -7,7 +7,7 @@ import isValidUrl from '../../util/isValidUrl'
 import isValidEmail from '../../util/isValidEmail'
 
 function CreateNotification() {
-  const { createNotification } = useContext(NotificationContext)
+  const { createNotification, loading } = useContext(NotificationContext)
 
   let [notificationInfo, setNotificationInfo] = useState({
     name: '',
@@ -201,6 +201,7 @@ function CreateNotification() {
           onClick={handleCreateNotification}
           variant="solid"
           colorScheme="purple"
+          isLoading={loading}
         >
           Add
         </Button>
