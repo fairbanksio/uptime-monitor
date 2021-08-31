@@ -57,10 +57,10 @@ function UserDrawer() {
             <CreateNotification />
           </DrawerBody>
           <DrawerFooter>
-            <a>Uptime Monitor
+            <span>Uptime Monitor
               {' '}
               {new Date().getFullYear()} - v{process.env.REACT_APP_VERSION}
-            </a>
+            </span>
             <Button
               variant="ghost"
               colorScheme="pink"
