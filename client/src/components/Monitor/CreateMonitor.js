@@ -15,7 +15,7 @@ import { MonitorContext } from '../../contexts/MonitorContext'
 import { NotificationContext } from '../../contexts/NotificationContext'
 
 function CreateMonitor() {
-  const { createMonitor } = useContext(MonitorContext)
+  const { createMonitor, loading } = useContext(MonitorContext)
   const { notifications } = useContext(NotificationContext)
   const toast = createStandaloneToast()
 
@@ -202,6 +202,7 @@ function CreateMonitor() {
           onClick={handleCreateMonitor}
           variant="solid"
           colorScheme="purple"
+          isLoading={loading}
         >
           Monitor
         </Button>

@@ -2,6 +2,8 @@ import React, { createContext, useEffect, useMemo, useState } from 'react'
 
 import notificationService from '../services/notification'
 import useIsMountedRef from '../util/isMountedRef'
+import { createStandaloneToast } from '@chakra-ui/react'
+import {friendlyToast} from '../components/Util/FriendlyError'
 export const NotificationContext = createContext()
 
 const NotificationProvider = ({ user, children }) => {
@@ -12,6 +14,8 @@ const NotificationProvider = ({ user, children }) => {
   const [loading, setLoading] = useState(false)
   const [loadingInitial, setLoadingInitial] = useState(true)
 
+  const toast = createStandaloneToast()
+  
   // refresh notifications
   useEffect(() => {
     if (user) {
@@ -34,6 +38,24 @@ const NotificationProvider = ({ user, children }) => {
       }
     }
   }, [user, isMountedRef])
+
+  useEffect(() => {
+    if (error){
+      const id = 'notification-context-toast'
+        if (!toast.isActive(id)) {
+          toast({
+            id,
+            title: 'There was a problem with your request',
+            description: friendlyToast(error),
+            status: 'error',
+            variant: 'subtle',
+            duration: 2000,
+            isClosable: true,
+          })
+        }
+    } 
+    setError(undefined)// eslint-disable-next-line
+  }, [error])
 
   // Create Notification
   const createNotification = (payload, cb) => {
