@@ -51,8 +51,24 @@ spec:
                 secretKeyRef: 
                   name: {{ include "uptime-monitor.secretName" . }}
                   key: mongoUri
+            - name: "GOOGLE_CLIENT"
+              value: {{ .Values.googleClient }}
+            - name: "GOOGLE_SECRET"
+              valueFrom:
+                secretKeyRef: 
+                  name: {{ include "uptime-monitor.secretName" . }}
+                  key: googleSecret
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name:  {{ .Release.Name }}-configmap
+              mountPath: /app/client/build/config.js
+              subPath: config.js
+              readOnly: true
+      volumes:
+        - name: {{ .Release.Name }}-configmap
+          configMap:
+            name: {{ .Release.Name }}-configmap
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

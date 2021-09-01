@@ -1,27 +1,30 @@
 import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
+import FriendlyError from '../Util/FriendlyError'
 import {
-  createStandaloneToast,
   Button,
-  FormControl,
   Input,
+  createStandaloneToast,
+  FormControl
 } from '@chakra-ui/react'
-
+import { GoogleLogin } from 'react-google-login'
 import { AuthContext } from '../../contexts/AuthContext'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 
 function Login() {
-  const { login, loading } = useContext(AuthContext)
+  const { login, loginGoogle, loading, error } = useContext(AuthContext)
   const toast = createStandaloneToast()
   const history = useHistory()
 
-  const [loginInfo, setRegisterInfo] = useState({ username: '', password: '' })
+  const [loginInfo, setLoginInfo] = useState({ username: '', password: '' })
   const [invalidUser, isInvalidUser] = React.useState(false)
   const [invalidPassword, isInvalidPassword] = React.useState(false)
   const [validForm, isFormValid] = React.useState(false)
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
-    setRegisterInfo({ ...loginInfo, [name]: value })
+    setLoginInfo({ ...loginInfo, [name]: value })
   }
 
   const handleKeyDown = (event) => {
@@ -91,6 +94,14 @@ function Login() {
     }
   }
 
+  const handleGoogleSignIn = (response) => {
+    loginGoogle(response, (result) => {
+      if (result.status === 'success') {
+        history.push('/dashboard')
+      }
+    })
+  }
+
   return (
     <div className="submit-form">
       <FormControl id="username">
@@ -134,6 +145,28 @@ function Login() {
           <Button onClick={loginUser} colorScheme="purple">
             Login
           </Button>
+          <br/>
+          <GoogleLogin
+            clientId={
+              process.env.REACT_APP_GOOGLE_CLIENT
+                ? process.env.REACT_APP_GOOGLE_CLIENT
+                : window.REACT_APP_GOOGLE_CLIENT
+            }
+            onSuccess={(response) => handleGoogleSignIn(response)}
+            onFailure={(error) => console.log(error)}
+            render={(renderProps) => 
+            <Button onClick={renderProps.onClick} color='black'>
+              <FontAwesomeIcon
+                icon={faGoogle}
+                className="header-logo"
+                size="lg"
+              />
+              Login with Google
+            </Button>}
+          />
+
+          <br />
+          {error && <FriendlyError error={error} />}
           <br />
           <br />
         </div>

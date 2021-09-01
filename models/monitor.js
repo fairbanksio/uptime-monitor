@@ -33,6 +33,7 @@ var MonitorSchema = new mongoose.Schema({
   interval: {
     type: Number,
     default: 300,
+    required: true,
   },
   enabled: {
     type: Boolean,

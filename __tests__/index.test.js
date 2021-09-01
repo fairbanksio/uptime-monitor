@@ -5,7 +5,7 @@ const app = require('../app')
 require('dotenv').config({ path: '.env.sample' }) // eslint-disable-line
 
 afterAll(() => mongoose.disconnect())
-
+let username = "testUser3" + ((+new Date) + Math.random()* 100).toString(32).slice(-8)
 // Test API is running
 describe('Verify the site loads', () => {
   test('Response should equal HTTP 200', (done) => {
@@ -20,7 +20,7 @@ describe('Verify the site loads', () => {
 
 // Test auth
 const user = {
-  username: "testUser",
+  username: username,
   password: "testPassword"
 };
 
@@ -29,10 +29,11 @@ describe('User can register', () => {
     request(app)
       .post('/api/auth/register').send(user)
       .then((response) => {
+        console.log(response)
         expect(response.statusCode).toBe(200)
         expect(response.body).toMatchObject({
           _id: expect.any(String),
-          username: "testUser",
+          username: username,
           password: expect.any(String)
         })
         done()
@@ -50,7 +51,7 @@ describe('User can authenticate', () => {
         expect(response.statusCode).toBe(200)
         expect(response.body).toMatchObject({
           _id: expect.any(String),
-          username: "testUser",
+          username: username,
           token: expect.any(String)
         })
         authToken = authToken + response.body.token
@@ -142,6 +143,52 @@ describe('Notification can be added to monitor', () => {
             httpUrl: "https://www.google.com"
           },
           notifications: expect.arrayContaining([notificationId])
+        })
+        done()
+      })
+  })
+})
+
+// Test Pages
+const page = {
+  name: "test-page",
+  slug: "test-page",
+};
+
+let pageId = ""
+describe('Page can be created', () => {
+  test('Response should contain page object plus an id', (done) => {
+    request(app)
+      .post('/api/pages').set('Authorization', authToken).send(page)
+      .then((response) => {
+        expect(response.statusCode).toBe(200)
+        expect(response.body).toMatchObject({
+          _id: expect.any(String),
+          name: "test-page",
+          type: "standard",
+          slug: "test-page"
+        })
+        pageId = response.body._id
+        done()  
+      })
+  })
+})
+
+// Test Updating Page
+describe('Monitor can be added to page', () => {
+  test('Response should contain page object with monitor array', (done) => {
+    request(app)
+      .post('/api/pages/'+pageId).set('Authorization', authToken).send({
+        monitors: [monitorId]
+      })
+      .then((response) => {
+        expect(response.statusCode).toBe(200)
+        expect(response.body).toMatchObject({
+          _id: expect.any(String),
+          name: "test-page",
+          slug: "test-page",
+          type: "standard",
+          monitors: expect.arrayContaining([monitorId])
         })
         done()
       })
