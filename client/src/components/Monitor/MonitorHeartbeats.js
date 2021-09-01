@@ -135,21 +135,29 @@ function MonitorHeartbeats(monitor) {
           ))}
         </Thead>
         <Tbody {...getTableBodyProps()}>
-          {page.map((row, key) => {
-            prepareRow(row)
-            return (
-              <Tr {...row.getRowProps()} key={key}>
-                {row.cells.map((cell) => (
-                  <Td
-                    {...cell.getCellProps()}
-                    isNumeric={cell.column.isNumeric}
-                  >
-                    {cell.render('Cell')}
-                  </Td>
-                ))}
-              </Tr>
-            )
-          })}
+          {page && page.length > 0 ? (
+            page.map((row, key) => {
+              prepareRow(row)
+              return (
+                <Tr {...row.getRowProps()} key={key}>
+                  {row.cells.map((cell) => (
+                    <Td
+                      {...cell.getCellProps()}
+                      isNumeric={cell.column.isNumeric}
+                    >
+                      {cell.render('Cell')}
+                    </Td>
+                  ))}
+                </Tr>
+              )
+            })
+          ) : (
+            <Tr key={'no-recent-heartbeats'}>
+              <Td colspan="4">
+                <Center>No recent heartbeats</Center>
+              </Td>
+            </Tr>
+          )}
         </Tbody>
         <Tfoot>
           {headerGroups.map((headerGroup) => (
@@ -206,12 +214,13 @@ function MonitorHeartbeats(monitor) {
               const page = e.target.value ? Number(e.target.value) - 1 : 0
               gotoPage(page)
             }}
-            style={{ width: '50px' }}
+            style={{ width: '40px' }}
           />
         </span>
         <div style={{ width: '100px', float: 'right' }}>
           <Select
             size="xs"
+            variant="flushed"
             value={pageSize}
             onChange={(e) => {
               setPageSize(Number(e.target.value))
