@@ -5,6 +5,7 @@ import DeleteMonitor from './DeleteMonitor'
 import UpdateMonitor from './UpdateMonitor'
 import MonitorEvents from './MonitorEvents'
 import MonitorHeartbeats from './MonitorHeartbeats'
+
 import { MonitorContext } from '../../contexts/MonitorContext'
 
 function ListMonitors() {
