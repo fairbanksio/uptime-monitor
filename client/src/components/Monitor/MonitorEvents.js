@@ -38,7 +38,7 @@ function splitDuration(duration) {
 
   min = Number(duration[1])
   if (min === 0) {
-    min = '0m '
+    min = ''
   } else {
     min = min + 'm '
   }
