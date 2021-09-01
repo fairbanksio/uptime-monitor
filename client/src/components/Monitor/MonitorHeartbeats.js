@@ -4,6 +4,7 @@ import {
   Input,
   Select,
   Table,
+  Text,
   Thead,
   Tbody,
   Tfoot,
@@ -56,7 +57,7 @@ function MonitorHeartbeats(monitor) {
         Header: 'Time',
         accessor: 'createdAt',
         Cell: (cellProps) => {
-          return moment(cellProps.value).fromNow()
+          return <Text fontSize="xs">{moment(cellProps.value).fromNow()}</Text>
         },
       },
       {
@@ -71,7 +72,11 @@ function MonitorHeartbeats(monitor) {
         accessor: 'responseTime',
         isNumeric: true,
         Cell: (cellProps) => {
-          return <Center>{cellProps.value} ms</Center>
+          return (
+            <Center>
+              <Text fontSize="xs">{cellProps.value} ms</Text>
+            </Center>
+          )
         },
       },
     ],
@@ -170,6 +175,7 @@ function MonitorHeartbeats(monitor) {
           ))}
         </Tfoot>
       </Table>
+      <br />
       <div className="pagination">
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {'<<'}
@@ -221,59 +227,6 @@ function MonitorHeartbeats(monitor) {
       </div>
     </div>
   )
-
-  // return (
-  //   <Table size="sm" variant="simple">
-  //     <Thead>
-  //       <Tr>
-  //         <Th>Status</Th>
-  //         <Th>Time</Th>
-  //         <Th>Status Message</Th>
-  //         <Th isNumeric style={{ width: '150px' }}>
-  //           Response Time
-  //         </Th>
-  //       </Tr>
-  //     </Thead>
-  //     <Tbody>
-  //       {heartbeats.length > 0 ? (
-  //         heartbeats.map((heartbeat, key) => (
-  //           <Tr key={key}>
-  //             <Td style={{ paddingLeft: '27px', width: '15px' }}>
-  //               {heartbeat.status === 'UP' ? (
-  //                 <FontAwesomeIcon icon={faCheck} style={{ color: 'green' }} />
-  //               ) : (
-  //                 <FontAwesomeIcon icon={faTimes} style={{ color: 'red' }} />
-  //               )}
-  //             </Td>
-  //             <Td style={{ fontSize: '12px' }}>
-  //               {moment(heartbeat.createdAt).fromNow()}
-  //             </Td>
-  //             <Td>
-  //               <code>{heartbeat.statusMessage}</code>
-  //             </Td>
-  //             <Td style={{ fontSize: '12px' }}>
-  //               <Center>{heartbeat.responseTime} ms</Center>
-  //             </Td>
-  //           </Tr>
-  //         ))
-  //       ) : (
-  //         <Tr key={'no-recent-heartbeats'}>
-  //           <Td colspan="4">
-  //             <Center>No recent heartbeats</Center>
-  //           </Td>
-  //         </Tr>
-  //       )}
-  //     </Tbody>
-  //     <Tfoot>
-  //       <Tr>
-  //         <Th>Status</Th>
-  //         <Th>Time</Th>
-  //         <Th>Status Message</Th>
-  //         <Th isNumeric>Response Time</Th>
-  //       </Tr>
-  //     </Tfoot>
-  //   </Table>
-  // )
 }
 
 export default MonitorHeartbeats

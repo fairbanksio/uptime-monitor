@@ -4,6 +4,7 @@ import {
   Input,
   Select,
   Table,
+  Text,
   Thead,
   Tbody,
   Tfoot,
@@ -96,7 +97,11 @@ function MonitorEvents(monitor) {
         Header: 'Timestamp',
         accessor: 'createdAt',
         Cell: (cellProps) => {
-          return moment(cellProps.value).tz(userTZ).format('MMM Do, h:mm:ss a')
+          return (
+            <Text fontSize="xs">
+              {moment(cellProps.value).tz(userTZ).format('MMM Do, h:mm:ss a')}
+            </Text>
+          )
         },
       },
       {
@@ -111,7 +116,11 @@ function MonitorEvents(monitor) {
         accessor: 'duration',
         isNumeric: true,
         Cell: (cellProps) => {
-          return <Center>{splitDuration(cellProps.value)}</Center>
+          return (
+            <Center>
+              <Text fontSize="xs">{splitDuration(cellProps.value)}</Text>
+            </Center>
+          )
         },
       },
     ],
@@ -210,6 +219,7 @@ function MonitorEvents(monitor) {
           ))}
         </Tfoot>
       </Table>
+      <br />
       <div className="pagination">
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {'<<'}
@@ -261,64 +271,6 @@ function MonitorEvents(monitor) {
       </div>
     </div>
   )
-
-  // return (
-  //   <Table size="sm" variant="simple">
-  //     <Thead>
-  //       <Tr>
-  //         <Th>Type</Th>
-  //         <Th>Timestamp</Th>
-  //         <Th>Status</Th>
-  //         <Th style={{ width: '150px' }}>Event Duration</Th>
-  //       </Tr>
-  //     </Thead>
-  //     <Tbody>
-  //       {events.length > 0 ? (
-  //         events.map((event, key) => (
-  //           <Tr key={key}>
-  //             <Td style={{ paddingLeft: '20px' }}>
-  //               {event.type && event.type === 'UP' ? (
-  //                 <FontAwesomeIcon
-  //                   icon={faArrowUp}
-  //                   style={{ color: 'green' }}
-  //                 />
-  //               ) : (
-  //                 <FontAwesomeIcon
-  //                   icon={faArrowDown}
-  //                   style={{ color: 'red' }}
-  //                 />
-  //               )}
-  //             </Td>
-  //             <Td style={{ fontSize: '12px', width: '175px' }}>
-  //               {moment(event.createdAt).tz(userTZ).format('MMM Do, h:mm:ss a')}
-  //             </Td>
-  //             <Td>
-  //               <code>{event.message}</code>
-  //             </Td>
-  //             <Td style={{ fontSize: '12px' }}>
-  //               {splitDuration(event.duration)}
-  //             </Td>
-  //           </Tr>
-  //         ))
-  //       ) : (
-  //         <Tr key={'no-recent-events'}>
-  //           <Td colspan="4">
-  //             <Center>No recent events</Center>
-  //           </Td>
-  //         </Tr>
-  //       )}
-  //     </Tbody>
-  //     <Tfoot>
-  //       <Tr>
-  //         <Th>Type</Th>
-  //         <Th>Timestamp</Th>
-  //         <Th>Status</Th>
-  //         <Th>Event Duration</Th>
-  //       </Tr>
-  //     </Tfoot>
-  //     {/* <TableCaption>Recently Detected Events</TableCaption> */}
-  //   </Table>
-  // )
 }
 
 export default MonitorEvents
