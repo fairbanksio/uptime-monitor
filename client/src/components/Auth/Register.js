@@ -12,8 +12,10 @@ function Register() {
   const [registerInfo, setRegisterInfo] = useState({
     username: '',
     password: '',
+    email: '',
   })
   const [invalidUser, isInvalidUser] = React.useState(false)
+  const [invalidEmail, isInvalidEmail] = React.useState(false)
   const [invalidPassword, isInvalidPassword] = React.useState(false)
   const [validForm, isFormValid] = React.useState(false)
 
@@ -33,6 +35,9 @@ function Register() {
     if (registerInfo.username && registerInfo.username.length > 1) {
       isInvalidUser(false)
     } else isInvalidUser(true)
+    if (registerInfo.email && registerInfo.email.length > 1) {
+      isInvalidEmail(false)
+    } else isInvalidEmail(true)
     if (registerInfo.password && registerInfo.password.length > 1) {
       isInvalidPassword(false)
     } else isInvalidPassword(true)
@@ -47,9 +52,10 @@ function Register() {
       validForm === true &&
       registerInfo &&
       registerInfo.username.length > 1 &&
-      registerInfo.password.length > 1
+      registerInfo.password.length > 1 && 
+      registerInfo.email.length > 1
     ) {
-      register(registerInfo.username, registerInfo.password, (result) => {
+      register(registerInfo.username, registerInfo.password, registerInfo.email, (result) => {
         if (result && result.status === 'success') {
           const id = 'register-success-toast'
           if (!toast.isActive(id)) {
@@ -63,7 +69,7 @@ function Register() {
             })
           }
           setTimeout(() => {
-            history.push('/')
+            history.push('/dashboard')
           }, 2000)
         } else {
           const id = 'register-error-toast'
@@ -101,6 +107,20 @@ function Register() {
         size="md"
         width={'300'}
         isInvalid={invalidUser}
+      />
+      <br />
+      <Input
+        type="text"
+        id="email"
+        required
+        value={registerInfo.email}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
+        name="email"
+        placeholder="email"
+        size="md"
+        width={'300'}
+        isInvalid={invalidEmail}
       />
       <br />
       <Input
