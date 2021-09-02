@@ -16,7 +16,12 @@ import {
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
 import { useTable, useSortBy, usePagination } from 'react-table'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
+import {
+  faArrowUp,
+  faArrowDown,
+  faAngleLeft,
+  faAngleRight,
+} from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment-timezone'
 
 import { MonitorContext } from '../../contexts/MonitorContext'
@@ -73,6 +78,9 @@ function MonitorEvents(monitor) {
       {
         Header: 'Type',
         accessor: 'type',
+        minWidth: 50,
+        maxWidth: 60,
+        width: 60,
         Cell: (cellProps) => {
           if (cellProps.value === 'UP') {
             return (
@@ -96,6 +104,9 @@ function MonitorEvents(monitor) {
       {
         Header: 'Timestamp',
         accessor: 'createdAt',
+        minWidth: 100,
+        maxWidth: 120,
+        width: 120,
         Cell: (cellProps) => {
           return (
             <Text fontSize="xs">
@@ -107,6 +118,9 @@ function MonitorEvents(monitor) {
       {
         Header: 'Status',
         accessor: 'message',
+        minWidth: 100,
+        maxWidth: 120,
+        width: 120,
         Cell: (cellProps) => {
           return <code>{cellProps.value}</code>
         },
@@ -162,6 +176,11 @@ function MonitorEvents(monitor) {
                 <Th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   isNumeric={column.isNumeric}
+                  style={{
+                    maxWidth: column.maxWidth,
+                    minWidth: column.minWidth,
+                    width: column.width,
+                  }}
                 >
                   {column.render('Header')}
                   <chakra.span pl="4">
@@ -228,26 +247,35 @@ function MonitorEvents(monitor) {
         </Tfoot>
       </Table>
       <br />
-      <div className="pagination">
-        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+      {page && page.length > 0 ? (
+        <div className="pagination">
+          {/* <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {'<<'}
-        </button>{' '}
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {'<'}
-        </button>{' '}
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
-          {'>'}
-        </button>{' '}
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+        </button>{' '} */}
+          <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+            <FontAwesomeIcon
+              icon={faAngleLeft}
+              size="lg"
+              style={{ color: '#6B46C1' }}
+            />
+          </button>{' '}
+          <span>
+            Page{' '}
+            <strong>
+              {pageIndex + 1} of {pageOptions.length}
+            </strong>{' '}
+          </span>
+          <button onClick={() => nextPage()} disabled={!canNextPage}>
+            <FontAwesomeIcon
+              icon={faAngleRight}
+              size="lg"
+              style={{ color: '#6B46C1' }}
+            />
+          </button>{' '}
+          {/* <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
           {'>>'}
-        </button>{' '}
-        <span>
-          Page{' '}
-          <strong>
-            {pageIndex + 1} of {pageOptions.length}
-          </strong>{' '}
-        </span>
-        <span>
+        </button>{' '} */}
+          {/* <span>
           | Go to page:{' '}
           <Input
             type="number"
@@ -260,24 +288,25 @@ function MonitorEvents(monitor) {
             }}
             style={{ width: '40px' }}
           />
-        </span>
-        <div style={{ width: '100px', float: 'right' }}>
-          <Select
-            size="xs"
-            variant="flushed"
-            value={pageSize}
-            onChange={(e) => {
-              setPageSize(Number(e.target.value))
-            }}
-          >
-            {[5, 10, 25, 50].map((pageSize) => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </Select>
+        </span> */}
+          <div style={{ width: '100px', float: 'right' }}>
+            <Select
+              size="xs"
+              variant="flushed"
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value))
+              }}
+            >
+              {[5, 10, 25, 50].map((pageSize) => (
+                <option key={pageSize} value={pageSize}>
+                  Show {pageSize}
+                </option>
+              ))}
+            </Select>
+          </div>
         </div>
-      </div>
+      ) : null}
     </div>
   )
 }

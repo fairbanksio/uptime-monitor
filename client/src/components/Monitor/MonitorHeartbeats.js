@@ -16,7 +16,12 @@ import {
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
 import { useTable, useSortBy, usePagination } from 'react-table'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
+import {
+  faCheck,
+  faTimes,
+  faAngleLeft,
+  faAngleRight,
+} from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment-timezone'
 
 import { MonitorContext } from '../../contexts/MonitorContext'
@@ -185,17 +190,12 @@ function MonitorHeartbeats(monitor) {
       </Table>
       <br />
       <div className="pagination">
-        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {'<<'}
-        </button>{' '}
         <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {'<'}
-        </button>{' '}
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
-          {'>'}
-        </button>{' '}
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          {'>>'}
+          <FontAwesomeIcon
+            icon={faAngleLeft}
+            size="lg"
+            style={{ color: '#6B46C1' }}
+          />
         </button>{' '}
         <span>
           Page{' '}
@@ -203,20 +203,13 @@ function MonitorHeartbeats(monitor) {
             {pageIndex + 1} of {pageOptions.length}
           </strong>{' '}
         </span>
-        <span>
-          | Go to page:{' '}
-          <Input
-            type="number"
-            size="xs"
-            placeholder="page"
-            defaultValue={pageIndex + 1}
-            onChange={(e) => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0
-              gotoPage(page)
-            }}
-            style={{ width: '40px' }}
+        <button onClick={() => nextPage()} disabled={!canNextPage}>
+          <FontAwesomeIcon
+            icon={faAngleRight}
+            size="lg"
+            style={{ color: '#6B46C1' }}
           />
-        </span>
+        </button>
         <div style={{ width: '100px', float: 'right' }}>
           <Select
             size="xs"
