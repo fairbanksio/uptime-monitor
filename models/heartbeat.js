@@ -21,7 +21,7 @@ var HeartbeatSchema = new mongoose.Schema({
   expireAt: {
     type: Date,
     default: Date.now,
-    expires: 86400,
+    expires: 604800, // 7 days in seconds
   },
 })
 
