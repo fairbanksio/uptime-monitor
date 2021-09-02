@@ -81,12 +81,17 @@ const AuthProvider = (props) => {
   }
 
   // register
-  const register = (username, password, cb) => {
+  const register = (username, password, email, cb) => {
     setError(undefined)
     setLoading(true)
     userService
-      .register(username, password)
+      .register(username, password, email)
       .then((user) => {
+        setUser(user.data)
+        localStorage.setItem('jwtToken', user.data.token)
+        axiosClient.defaults.headers.common = {
+          authorization: 'jwt ' + localStorage.getItem('jwtToken'),
+        }
         cb({ result: user.data, status: 'success' })
       })
       .catch((error) => {
