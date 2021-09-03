@@ -84,7 +84,6 @@ function MonitorEvents(monitor) {
           if (cellProps.value === 'UP') {
             return (
               <FontAwesomeIcon
-                {...cellProps}
                 icon={faArrowUp}
                 style={{ color: 'green', marginLeft: '7px' }}
               />
@@ -92,7 +91,6 @@ function MonitorEvents(monitor) {
           } else {
             return (
               <FontAwesomeIcon
-                {...cellProps}
                 icon={faArrowDown}
                 style={{ color: 'red', marginLeft: '7px' }}
               />
