@@ -33,12 +33,10 @@ exports.create = (req, res, next) => {
   newMonitor
     .save()
     .then((monitor) => {
-      console.log(monitor)
       monitoringService.startMonitor(monitor)
       res.json(monitor)
     })
     .catch((err) => {
-      console.log(err)
       res.status(422).send(err.errors)
     })
 }
