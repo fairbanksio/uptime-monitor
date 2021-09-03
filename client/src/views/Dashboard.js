@@ -2,7 +2,6 @@ import { Grid, GridItem } from '@chakra-ui/react'
 
 import Navbar from '../components/Navbar'
 import ListMonitors from '../components/Monitor/ListMonitors'
-import LatencyChart from '../components/Graph/LatencyChart'
 
 function Dashboard() {
   return (
@@ -12,7 +11,6 @@ function Dashboard() {
         <Grid h="100vh" templateColumns="repeat(9, 1fr)" gap={4}>
           <GridItem colSpan={1} />
           <GridItem colSpan={7}>
-            <LatencyChart />
             <ListMonitors />
           </GridItem>
           <GridItem colSpan={1} />
