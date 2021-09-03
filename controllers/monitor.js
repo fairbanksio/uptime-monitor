@@ -6,7 +6,7 @@ exports.getAll = (req, res, next) => {
   Monitor.find({ owner: req.user._id })
     .populate({
       path: 'events heartbeats',
-      options: { sort: { createdAt: -1 }, limit: 100 },
+      options: { sort: { createdAt: -1 } },
     })
     .slice('heartbeats', -20)
     .then((monitors) => {
