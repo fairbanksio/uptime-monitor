@@ -18,6 +18,7 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
+  Text,
   useDisclosure,
 } from '@chakra-ui/react'
 
@@ -57,10 +58,17 @@ function UserDrawer() {
             <CreateNotification />
           </DrawerBody>
           <DrawerFooter>
-            <span>Uptime Monitor
-              {' '}
-              {new Date().getFullYear()} - v{process.env.REACT_APP_VERSION}
-            </span>
+            <Text
+              fontSize="xs"
+              style={{
+                marginRight: '60px',
+                marginTop: '2.5px',
+                color: '#484B51',
+              }}
+            >
+              Uptime Monitor &copy; {new Date().getFullYear()} - v
+              {process.env.REACT_APP_VERSION}
+            </Text>
             <Button
               variant="ghost"
               colorScheme="pink"
