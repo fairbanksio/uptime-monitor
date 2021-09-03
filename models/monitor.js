@@ -97,7 +97,7 @@ MonitorSchema.methods.start = async function () {
         try {
           // Check heartbeat
           let res = await axios.get(this.config.httpUrl, {
-            timeout: this.interval * 1000 * 0.8,
+            timeout: 5000, // Hardcode timeout to 5s; if your site hasn't responded by then you got problems
             headers: {
               Accept: '*/*',
               'User-Agent': 'Uptime-Monitor/',
