@@ -1,6 +1,6 @@
 {
   "name": "uptime-web",
-  "version": "0.1.56",
+  "version": "0.1.57",
   "private": true,
   "dependencies": {
     "@chakra-ui/icons": "^1.0.15",
