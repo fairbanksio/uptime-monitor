@@ -7,6 +7,7 @@ import MonitorEvents from './MonitorEvents'
 import MonitorHeartbeats from './MonitorHeartbeats'
 
 import { MonitorContext } from '../../contexts/MonitorContext'
+import LatencyChart from '../Graph/LatencyChart'
 
 function ListMonitors() {
   const { monitors } = useContext(MonitorContext)
@@ -27,7 +28,8 @@ function ListMonitors() {
                 </Text>
               </a>
               <UpdateMonitor monitor={monitor} />{' '}
-              <DeleteMonitor monitorId={monitor._id} />
+              <DeleteMonitor monitorId={monitor._id} />{' '}
+              <LatencyChart monitor={monitor} />{' '}
             </div>
 
             <Grid templateColumns="repeat(2, 1fr)" gap={6}>
