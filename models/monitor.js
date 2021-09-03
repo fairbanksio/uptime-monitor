@@ -79,19 +79,20 @@ MonitorSchema.methods.start = async function () {
       .sort({ field: 'asc', _id: -1 })
       .limit(1)
 
+
+    // create hearbeat
+    if (startBeat) {
+      this.previousHeartbeat = startBeat
+      startBeat = null
+    }
+
+    let heartbeat = new Heartbeat({
+      monitor: this._id,
+    })
+
+    const startTime = now()
     switch (this.type) {
       case 'http':
-        // create hearbeat
-        if (startBeat) {
-          this.previousHeartbeat = startBeat
-          startBeat = null
-        }
-
-        let heartbeat = new Heartbeat({
-          monitor: this._id,
-        })
-
-        const startTime = now()
         try {
           // Check heartbeat
           let res = await axios.get(this.config.httpUrl, {
@@ -112,7 +113,12 @@ MonitorSchema.methods.start = async function () {
           heartbeat.status = 'DOWN'
           heartbeat.statusMessage = error
         }
-        const endTime = now()
+        break
+      default:
+        console.log('invalid heartbeat')
+    }
+
+    const endTime = now()
         heartbeat.responseTime = Math.round(endTime - startTime)
 
         let event = new Event({
@@ -191,11 +197,6 @@ MonitorSchema.methods.start = async function () {
         //update the latest model
         this.status = heartbeat.status
         this.save()
-
-        break
-      default:
-        console.log('invalid heartbeat')
-    }
   }
 
   beat()
