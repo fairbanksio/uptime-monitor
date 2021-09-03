@@ -22,10 +22,11 @@ function CreateMonitor() {
   let [monitorInfo, setMonitorInfo] = useState({
     name: '',
     type: 'http',
-    interval: null,
+    interval: 60,
     enabled: true,
     config: {
       httpUrl: '',
+      httpKeyword: '',
     },
     notifications: [],
   })
@@ -48,7 +49,9 @@ function CreateMonitor() {
 
   const handleConfigChange = (event) => {
     const { name, value } = event.target
-    setMonitorInfo({ ...monitorInfo, config: { [name]: value } })
+    const oldConfig = monitorInfo.config
+    const newConfig = {...oldConfig, [name]: value}
+    setMonitorInfo({ ...monitorInfo, config: newConfig })
   }
 
   const handleNotificationChange = (event) => {
@@ -91,10 +94,11 @@ function CreateMonitor() {
     monitorInfo = setMonitorInfo({
       name: '',
       type: 'http',
-      interval: null,
+      interval: 60,
       enabled: true,
       config: {
-        httpUrl: '',
+        httpUrl: 'test',
+        httpKeyword: 'a',
       },
       notifications: [],
     })
@@ -145,6 +149,18 @@ function CreateMonitor() {
         </Select>
       </Center>
 
+      <Center>
+        <Select
+          placeholder="Type"
+          isRequired={true}
+          onChange={handleInputChange}
+          name="type"
+        >
+          <option value="http">HTTP</option>
+          <option value="keyword">HTTP with keyword</option>
+        </Select>
+      </Center>
+
       <Input
         type="text"
         placeholder="URL"
@@ -153,6 +169,16 @@ function CreateMonitor() {
         onChange={handleConfigChange}
         onKeyDown={handleKeyDown}
         name="httpUrl"
+      />
+
+      <Input
+        type="text"
+        placeholder="Keyword"
+        isRequired={true}
+        value={monitorInfo.config.httpKeyword}
+        onChange={handleConfigChange}
+        onKeyDown={handleKeyDown}
+        name="httpKeyword"
       />
 
       <div>

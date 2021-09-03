@@ -26,7 +26,9 @@ function UpdateMonitor(props) {
 
   const handleConfigChange = (event) => {
     const { name, value } = event.target
-    setMonitorInfo({ ...monitorInfo, config: { [name]: value } })
+    const oldConfig = monitorInfo.config
+    const newConfig = {...oldConfig, [name]: value}
+    setMonitorInfo({ ...monitorInfo, config: newConfig })
   }
 
   const handleUpdateMonitor = () => {
@@ -111,6 +113,20 @@ function UpdateMonitor(props) {
           </Select>{' '}
         </Center>
 
+        <Center>
+          <Select
+            placeholder="Type"
+            isRequired={true}
+            value={monitorInfo.type}
+            onChange={handleInputChange}
+            name="type"
+            width={250}
+          >
+            <option value="http">HTTP</option>
+            <option value="keyword">HTTP with keyword</option>
+          </Select>
+        </Center>
+
         <Input
           type="text"
           placeholder="URL"
@@ -118,6 +134,16 @@ function UpdateMonitor(props) {
           value={monitorInfo.config.httpUrl}
           onChange={handleConfigChange}
           name="httpUrl"
+          width={250}
+        />
+        <br/>
+        <Input
+          type="text"
+          placeholder="Keyword"
+          isRequired={true}
+          value={monitorInfo.config.httpKeyword}
+          onChange={handleConfigChange}
+          name="httpKeyword"
           width={250}
         />
 
