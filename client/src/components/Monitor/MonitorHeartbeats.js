@@ -41,7 +41,6 @@ function MonitorHeartbeats(monitor) {
           if (cellProps.value === 'UP') {
             return (
               <FontAwesomeIcon
-                {...cellProps}
                 icon={faCheck}
                 style={{ color: 'green', marginLeft: '10px' }}
               />
@@ -49,7 +48,6 @@ function MonitorHeartbeats(monitor) {
           } else {
             return (
               <FontAwesomeIcon
-                {...cellProps}
                 icon={faTimes}
                 style={{ color: 'red', marginLeft: '10px' }}
               />

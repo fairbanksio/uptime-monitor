@@ -171,15 +171,18 @@ function CreateMonitor() {
         name="httpUrl"
       />
 
-      <Input
-        type="text"
-        placeholder="Keyword"
-        isRequired={true}
-        value={monitorInfo.config.httpKeyword}
-        onChange={handleConfigChange}
-        onKeyDown={handleKeyDown}
-        name="httpKeyword"
-      />
+      {monitorInfo.type === "keyword" &&
+        <Input
+          type="text"
+          placeholder="Keyword"
+          isRequired={true}
+          value={monitorInfo.config.httpKeyword}
+          onChange={handleConfigChange}
+          onKeyDown={handleKeyDown}
+          name="httpKeyword"
+        />
+      }
+      
 
       <div>
         <label htmlFor="notifications">Notification Agent(s)</label>
