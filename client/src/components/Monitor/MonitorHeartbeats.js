@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import {
   Center,
-  Input,
   Select,
   Table,
   Text,
@@ -97,8 +96,6 @@ function MonitorHeartbeats(monitor) {
     canPreviousPage,
     canNextPage,
     pageOptions,
-    pageCount,
-    gotoPage,
     nextPage,
     previousPage,
     setPageSize,
