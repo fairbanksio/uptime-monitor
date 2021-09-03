@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import {
   Center,
-  Input,
   Select,
   Table,
   Text,
@@ -138,7 +137,7 @@ function MonitorEvents(monitor) {
         },
       },
     ],
-    []
+    [userTZ]
   )
 
   const {
@@ -150,8 +149,6 @@ function MonitorEvents(monitor) {
     canPreviousPage,
     canNextPage,
     pageOptions,
-    pageCount,
-    gotoPage,
     nextPage,
     previousPage,
     setPageSize,
@@ -249,9 +246,6 @@ function MonitorEvents(monitor) {
       <br />
       {page && page.length > 0 ? (
         <div className="pagination">
-          {/* <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {'<<'}
-        </button>{' '} */}
           <button onClick={() => previousPage()} disabled={!canPreviousPage}>
             <FontAwesomeIcon
               icon={faAngleLeft}
@@ -272,23 +266,6 @@ function MonitorEvents(monitor) {
               style={{ color: '#6B46C1' }}
             />
           </button>{' '}
-          {/* <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          {'>>'}
-        </button>{' '} */}
-          {/* <span>
-          | Go to page:{' '}
-          <Input
-            type="number"
-            size="xs"
-            placeholder="page"
-            defaultValue={pageIndex + 1}
-            onChange={(e) => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0
-              gotoPage(page)
-            }}
-            style={{ width: '40px' }}
-          />
-        </span> */}
           <div style={{ width: '100px', float: 'right' }}>
             <Select
               size="xs"
