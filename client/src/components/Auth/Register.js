@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import { createStandaloneToast, Button, Input } from '@chakra-ui/react'
 
 import { AuthContext } from '../../contexts/AuthContext'
-import { useHistory } from 'react-router-dom'
+import isValidEmail from '../../util/isValidEmail'
 
 function Register() {
   const { register } = useContext(AuthContext)
@@ -17,7 +18,6 @@ function Register() {
   const [invalidUser, isInvalidUser] = React.useState(false)
   const [invalidEmail, isInvalidEmail] = React.useState(false)
   const [invalidPassword, isInvalidPassword] = React.useState(false)
-  const [validForm, isFormValid] = React.useState(false)
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
@@ -31,64 +31,79 @@ function Register() {
   }
 
   const verifyForm = () => {
-    isFormValid(false) // Reset the state for people having to retry
     if (registerInfo.username && registerInfo.username.length > 1) {
       isInvalidUser(false)
     } else isInvalidUser(true)
-    if (registerInfo.email && registerInfo.email.length > 1) {
+    if (
+      registerInfo.email &&
+      registerInfo.email.length > 1 &&
+      isValidEmail(registerInfo.email)
+    ) {
       isInvalidEmail(false)
     } else isInvalidEmail(true)
     if (registerInfo.password && registerInfo.password.length > 1) {
       isInvalidPassword(false)
     } else isInvalidPassword(true)
-    if (invalidUser === false && invalidPassword === false) {
-      isFormValid(true)
+    if (
+      invalidUser === false &&
+      invalidEmail === false &&
+      invalidPassword === false
+    ) {
+      return true
+    } else {
+      return false
     }
   }
 
   const registerUser = () => {
-    verifyForm()
     if (
-      validForm === true &&
+      verifyForm() &&
       registerInfo &&
       registerInfo.username.length > 1 &&
-      registerInfo.password.length > 1 && 
-      registerInfo.email.length > 1
+      registerInfo.email.length > 1 &&
+      isValidEmail(registerInfo.email) &&
+      registerInfo.password.length > 1
     ) {
-      register(registerInfo.username, registerInfo.password, registerInfo.email, (result) => {
-        if (result && result.status === 'success') {
-          const id = 'register-success-toast'
-          if (!toast.isActive(id)) {
-            toast({
-              title: 'Account created.',
-              description: "We've created your account for you.",
-              status: 'success',
-              variant: 'subtle',
-              duration: 9000,
-              isClosable: true,
-            })
-          }
-          setTimeout(() => {
-            history.push('/dashboard')
-          }, 2000)
-        } else {
-          const id = 'register-error-toast'
-          if (!toast.isActive(id)) {
-            toast({
-              id,
-              title: 'An error occurred.',
-              description: 'Unable to create user account.',
-              status: 'error',
-              variant: 'subtle',
-              duration: 9000,
-              isClosable: true,
-            })
+      register(
+        registerInfo.username,
+        registerInfo.password,
+        registerInfo.email,
+        (result) => {
+          if (result && result.status === 'success') {
+            const id = 'register-success-toast'
+            if (!toast.isActive(id)) {
+              toast({
+                title: 'Account created.',
+                description: "We've created your account for you.",
+                status: 'success',
+                variant: 'subtle',
+                duration: 9000,
+                isClosable: true,
+              })
+            }
+            setTimeout(() => {
+              history.push('/dashboard')
+            }, 2000)
+          } else {
+            const id = 'register-error-toast'
+            if (!toast.isActive(id)) {
+              toast({
+                id,
+                title: 'An error occurred.',
+                description: 'Unable to create user account.',
+                status: 'error',
+                variant: 'subtle',
+                duration: 7000,
+                isClosable: true,
+              })
+            }
           }
         }
-      })
+      )
     } else {
       setTimeout(() => {
         isInvalidUser(false)
+        isInvalidEmail(false)
         isInvalidPassword(false)
       }, 1200)
     }
