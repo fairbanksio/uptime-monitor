@@ -5,7 +5,7 @@ import {
   Button,
   Input,
   createStandaloneToast,
-  FormControl
+  FormControl,
 } from '@chakra-ui/react'
 import { GoogleLogin } from 'react-google-login'
 import { AuthContext } from '../../contexts/AuthContext'
@@ -20,7 +20,6 @@ function Login() {
   const [loginInfo, setLoginInfo] = useState({ username: '', password: '' })
   const [invalidUser, isInvalidUser] = React.useState(false)
   const [invalidPassword, isInvalidPassword] = React.useState(false)
-  const [validForm, isFormValid] = React.useState(false)
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
@@ -34,7 +33,6 @@ function Login() {
   }
 
   const verifyForm = () => {
-    isFormValid(false) // Reset the state for people having to retry
     if (loginInfo.username && loginInfo.username.length > 1) {
       isInvalidUser(false)
     } else isInvalidUser(true)
@@ -42,14 +40,15 @@ function Login() {
       isInvalidPassword(false)
     } else isInvalidPassword(true)
     if (invalidUser === false && invalidPassword === false) {
-      isFormValid(true)
+      return true
+    } else {
+      return false
     }
   }
 
   const loginUser = () => {
-    verifyForm()
     if (
-      validForm === true &&
+      verifyForm() &&
       loginInfo &&
       loginInfo.username.length > 1 &&
       loginInfo.password.length > 1
@@ -145,7 +144,7 @@ function Login() {
           <Button onClick={loginUser} colorScheme="purple">
             Login
           </Button>
-          <br/>
+          <br />
           <GoogleLogin
             clientId={
               process.env.REACT_APP_GOOGLE_CLIENT
@@ -154,20 +153,20 @@ function Login() {
             }
             onSuccess={(response) => handleGoogleSignIn(response)}
             onFailure={(error) => console.log(error)}
-            render={(renderProps) => 
-            <Button onClick={renderProps.onClick} color='black'>
-              <FontAwesomeIcon
-                icon={faGoogle}
-                className="header-logo"
-                size="lg"
-              />
-              Login with Google
-            </Button>}
+            render={(renderProps) => (
+              <Button onClick={renderProps.onClick} color="black">
+                <FontAwesomeIcon
+                  icon={faGoogle}
+                  className="header-logo"
+                  size="lg"
+                />
+                Login with Google
+              </Button>
+            )}
           />
 
           <br />
-          {error && <FriendlyError error={error} />}
-          <br />
+          <div>{error ? <FriendlyError error={error} /> : null}</div>
           <br />
         </div>
       )}
