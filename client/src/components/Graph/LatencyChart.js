@@ -5,9 +5,6 @@ import moment from 'moment-timezone'
 
 import { MonitorContext } from '../../contexts/MonitorContext'
 
-let dataArray = []
-let dateArray = []
-
 const LatencyChart = (monitor) => {
   const { monitors } = useContext(MonitorContext)
   const thisMonitor = monitors.filter((el) => {
@@ -15,15 +12,15 @@ const LatencyChart = (monitor) => {
   })[0]
   const data = thisMonitor.heartbeats
 
+  let dataArray = []
+  let dateArray = []
+
   if (data && data.length > 0) {
     data.forEach((val) => {
       dataArray.unshift(val.responseTime)
       let ts = moment(val.createdAt).format('h:mm:ss a')
       dateArray.unshift(ts)
     })
-
-    console.log(dataArray)
-    console.log(dateArray)
   }
 
   let options = {
@@ -52,7 +49,6 @@ const LatencyChart = (monitor) => {
       },
     },
     yAxis: {
-      max: 5000,
       title: {
         text: 'Milliseconds',
         style: {
