@@ -79,7 +79,6 @@ MonitorSchema.methods.start = async function () {
       .sort({ field: 'asc', _id: -1 })
       .limit(1)
 
-
     // create hearbeat
     if (startBeat) {
       this.previousHeartbeat = startBeat
@@ -104,8 +103,6 @@ MonitorSchema.methods.start = async function () {
             },
           })
 
-          //console.log(this.name + "("+this.config.httpUrl+"): " + res.status + " - "+ res.statusText)
-
           // set heartbeat status
           heartbeat.status = 'UP'
           heartbeat.statusMessage = res.status + ' - ' + res.statusText
@@ -127,17 +124,16 @@ MonitorSchema.methods.start = async function () {
             },
           })
 
-          //console.log(this.name + "("+this.config.httpUrl+"): " + res.status + " - "+ res.statusText)
-
           // check if response contains keyword
-          if(JSON.stringify(res.data).includes(this.config.httpKeyword)){
+          if (JSON.stringify(res.data).includes(this.config.httpKeyword)) {
             heartbeat.status = 'UP'
-            heartbeat.statusMessage = 'Keyword ' + '"' + this.config.httpKeyword + '"' + ' found'
+            heartbeat.statusMessage =
+              'Keyword ' + '"' + this.config.httpKeyword + '"' + ' found'
           } else {
             heartbeat.status = 'DOWN'
-            heartbeat.statusMessage = 'Keyword ' + '"' + this.config.httpKeyword + '"' + ' not found'
+            heartbeat.statusMessage =
+              'Keyword ' + '"' + this.config.httpKeyword + '"' + ' not found'
           }
-
         } catch (error) {
           // set heartbeat status
           heartbeat.status = 'DOWN'
@@ -145,7 +141,7 @@ MonitorSchema.methods.start = async function () {
         }
         break
       default:
-        console.log('invalid heartbeat')
+        console.log('Invalid heartbeat')
     }
 
     const endTime = now()
@@ -205,19 +201,15 @@ MonitorSchema.methods.start = async function () {
       // send event to each notification configuration on the monitor
       if (this.notifications.length > 0) {
         this.notifications.forEach((notificationId) => {
-          Notification.findOne({ _id: notificationId }).then(
-            (notification) => {
-              notification.notify(event)
-            }
-          )
+          Notification.findOne({ _id: notificationId }).then((notification) => {
+            notification.notify(event)
+          })
         })
       }
     } else {
       // update existing event
       if (currentEvent) {
-        currentEvent.duration = msToTime(
-          Date.now() - currentEvent.createdAt
-        )
+        currentEvent.duration = msToTime(Date.now() - currentEvent.createdAt)
         currentEvent.save()
       }
     }
