@@ -5,6 +5,9 @@ import moment from 'moment-timezone'
 
 import { MonitorContext } from '../../contexts/MonitorContext'
 
+let dataArray = []
+let dateArray = []
+
 const LatencyChart = (monitor) => {
   const { monitors } = useContext(MonitorContext)
   const thisMonitor = monitors.filter((el) => {
@@ -12,12 +15,10 @@ const LatencyChart = (monitor) => {
   })[0]
   const data = thisMonitor.heartbeats
 
-  let dataArray = []
-  let dateArray = []
   if (data && data.length > 0) {
     data.forEach((val) => {
       dataArray.unshift(val.responseTime)
-      let ts = moment(val.createdAt).format('MMM Do, h:mm a')
+      let ts = moment(val.createdAt).format('h:mm:ss a')
       dateArray.unshift(ts)
     })
 
@@ -29,13 +30,17 @@ const LatencyChart = (monitor) => {
     chart: {
       type: 'areaspline',
       backgroundColor: null,
-      height: 250,
+      height: 300,
       style: {
         color: 'white',
       },
     },
     title: {
       text: '',
+    },
+    lang: {
+      thousandsSep: ',',
+      decimalPoint: '.',
     },
     xAxis: {
       categories: dateArray,
@@ -91,8 +96,11 @@ const LatencyChart = (monitor) => {
       // ],
     },
     tooltip: {
+      split: false,
       shared: true,
       valueSuffix: ' ms',
+      headerFormat: 'Time: {point.x:,.0f}<br/>',
+      pointFormat: 'Response Time: {point.y:,.0f} ms',
     },
     credits: {
       enabled: false,
@@ -127,13 +135,17 @@ const LatencyChart = (monitor) => {
     scrollbar: {
       enabled: false,
     },
+    legend: {
+      enabled: false,
+    },
   }
 
   return (
     <HighchartsReact
       highcharts={Highcharts}
-      constructorType={'stockChart'}
+      constructorType={'chart'}
       options={options}
+      allowChartUpdate={true}
     />
   )
 }
