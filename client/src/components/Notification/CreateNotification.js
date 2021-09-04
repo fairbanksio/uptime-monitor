@@ -89,7 +89,11 @@ function CreateNotification() {
       }
     } else isInvalidEmail(true)
 
-    if (!invalidName && !invalidType && (!invalidSlack || !invalidEmail)) {
+    if (
+      invalidName === false &&
+      invalidType === false &&
+      (invalidSlack === false || invalidEmail === false)
+    ) {
       return true
     } else {
       return false
@@ -97,13 +101,12 @@ function CreateNotification() {
   }
 
   const handleCreateNotification = () => {
-    if (verifyForm() && invalidName === false && invalidType === false) {
+    if (verifyForm() && !invalidName && !invalidType) {
       if (
         notificationInfo.type === 'email' &&
         notificationInfo.config.email.length > 0 &&
         invalidEmail === false
       ) {
-        console.log('Form w/ Email verified')
         createNotification(notificationInfo, (result) => {
           if (result.status === 'success') {
             handleClear()
@@ -115,7 +118,6 @@ function CreateNotification() {
         notificationInfo.config.slackWebhook.length > 0 &&
         invalidSlack === false
       ) {
-        console.log('Form w/ Slack verified')
         createNotification(notificationInfo, (result) => {
           if (result.status === 'success') {
             handleClear()
@@ -123,21 +125,19 @@ function CreateNotification() {
           }
         })
       } else {
-        console.log('Re-check slack/email values...')
         setTimeout(() => {
-          isInvalidName(false)
-          isInvalidType(false)
-          isInvalidSlack(false)
-          isInvalidEmail(false)
+          isInvalidName(null)
+          isInvalidType(null)
+          isInvalidSlack(null)
+          isInvalidEmail(null)
         }, 1200)
       }
     } else {
-      console.log('Re-check the form...')
       setTimeout(() => {
-        isInvalidName(false)
-        isInvalidType(false)
-        isInvalidSlack(false)
-        isInvalidEmail(false)
+        isInvalidName(null)
+        isInvalidType(null)
+        isInvalidSlack(null)
+        isInvalidEmail(null)
       }, 1200)
     }
   }

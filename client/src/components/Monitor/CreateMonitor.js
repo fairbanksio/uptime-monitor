@@ -21,8 +21,8 @@ function CreateMonitor() {
 
   let [monitorInfo, setMonitorInfo] = useState({
     name: '',
-    type: 'http',
-    interval: 60,
+    type: '',
+    interval: null,
     enabled: true,
     config: {
       httpUrl: '',
@@ -30,6 +30,12 @@ function CreateMonitor() {
     },
     notifications: [],
   })
+
+  const [invalidName, isInvalidName] = React.useState(null)
+  const [invalidType, isInvalidType] = React.useState(null)
+  const [invalidInterval, isInvalidInterval] = React.useState(null)
+  const [invalidUrl, isInvalidUrl] = React.useState(null)
+  const [invalidKeyword, isInvalidKeyword] = React.useState(null)
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
@@ -50,7 +56,7 @@ function CreateMonitor() {
   const handleConfigChange = (event) => {
     const { name, value } = event.target
     const oldConfig = monitorInfo.config
-    const newConfig = {...oldConfig, [name]: value}
+    const newConfig = { ...oldConfig, [name]: value }
     setMonitorInfo({ ...monitorInfo, config: newConfig })
   }
 
@@ -79,7 +85,6 @@ function CreateMonitor() {
         }
       })
       if (!found) {
-        // define new notifications as existing notifications where the item is not equal to our current item
         newNotifications = newNotifications.filter(
           (item) => item !== existingNotification
         )
@@ -93,35 +98,77 @@ function CreateMonitor() {
   const handleClear = () => {
     monitorInfo = setMonitorInfo({
       name: '',
-      type: 'http',
-      interval: 60,
+      type: '',
+      interval: null,
       enabled: true,
       config: {
-        httpUrl: 'test',
-        httpKeyword: 'a',
+        httpUrl: '',
+        httpKeyword: '',
       },
       notifications: [],
     })
   }
 
+  const verifyForm = () => {
+    if (monitorInfo.name && monitorInfo.name.length > 0) {
+      isInvalidName(false)
+    } else isInvalidName(true)
+    if (monitorInfo.interval && monitorInfo.interval.length > 1) {
+      isInvalidInterval(false)
+    } else isInvalidInterval(true)
+    if (monitorInfo.type && monitorInfo.type.length > 0) {
+      isInvalidType(false)
+    } else isInvalidType(true)
+    if (monitorInfo.config.httpUrl && monitorInfo.config.httpUrl.length > 0) {
+      isInvalidUrl(false)
+    } else isInvalidUrl(true)
+
+    if (
+      invalidName === false &&
+      invalidType === false &&
+      invalidInterval === false &&
+      invalidUrl === false
+    ) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   const handleCreateMonitor = () => {
-    createMonitor(monitorInfo, (result) => {
-      if (result.status === 'success') {
-        const id = 'monitor-created-toast'
-        if (!toast.isActive(id)) {
-          toast({
-            id,
-            title: 'Monitor created.',
-            description: 'Your monitor is now running.',
-            status: 'success',
-            variant: 'subtle',
-            duration: 3000,
-            isClosable: true,
-          })
+    if (
+      verifyForm() &&
+      invalidName === false &&
+      invalidType === false &&
+      invalidInterval === false &&
+      invalidUrl === false
+    ) {
+      createMonitor(monitorInfo, (result) => {
+        if (result.status === 'success') {
+          const id = 'monitor-created-toast'
+          if (!toast.isActive(id)) {
+            toast({
+              id,
+              title: 'Monitor created.',
+              description: 'Your monitor is now running.',
+              status: 'success',
+              variant: 'subtle',
+              duration: 3000,
+              isClosable: true,
+            })
+          }
+          handleClear()
         }
-        handleClear()
-      }
-    })
+      })
+    } else {
+      setTimeout(() => {
+        isInvalidName(null)
+        isInvalidType(null)
+        isInvalidInterval(null)
+        isInvalidUrl(null)
+        isInvalidKeyword(null)
+      }, 1200)
+    }
   }
 
   return (
@@ -134,6 +181,7 @@ function CreateMonitor() {
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         name="name"
+        isInvalid={invalidName}
       />
 
       <Center>
@@ -142,10 +190,14 @@ function CreateMonitor() {
           isRequired={true}
           onChange={handleInputChange}
           name="interval"
+          isInvalid={invalidInterval}
         >
           <option value="60">Every minute</option>
           <option value="300">Every 5 mins</option>
           <option value="600">Every 10 mins</option>
+          <option value="900">Every 15 mins</option>
+          <option value="1800">Every 30 mins</option>
+          <option value="3600">Every 60 mins</option>
         </Select>
       </Center>
 
@@ -155,6 +207,7 @@ function CreateMonitor() {
           isRequired={true}
           onChange={handleInputChange}
           name="type"
+          isInvalid={invalidType}
         >
           <option value="http">HTTP</option>
           <option value="keyword">HTTP with keyword</option>
@@ -169,9 +222,10 @@ function CreateMonitor() {
         onChange={handleConfigChange}
         onKeyDown={handleKeyDown}
         name="httpUrl"
+        isInvalid={invalidUrl}
       />
 
-      {monitorInfo.type === "keyword" &&
+      {monitorInfo.type === 'keyword' && (
         <Input
           type="text"
           placeholder="Keyword"
@@ -180,9 +234,9 @@ function CreateMonitor() {
           onChange={handleConfigChange}
           onKeyDown={handleKeyDown}
           name="httpKeyword"
+          isInvalid={invalidKeyword}
         />
-      }
-      
+      )}
 
       <div>
         <label htmlFor="notifications">Notification Agent(s)</label>
