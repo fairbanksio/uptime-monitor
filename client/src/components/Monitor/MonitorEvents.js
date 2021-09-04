@@ -32,12 +32,10 @@ function splitDuration(duration) {
   try {
     duration = duration.split(':')
   } catch (_err) {
-    console.log('Invalid time duration: ' + duration)
     duration = 'unknown'
   }
 
   if (duration.length === 0) {
-    console.log('Invalid time duration: ' + duration)
     return (duration = 'unknown')
   }
 

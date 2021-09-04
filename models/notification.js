@@ -40,8 +40,6 @@ var NotificationSchema = new mongoose.Schema({
 })
 
 NotificationSchema.methods.notify = function (event) {
-  console.log(event)
-
   switch (this.type) {
     case 'slack':
       try {
@@ -73,8 +71,8 @@ NotificationSchema.methods.notify = function (event) {
 
         axios.post(this.config.slackWebhook, data)
         break
-      } catch (error) {
-        console.log(error)
+      } catch (err) {
+        console.log(err)
       }
 
     default:
