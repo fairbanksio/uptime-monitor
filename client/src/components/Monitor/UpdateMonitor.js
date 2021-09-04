@@ -27,7 +27,7 @@ function UpdateMonitor(props) {
   const handleConfigChange = (event) => {
     const { name, value } = event.target
     const oldConfig = monitorInfo.config
-    const newConfig = {...oldConfig, [name]: value}
+    const newConfig = { ...oldConfig, [name]: value }
     setMonitorInfo({ ...monitorInfo, config: newConfig })
   }
 
@@ -110,6 +110,9 @@ function UpdateMonitor(props) {
             <option value="60">Every minute</option>
             <option value="300">Every 5 mins</option>
             <option value="600">Every 10 mins</option>
+            <option value="900">Every 15 mins</option>
+            <option value="1800">Every 30 mins</option>
+            <option value="3600">Every 60 mins</option>
           </Select>{' '}
         </Center>
 
@@ -136,7 +139,7 @@ function UpdateMonitor(props) {
           name="httpUrl"
           width={250}
         />
-        <br/>
+        <br />
         <Input
           type="text"
           placeholder="Keyword"
