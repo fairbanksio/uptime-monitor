@@ -11,6 +11,7 @@ import LatencyChart from '../Graph/LatencyChart'
 
 function ListMonitors() {
   const { monitors } = useContext(MonitorContext)
+
   return (
     <div>
       {monitors.length > 0 ? (
@@ -49,7 +50,9 @@ function ListMonitors() {
           </div>
         ))
       ) : (
-        <div>No monitors configured</div>
+        <div>
+          <Text>No monitors configured</Text>
+        </div>
       )}
     </div>
   )
