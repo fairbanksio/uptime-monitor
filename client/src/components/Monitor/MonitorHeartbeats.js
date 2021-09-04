@@ -1,6 +1,8 @@
 import React, { useContext } from 'react'
 import {
   Center,
+  Grid,
+  GridItem,
   Select,
   Table,
   Text,
@@ -186,44 +188,57 @@ function MonitorHeartbeats(monitor) {
         </Tfoot>
       </Table>
       <br />
-      <div className="pagination">
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          <FontAwesomeIcon
-            icon={faAngleLeft}
-            size="lg"
-            style={{ color: '#6B46C1' }}
-          />
-        </button>{' '}
-        <span>
-          Page{' '}
-          <strong>
-            {pageIndex + 1} of {pageOptions.length}
-          </strong>{' '}
-        </span>
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
-          <FontAwesomeIcon
-            icon={faAngleRight}
-            size="lg"
-            style={{ color: '#6B46C1' }}
-          />
-        </button>
-        <div style={{ width: '100px', float: 'right' }}>
-          <Select
-            size="xs"
-            variant="flushed"
-            value={pageSize}
-            onChange={(e) => {
-              setPageSize(Number(e.target.value))
-            }}
-          >
-            {[5, 10, 25, 50].map((pageSize) => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </Select>
-        </div>
-      </div>
+
+      {page && page.length > 0 ? (
+        <Grid h="70px" templateColumns="repeat(5, 1fr)" gap={4}>
+          <GridItem colSpan={1} />
+          <GridItem colSpan={3}>
+            <div className="pagination">
+              <button
+                onClick={() => previousPage()}
+                disabled={!canPreviousPage}
+              >
+                <FontAwesomeIcon
+                  icon={faAngleLeft}
+                  size="lg"
+                  style={{ color: '#6B46C1' }}
+                />
+              </button>{' '}
+              <span>
+                Page{' '}
+                <strong>
+                  {pageIndex + 1} of {pageOptions.length}
+                </strong>{' '}
+              </span>
+              <button onClick={() => nextPage()} disabled={!canNextPage}>
+                <FontAwesomeIcon
+                  icon={faAngleRight}
+                  size="lg"
+                  style={{ color: '#6B46C1' }}
+                />
+              </button>
+            </div>
+          </GridItem>
+          <GridItem colSpan={1}>
+            <div style={{ width: '100px', float: 'right' }}>
+              <Select
+                size="xs"
+                variant="flushed"
+                value={pageSize}
+                onChange={(e) => {
+                  setPageSize(Number(e.target.value))
+                }}
+              >
+                {[5, 10, 25, 50].map((pageSize) => (
+                  <option key={pageSize} value={pageSize}>
+                    Show {pageSize}
+                  </option>
+                ))}
+              </Select>
+            </div>
+          </GridItem>
+        </Grid>
+      ) : null}
     </div>
   )
 }
