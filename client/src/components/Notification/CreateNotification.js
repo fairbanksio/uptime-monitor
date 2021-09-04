@@ -51,11 +51,11 @@ function CreateNotification() {
   }
 
   const verifyForm = () => {
-    if (notificationInfo.name && notificationInfo.name.length > 1) {
+    if (notificationInfo.name && notificationInfo.name.length > 0) {
       isInvalidName(false)
     } else isInvalidName(true)
 
-    if (notificationInfo.type && notificationInfo.type.length > 1) {
+    if (notificationInfo.type && notificationInfo.type.length > 0) {
       isInvalidType(false)
     } else isInvalidType(true)
 
@@ -64,7 +64,7 @@ function CreateNotification() {
       notificationInfo.type === 'slack' &&
       notificationInfo.config &&
       notificationInfo.config.slackWebhook &&
-      notificationInfo.config.slackWebhook.length > 1
+      notificationInfo.config.slackWebhook.length > 0
     ) {
       // Check this is a real url
       if (isValidUrl(notificationInfo.config.slackWebhook)) {
@@ -79,7 +79,7 @@ function CreateNotification() {
       notificationInfo.type === 'email' &&
       notificationInfo.config &&
       notificationInfo.config.email &&
-      notificationInfo.config.email.length > 1
+      notificationInfo.config.email.length > 0
     ) {
       // Check this is a real email
       if (isValidEmail(notificationInfo.config.email)) {
@@ -100,7 +100,7 @@ function CreateNotification() {
     if (verifyForm() && invalidName === false && invalidType === false) {
       if (
         notificationInfo.type === 'email' &&
-        notificationInfo.config.email.length > 1 &&
+        notificationInfo.config.email.length > 0 &&
         invalidEmail === false
       ) {
         console.log('Form w/ Email verified')
@@ -112,7 +112,7 @@ function CreateNotification() {
         })
       } else if (
         notificationInfo.type === 'slack' &&
-        notificationInfo.config.slackWebhook.length > 1 &&
+        notificationInfo.config.slackWebhook.length > 0 &&
         invalidSlack === false
       ) {
         console.log('Form w/ Slack verified')
