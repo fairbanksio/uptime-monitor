@@ -21,9 +21,6 @@ const LatencyChart = (monitor) => {
       let ts = moment(val.createdAt).format('h:mm:ss a')
       dateArray.unshift(ts)
     })
-
-    console.log(dataArray)
-    console.log(dateArray)
   }
 
   let options = {
@@ -52,7 +49,6 @@ const LatencyChart = (monitor) => {
       },
     },
     yAxis: {
-      max: 5000,
       title: {
         text: 'Milliseconds',
         style: {

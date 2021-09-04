@@ -28,8 +28,11 @@ function ListMonitors() {
                 </Text>
               </a>
               <UpdateMonitor monitor={monitor} />{' '}
-              <DeleteMonitor monitorId={monitor._id} />{' '}
-              <LatencyChart monitor={monitor} />{' '}
+              <DeleteMonitor monitorId={monitor._id} />
+            </div>
+
+            <div>
+              <LatencyChart monitor={monitor} />
             </div>
 
             <Grid templateColumns="repeat(2, 1fr)" gap={6}>
