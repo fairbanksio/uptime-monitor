@@ -23,6 +23,12 @@ const LatencyChart = (monitor) => {
     })
   }
 
+  let total = 0
+  for (var i = 0; i < dataArray.length; i++) {
+    total += dataArray[i]
+  }
+  let avg = total / dataArray.length
+
   let options = {
     chart: {
       type: 'areaspline',
@@ -75,22 +81,21 @@ const LatencyChart = (monitor) => {
           color: 'rgba(255, 0, 0, .1)',
         },
       ],
-      // plotLines: [
-      //   {
-      //     label: {
-      //       text: 'Avg. Response Time',
-      //       align: 'left',
-
-      //       style: {
-      //         color: 'white',
-      //         paddingLeft: '10px',
-      //       },
-      //     },
-      //     color: 'grey',
-      //     width: 1,
-      //     value: 928.5,
-      //   },
-      // ],
+      plotLines: [
+        {
+          label: {
+            // text: 'Avg: ' + avg + ' ms',
+            align: 'left',
+            style: {
+              color: 'grey',
+            },
+          },
+          color: 'grey',
+          width: 1,
+          value: avg,
+          dashStyle: 'dash',
+        },
+      ],
     },
     tooltip: {
       split: false,
@@ -112,7 +117,7 @@ const LatencyChart = (monitor) => {
           enabled: true,
           color: 'grey',
           style: {
-            textOutline: false,
+            textOutline: '#484B51',
           },
         },
       },

@@ -31,17 +31,17 @@ function Register() {
   }
 
   const verifyForm = () => {
-    if (registerInfo.username && registerInfo.username.length > 1) {
+    if (registerInfo.username && registerInfo.username.length > 0) {
       isInvalidUser(false)
     } else isInvalidUser(true)
     if (
       registerInfo.email &&
-      registerInfo.email.length > 1 &&
+      registerInfo.email.length > 0 &&
       isValidEmail(registerInfo.email)
     ) {
       isInvalidEmail(false)
     } else isInvalidEmail(true)
-    if (registerInfo.password && registerInfo.password.length > 1) {
+    if (registerInfo.password && registerInfo.password.length > 0) {
       isInvalidPassword(false)
     } else isInvalidPassword(true)
     if (
@@ -59,10 +59,10 @@ function Register() {
     if (
       verifyForm() &&
       registerInfo &&
-      registerInfo.username.length > 1 &&
-      registerInfo.email.length > 1 &&
+      registerInfo.username.length > 0 &&
+      registerInfo.email.length > 0 &&
       isValidEmail(registerInfo.email) &&
-      registerInfo.password.length > 1
+      registerInfo.password.length > 0
     ) {
       register(
         registerInfo.username,

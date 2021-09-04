@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useMemo, useState } from 'react'
 import useIsMountedRef from '../util/isMountedRef'
 import monitorService from '../services/monitor'
 import { createStandaloneToast } from '@chakra-ui/react'
-import {friendlyToast} from '../components/Util/FriendlyError'
+import { friendlyToast } from '../components/Util/FriendlyError'
 export const MonitorContext = createContext()
 
 const MonitorProvider = ({ user, children }) => {
@@ -39,21 +39,21 @@ const MonitorProvider = ({ user, children }) => {
   }, [user, isMountedRef])
 
   useEffect(() => {
-    if (error){
+    if (error) {
       const id = 'monitor-context-toast'
-        if (!toast.isActive(id)) {
-          toast({
-            id,
-            title: 'There was a problem with your request',
-            description: friendlyToast(error),
-            status: 'error',
-            variant: 'subtle',
-            duration: 2000,
-            isClosable: true,
-          })
-        }
-    } 
-    setError(undefined)// eslint-disable-next-line
+      if (!toast.isActive(id)) {
+        toast({
+          id,
+          title: 'There was a problem with your request',
+          description: friendlyToast(error),
+          status: 'error',
+          variant: 'subtle',
+          duration: 2000,
+          isClosable: true,
+        })
+      }
+    }
+    setError(undefined) // eslint-disable-next-line
   }, [error])
 
   // Create Monitor
@@ -82,7 +82,6 @@ const MonitorProvider = ({ user, children }) => {
         // update individuals monitor state
         setMonitors(
           monitors.map((item, index) => {
-            console.log(item)
             return item._id === payload._id ? monitor.data : item
           })
         )
