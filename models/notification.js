@@ -30,7 +30,7 @@ var NotificationSchema = new mongoose.Schema({
     mailFrom: { type: String },
     mailUsername: { type: String },
     mailPass: { type: String },
-    mailHost: { type: Boolean },
+    mailHost: { type: String },
   },
   owner: {
     type: Schema.Types.ObjectId,
@@ -80,16 +80,16 @@ NotificationSchema.methods.notify = function (event) {
     case 'email':
       try {
         let transporter = nodemailer.createTransport(smtpTransport({
-          host: this.config.emailHost,
+          host: this.config.mailHost,
           auth: {
-              user: this.config.emailUsername,
-              pass: this.config.emailPassword
+              user: this.config.mailUsername,
+              pass: this.config.mailPass
           }
         }));
 
         const mailOptions = {
-          from: this.config.emailFrom,
-          to: this.config.emailTo,
+          from: this.config.mailFrom,
+          to: this.config.mailTo,
           subject: event.monitor.name + ': ' + event.type,
           html: '<p>' + event.message + '</p>'
         };

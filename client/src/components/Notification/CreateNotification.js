@@ -14,7 +14,11 @@ function CreateNotification() {
     type: '',
     config: {
       slackWebhook: '',
-      email: '',
+      mailTo: '',
+      mailFrom: '',
+      mailUsername: '',
+      mailPass: '',
+      mailHost: '',
     },
   })
 
@@ -22,6 +26,11 @@ function CreateNotification() {
   const [invalidType, isInvalidType] = React.useState(null)
   const [invalidSlack, isInvalidSlack] = React.useState(null)
   const [invalidEmail, isInvalidEmail] = React.useState(null)
+  const [invalidMailTo, isInvalidMailTo] = React.useState(null)
+  const [invalidMailFrom, isInvalidMailFrom] = React.useState(null)
+  const [invalidMailHost, isInvalidMailHost] = React.useState(null)
+  const [invalidMailUsername, isInvalidMailUsername] = React.useState(null)
+  const [invalidMailPassword, isInvalidMailPassword] = React.useState(null)
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
@@ -79,8 +88,12 @@ function CreateNotification() {
 
   const handleConfigChange = (event) => {
     const { name, value } = event.target
-    setNotificationInfo({ ...notificationInfo, config: { [name]: value } })
+    const oldConfig = notificationInfo.config
+    const newConfig = {...oldConfig, [name]: value}
+    setNotificationInfo({ ...notificationInfo, config: newConfig })
+    console.log(newConfig)
   }
+
 
   const handleClear = () => {
     notificationInfo = setNotificationInfo({
@@ -88,7 +101,11 @@ function CreateNotification() {
       type: '',
       config: {
         slackWebhook: '',
-        email: '',
+        mailTo: '',
+        mailFrom: '',
+        mailUsername: '',
+        mailPass: '',
+        mailHost: '',
       },
     })
   }
@@ -98,7 +115,7 @@ function CreateNotification() {
     if (invalidName === false && invalidType === false) {
       if (
         notificationInfo.type === 'email' &&
-        notificationInfo.config.email.length > 1 &&
+        notificationInfo.config.mailTo.length > 1 &&
         invalidEmail === false
       ) {
         console.log('Form w/ Email verified')
@@ -164,7 +181,7 @@ function CreateNotification() {
         name="type"
         isInvalid={invalidType}
       >
-        <option disabled value="email">
+        <option value="email">
           Email
         </option>
         <option value="slack">Slack</option>
@@ -186,13 +203,61 @@ function CreateNotification() {
       {notificationInfo.type && notificationInfo.type === 'email' ? (
         <Input
           type="text"
-          placeholder="Email Address"
+          placeholder="Recipients"
           required
-          value={notificationInfo.config.email}
+          value={notificationInfo.config.mailTo}
           onChange={handleConfigChange}
           onKeyDown={handleKeyDown}
-          name="emailAddress"
-          isInvalid={invalidEmail}
+          name="mailTo"
+          isInvalid={invalidMailTo}
+        />
+      ) : null}
+      {notificationInfo.type && notificationInfo.type === 'email' ? (
+        <Input
+          type="text"
+          placeholder="From Address"
+          required
+          value={notificationInfo.config.mailFrom}
+          onChange={handleConfigChange}
+          onKeyDown={handleKeyDown}
+          name="mailFrom"
+          isInvalid={invalidMailFrom}
+        />
+      ) : null}
+      {notificationInfo.type && notificationInfo.type === 'email' ? (
+        <Input
+          type="text"
+          placeholder="Host"
+          required
+          value={notificationInfo.config.mailHost}
+          onChange={handleConfigChange}
+          onKeyDown={handleKeyDown}
+          name="mailHost"
+          isInvalid={invalidMailHost}
+        />
+      ) : null}
+      {notificationInfo.type && notificationInfo.type === 'email' ? (
+        <Input
+          type="text"
+          placeholder="Username"
+          required
+          value={notificationInfo.config.mailUsername}
+          onChange={handleConfigChange}
+          onKeyDown={handleKeyDown}
+          name="mailUsername"
+          isInvalid={invalidMailUsername}
+        />
+      ) : null}
+      {notificationInfo.type && notificationInfo.type === 'email' ? (
+        <Input
+          type="password"
+          placeholder="Password"
+          required
+          value={notificationInfo.config.mailPassword}
+          onChange={handleConfigChange}
+          onKeyDown={handleKeyDown}
+          name="mailPass"
+          isInvalid={invalidMailPassword}
         />
       ) : null}
 
