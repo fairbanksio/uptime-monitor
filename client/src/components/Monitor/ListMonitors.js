@@ -25,7 +25,7 @@ function ListMonitors() {
     <div>
       {monitors.length > 0 ? (
         monitors.map((monitor, key) => (
-          <Accordion defaultIndex={[0]} allowMultiple>
+          <Accordion allowMultiple>
             <AccordionItem key={key}>
               <h2>
                 <AccordionButton>
