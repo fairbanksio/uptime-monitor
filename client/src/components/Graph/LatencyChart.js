@@ -5,15 +5,15 @@ import moment from 'moment-timezone'
 
 import { MonitorContext } from '../../contexts/MonitorContext'
 
-let dataArray = []
-let dateArray = []
-
 const LatencyChart = (monitor) => {
   const { monitors } = useContext(MonitorContext)
   const thisMonitor = monitors.filter((el) => {
     return el._id === monitor.monitor._id
   })[0]
   const data = thisMonitor.heartbeats
+
+  let dataArray = []
+  let dateArray = []
 
   if (data && data.length > 0) {
     data.forEach((val) => {

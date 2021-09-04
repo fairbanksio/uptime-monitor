@@ -31,7 +31,7 @@ function ListMonitors() {
               <DeleteMonitor monitorId={monitor._id} />
             </div>
 
-            <div>
+            <div key={key}>
               <LatencyChart monitor={monitor} />
             </div>
 
