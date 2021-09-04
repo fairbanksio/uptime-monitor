@@ -34,6 +34,22 @@ function CreateNotification() {
     }
   }
 
+  const handleConfigChange = (event) => {
+    const { name, value } = event.target
+    setNotificationInfo({ ...notificationInfo, config: { [name]: value } })
+  }
+
+  const handleClear = () => {
+    notificationInfo = setNotificationInfo({
+      name: '',
+      type: '',
+      config: {
+        slackWebhook: '',
+        email: '',
+      },
+    })
+  }
+
   const verifyForm = () => {
     if (notificationInfo.name && notificationInfo.name.length > 1) {
       isInvalidName(false)
@@ -78,22 +94,6 @@ function CreateNotification() {
     } else {
       return false
     }
-  }
-
-  const handleConfigChange = (event) => {
-    const { name, value } = event.target
-    setNotificationInfo({ ...notificationInfo, config: { [name]: value } })
-  }
-
-  const handleClear = () => {
-    notificationInfo = setNotificationInfo({
-      name: '',
-      type: '',
-      config: {
-        slackWebhook: '',
-        email: '',
-      },
-    })
   }
 
   const handleCreateNotification = () => {
