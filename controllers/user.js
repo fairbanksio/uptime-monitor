@@ -1,5 +1,7 @@
 var express = require('express')
 let User = require('../models/user')
+var jwt = require('jsonwebtoken')
+var settings = require('../config/settings')
 
 // Get all users
 exports.getAll = (req, res, next) => {
@@ -17,9 +19,12 @@ exports.create = (req, res, next) => {
   newUser
     .save()
     .then((user) => {
+      delete user['password'] // probably not needed but extra precaution that password isn't returned. 
+      user.token = jwt.sign(user.toJSON(), settings.jwtSecret)
       res.json(user)
     })
     .catch((err) => {
+      console.log(err)
       res.status(422).send(err.errors)
     })
 }

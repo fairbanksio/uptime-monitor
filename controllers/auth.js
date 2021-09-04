@@ -9,6 +9,9 @@ exports.register = (req, res, next) => {
   newUser
     .save() // get all fields except password
     .then((user) => {
+
+      delete user['password'] // probably not needed but extra precaution that password isn't returned. 
+      user.token = jwt.sign(user.toJSON(), settings.jwtSecret)
       res.json(user)
     })
     .catch((err) => {

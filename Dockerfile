@@ -24,20 +24,19 @@ RUN mkdir /app && chown -R node:node /app
 WORKDIR /app
 USER node
 COPY --chown=node:node ./package*.json ./
-RUN  npm ci
+RUN  npm install --no-optional --silent
 
 # Development ENV
 FROM server-base as server-dev
 ENV NODE_ENV=development
 ENV PATH=/app/node_modules/.bin:$PATH
-RUN npm ci
+RUN npm install --only=development --no-optional --silent
 CMD ["nodemon", "index.js", "--inspect=0.0.0.0:9229"]
 
 # Development ENV
 FROM client-base as client-dev
 ENV NODE_ENV=development
 ENV PATH=/app/node_modules/.bin:$PATH
-RUN npm ci
 CMD ["npm", "start"]
 
 FROM client-base as client-source
