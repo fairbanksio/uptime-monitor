@@ -4,6 +4,9 @@ let timestamps = require('mongoose-timestamp')
 const axios = require('axios')
 const axiosRetry = require('axios-retry')
 
+var nodemailer = require('nodemailer')
+var smtpTransport = require('nodemailer-smtp-transport')
+
 axiosRetry(axios, { retries: 1 })
 
 var NotificationSchema = new mongoose.Schema({
@@ -27,10 +30,7 @@ var NotificationSchema = new mongoose.Schema({
     mailFrom: { type: String },
     mailUsername: { type: String },
     mailPass: { type: String },
-    mailSecure: { type: Boolean },
-    signalUrl: { type: String },
-    signalNumber: { type: String },
-    signalRecipients: { type: String },
+    mailHost: { type: Boolean },
   },
   owner: {
     type: Schema.Types.ObjectId,
@@ -77,6 +77,36 @@ NotificationSchema.methods.notify = function (event) {
         console.log(error)
       }
 
+    case 'email':
+      try {
+        let transporter = nodemailer.createTransport(smtpTransport({
+          host: this.config.emailHost,
+          auth: {
+              user: this.config.emailUsername,
+              pass: this.config.emailPassword
+          }
+        }));
+
+        const mailOptions = {
+          from: this.config.emailFrom,
+          to: this.config.emailTo,
+          subject: event.monitor.name + ': ' + event.type,
+          html: '<p>' + event.message + '</p>'
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+              console.log(error);
+          } else {
+              console.log('Email sent: ' + info.response);
+          }
+        });
+
+        break
+      } catch (error) {
+        console.log(error)
+      }
+  
     default:
       break
   }
