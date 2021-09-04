@@ -52,6 +52,7 @@ const LatencyChart = (monitor) => {
       },
     },
     yAxis: {
+      max: 5000,
       title: {
         text: 'Milliseconds',
         style: {
