@@ -45,12 +45,10 @@ function CreateNotification() {
 
   const verifyForm = () => {
     if (notificationInfo.name && notificationInfo.name.length > 1) {
-      // console.log('Name looks ok')
       isInvalidName(false)
     } else isInvalidName(true)
 
     if (notificationInfo.type && notificationInfo.type.length > 1) {
-      // console.log('Type looks ok')
       isInvalidType(false)
     } else isInvalidType(true)
 
@@ -61,7 +59,6 @@ function CreateNotification() {
       notificationInfo.config.slackWebhook &&
       notificationInfo.config.slackWebhook.length > 1
     ) {
-      // console.log('Checking Slack Webhook URL')
       // Check this is a real url
       if (isValidUrl(notificationInfo.config.slackWebhook)) {
         isInvalidSlack(false)
@@ -84,6 +81,12 @@ function CreateNotification() {
         isInvalidEmail(false)
       }
     } else isInvalidEmail(true)
+
+    if (!invalidName && !invalidType && (!invalidSlack || !invalidEmail)) {
+      return true
+    } else {
+      return false
+    }
   }
 
   const handleConfigChange = (event) => {
@@ -111,8 +114,7 @@ function CreateNotification() {
   }
 
   const handleCreateNotification = () => {
-    verifyForm()
-    if (invalidName === false && invalidType === false) {
+    if (verifyForm() && invalidName === false && invalidType === false) {
       if (
         notificationInfo.type === 'email' &&
         notificationInfo.config.mailTo.length > 1 &&
