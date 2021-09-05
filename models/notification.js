@@ -3,6 +3,11 @@ let Schema = mongoose.Schema
 let timestamps = require('mongoose-timestamp')
 const axios = require('axios')
 const axiosRetry = require('axios-retry')
+var encrypt = require('mongoose-encryption');
+const settings = require('../config/settings')
+
+var nodemailer = require('nodemailer')
+var smtpTransport = require('nodemailer-smtp-transport')
 
 axiosRetry(axios, { retries: 1 })
 
@@ -27,10 +32,7 @@ var NotificationSchema = new mongoose.Schema({
     mailFrom: { type: String },
     mailUsername: { type: String },
     mailPass: { type: String },
-    mailSecure: { type: Boolean },
-    signalUrl: { type: String },
-    signalNumber: { type: String },
-    signalRecipients: { type: String },
+    mailHost: { type: String },
   },
   owner: {
     type: Schema.Types.ObjectId,
@@ -38,6 +40,11 @@ var NotificationSchema = new mongoose.Schema({
     required: true,
   },
 })
+
+NotificationSchema.plugin(encrypt,{
+    secret: settings.encryptionSecret,
+    encryptedFields: ['config.mailPass','config.slackWebhook']
+  });
 
 NotificationSchema.methods.notify = function (event) {
   switch (this.type) {
@@ -75,6 +82,36 @@ NotificationSchema.methods.notify = function (event) {
         console.log(err)
       }
 
+    case 'email':
+      try {
+        let transporter = nodemailer.createTransport(smtpTransport({
+          host: this.config.mailHost,
+          auth: {
+              user: this.config.mailUsername,
+              pass: this.config.mailPass
+          }
+        }));
+
+        const mailOptions = {
+          from: this.config.mailFrom,
+          to: this.config.mailTo,
+          subject: event.monitor.name + ': ' + event.type,
+          html: '<p>' + event.message + '</p>'
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+              console.log(error);
+          } else {
+              console.log('Email sent: ' + info.response);
+          }
+        });
+
+        break
+      } catch (error) {
+        console.log(error)
+      }
+  
     default:
       break
   }
