@@ -6,10 +6,16 @@ import { AuthContext } from './contexts/AuthContext'
 import AuthProvider from './contexts/AuthContext'
 import MonitorProvider from './contexts/MonitorContext'
 import NotificationProvider from './contexts/NotificationContext'
-import { ChakraProvider } from '@chakra-ui/react'
+import { extendTheme, ChakraProvider } from '@chakra-ui/react'
 
 import Dashboard from './views/Dashboard'
 import Homepage from './views/Homepage'
+
+const theme = extendTheme({
+  shadows: {
+    outline: null,
+  },
+})
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const { user, loading } = useContext(AuthContext)
@@ -44,7 +50,7 @@ function App() {
 
 function AppWrapper() {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <AuthProvider>
         <App />
       </AuthProvider>
