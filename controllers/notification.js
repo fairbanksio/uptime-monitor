@@ -24,11 +24,9 @@ exports.create = (req, res, next) => {
 	})
 	newNotification.save()
 		.then(notification => {
-			console.log(notification)
 			res.json(notification);
 		})
 		.catch(err => {
-			console.log(err)
 			res.status(422).send(err.errors);
 		});
 };

@@ -44,14 +44,18 @@ function CreateNotification() {
   }
 
   const verifyForm = () => {
+
+    // Name
     if (notificationInfo.name && notificationInfo.name.length > 1) {
       isInvalidName(false)
     } else isInvalidName(true)
 
+    // Type
     if (notificationInfo.type && notificationInfo.type.length > 1) {
       isInvalidType(false)
     } else isInvalidType(true)
 
+    // Slack
     if (
       notificationInfo &&
       notificationInfo.type === 'slack' &&
@@ -67,23 +71,75 @@ function CreateNotification() {
       }
     } else isInvalidSlack(true)
 
+    // MailTo
     if (
       notificationInfo &&
       notificationInfo.type === 'email' &&
       notificationInfo.config &&
-      notificationInfo.config.email &&
-      notificationInfo.config.email.length > 1
+      notificationInfo.config.mailTo &&
+      notificationInfo.config.mailTo.length > 1
     ) {
       // Check this is a real email
-      if (isValidEmail(notificationInfo.config.email)) {
-        isInvalidEmail(true)
+      if (isValidEmail(notificationInfo.config.mailTo)) {
+        isInvalidMailTo(false)
       } else {
-        isInvalidEmail(false)
+        isInvalidMailTo(true)
       }
-    } else isInvalidEmail(true)
+    } else {
+      isInvalidMailTo(true)
+    }
 
-    if (!invalidName && !invalidType && (!invalidSlack || !invalidEmail)) {
-      return true
+    // MailFrom
+    if (
+      notificationInfo &&
+      notificationInfo.type === 'email' &&
+      notificationInfo.config &&
+      notificationInfo.config.mailFrom &&
+      notificationInfo.config.mailFrom.length > 1
+    ) {
+      // Check this is a real email
+      if (isValidEmail(notificationInfo.config.mailFrom)) {
+        isInvalidMailFrom(false)
+      } else {
+        isInvalidMailFrom(true)
+      }
+
+    } else {
+      isInvalidMailFrom(true)
+    }
+
+    // MailHost
+    if (notificationInfo.config.mailHost && notificationInfo.config.mailHost.length > 1) {
+      isInvalidMailHost(false)
+    } else isInvalidMailHost(true)
+
+    // MailUsername
+    if (notificationInfo.config.mailUsername && notificationInfo.config.mailUsername.length > 1) {
+      isInvalidMailUsername(false)
+    } else isInvalidMailUsername(true)
+
+    // MailPassword
+    if (notificationInfo.config.mailPass && notificationInfo.config.mailPass.length > 1) {
+      isInvalidMailPassword(false)
+    } else isInvalidMailPassword(true)
+
+    if (!invalidName && !invalidType) {
+      switch(notificationInfo.type){
+        case "slack":
+          if(!invalidSlack){
+            return true
+          } else {
+            return false
+          }
+        case "email":
+          if(!invalidMailTo && !invalidMailFrom && !invalidMailHost && !invalidMailUsername && !invalidMailPassword){
+            return true
+          } else {
+            return false
+          }
+        default:
+          return false
+      }
     } else {
       return false
     }
@@ -94,7 +150,6 @@ function CreateNotification() {
     const oldConfig = notificationInfo.config
     const newConfig = {...oldConfig, [name]: value}
     setNotificationInfo({ ...notificationInfo, config: newConfig })
-    console.log(newConfig)
   }
 
 
@@ -118,7 +173,7 @@ function CreateNotification() {
       if (
         notificationInfo.type === 'email' &&
         notificationInfo.config.mailTo.length > 1 &&
-        invalidEmail === false
+        invalidMailTo === false
       ) {
         console.log('Form w/ Email verified')
         createNotification(notificationInfo, (result) => {
@@ -145,7 +200,7 @@ function CreateNotification() {
           isInvalidName(false)
           isInvalidType(false)
           isInvalidSlack(false)
-          isInvalidEmail(false)
+          isInvalidMailTo(false)
         }, 1200)
       }
     } else {
@@ -154,7 +209,7 @@ function CreateNotification() {
         isInvalidName(false)
         isInvalidType(false)
         isInvalidSlack(false)
-        isInvalidEmail(false)
+        isInvalidMailTo(false)
       }, 1200)
     }
   }
