@@ -25,7 +25,6 @@ function CreateNotification() {
   const [invalidName, isInvalidName] = React.useState(null)
   const [invalidType, isInvalidType] = React.useState(null)
   const [invalidSlack, isInvalidSlack] = React.useState(null)
-  const [invalidEmail, isInvalidEmail] = React.useState(null)
   const [invalidMailTo, isInvalidMailTo] = React.useState(null)
   const [invalidMailFrom, isInvalidMailFrom] = React.useState(null)
   const [invalidMailHost, isInvalidMailHost] = React.useState(null)
@@ -41,22 +40,6 @@ function CreateNotification() {
     if (event.key === 'Enter') {
       handleCreateNotification()
     }
-  }
-
-  const handleConfigChange = (event) => {
-    const { name, value } = event.target
-    setNotificationInfo({ ...notificationInfo, config: { [name]: value } })
-  }
-
-  const handleClear = () => {
-    notificationInfo = setNotificationInfo({
-      name: '',
-      type: '',
-      config: {
-        slackWebhook: '',
-        email: '',
-      },
-    })
   }
 
   const verifyForm = () => {
