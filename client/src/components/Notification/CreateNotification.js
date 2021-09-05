@@ -43,8 +43,23 @@ function CreateNotification() {
     }
   }
 
-  const verifyForm = () => {
+  const handleConfigChange = (event) => {
+    const { name, value } = event.target
+    setNotificationInfo({ ...notificationInfo, config: { [name]: value } })
+  }
 
+  const handleClear = () => {
+    notificationInfo = setNotificationInfo({
+      name: '',
+      type: '',
+      config: {
+        slackWebhook: '',
+        email: '',
+      },
+    })
+  }
+
+  const verifyForm = () => {
     // Name
     if (notificationInfo.name && notificationInfo.name.length > 1) {
       isInvalidName(false)
@@ -61,7 +76,7 @@ function CreateNotification() {
       notificationInfo.type === 'slack' &&
       notificationInfo.config &&
       notificationInfo.config.slackWebhook &&
-      notificationInfo.config.slackWebhook.length > 1
+      notificationInfo.config.slackWebhook.length > 0
     ) {
       // Check this is a real url
       if (isValidUrl(notificationInfo.config.slackWebhook)) {
@@ -95,7 +110,7 @@ function CreateNotification() {
       notificationInfo.type === 'email' &&
       notificationInfo.config &&
       notificationInfo.config.mailFrom &&
-      notificationInfo.config.mailFrom.length > 1
+      notificationInfo.config.mailFrom.length > 0
     ) {
       // Check this is a real email
       if (isValidEmail(notificationInfo.config.mailFrom)) {
@@ -103,7 +118,6 @@ function CreateNotification() {
       } else {
         isInvalidMailFrom(true)
       }
-
     } else {
       isInvalidMailFrom(true)
     }
@@ -140,6 +154,7 @@ function CreateNotification() {
         default:
           return false
       }
+
     } else {
       return false
     }
@@ -151,7 +166,6 @@ function CreateNotification() {
     const newConfig = {...oldConfig, [name]: value}
     setNotificationInfo({ ...notificationInfo, config: newConfig })
   }
-
 
   const handleClear = () => {
     notificationInfo = setNotificationInfo({
@@ -167,15 +181,14 @@ function CreateNotification() {
       },
     })
   }
-
+  
   const handleCreateNotification = () => {
-    if (verifyForm() && invalidName === false && invalidType === false) {
+    if (verifyForm() && !invalidName && !invalidType) {
       if (
         notificationInfo.type === 'email' &&
         notificationInfo.config.mailTo.length > 1 &&
         invalidMailTo === false
       ) {
-        console.log('Form w/ Email verified')
         createNotification(notificationInfo, (result) => {
           if (result.status === 'success') {
             handleClear()
@@ -184,10 +197,9 @@ function CreateNotification() {
         })
       } else if (
         notificationInfo.type === 'slack' &&
-        notificationInfo.config.slackWebhook.length > 1 &&
+        notificationInfo.config.slackWebhook.length > 0 &&
         invalidSlack === false
       ) {
-        console.log('Form w/ Slack verified')
         createNotification(notificationInfo, (result) => {
           if (result.status === 'success') {
             handleClear()
@@ -195,7 +207,6 @@ function CreateNotification() {
           }
         })
       } else {
-        console.log('Re-check slack/email values...')
         setTimeout(() => {
           isInvalidName(false)
           isInvalidType(false)
@@ -204,7 +215,6 @@ function CreateNotification() {
         }, 1200)
       }
     } else {
-      console.log('Re-check the form...')
       setTimeout(() => {
         isInvalidName(false)
         isInvalidType(false)

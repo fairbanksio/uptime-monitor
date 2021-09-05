@@ -78,8 +78,8 @@ NotificationSchema.methods.notify = function (event) {
 
         axios.post(this.config.slackWebhook, data)
         break
-      } catch (error) {
-        console.log(error)
+      } catch (err) {
+        console.log(err)
       }
 
     case 'email':

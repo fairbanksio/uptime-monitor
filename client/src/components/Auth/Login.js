@@ -33,10 +33,10 @@ function Login() {
   }
 
   const verifyForm = () => {
-    if (loginInfo.username && loginInfo.username.length > 1) {
+    if (loginInfo.username && loginInfo.username.length > 0) {
       isInvalidUser(false)
     } else isInvalidUser(true)
-    if (loginInfo.password && loginInfo.password.length > 1) {
+    if (loginInfo.password && loginInfo.password.length > 0) {
       isInvalidPassword(false)
     } else isInvalidPassword(true)
     if (invalidUser === false && invalidPassword === false) {
@@ -50,8 +50,8 @@ function Login() {
     if (
       verifyForm() &&
       loginInfo &&
-      loginInfo.username.length > 1 &&
-      loginInfo.password.length > 1
+      loginInfo.username.length > 0 &&
+      loginInfo.password.length > 0
     ) {
       login(loginInfo.username, loginInfo.password, (result) => {
         if (result && result.status === 'success') {
