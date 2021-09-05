@@ -107,7 +107,6 @@ function UpdateMonitor(props) {
             name="interval"
             width={250}
           >
-            <option value="60">Every minute</option>
             <option value="300">Every 5 mins</option>
             <option value="600">Every 10 mins</option>
             <option value="900">Every 15 mins</option>
