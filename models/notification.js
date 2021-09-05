@@ -3,6 +3,8 @@ let Schema = mongoose.Schema
 let timestamps = require('mongoose-timestamp')
 const axios = require('axios')
 const axiosRetry = require('axios-retry')
+var encrypt = require('mongoose-encryption');
+const settings = require('../config/settings')
 
 var nodemailer = require('nodemailer')
 var smtpTransport = require('nodemailer-smtp-transport')
@@ -39,9 +41,12 @@ var NotificationSchema = new mongoose.Schema({
   },
 })
 
-NotificationSchema.methods.notify = function (event) {
-  console.log(event)
+NotificationSchema.plugin(encrypt,{
+    secret: settings.encryptionSecret,
+    encryptedFields: ['config.mailPass','config.slackWebhook']
+  });
 
+NotificationSchema.methods.notify = function (event) {
   switch (this.type) {
     case 'slack':
       try {
