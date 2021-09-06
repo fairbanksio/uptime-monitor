@@ -78,6 +78,7 @@ function Register() {
     validateForm()
     //eslint-disable-next-line
   }, [formValidation])
+
   const registerUser = () => {
     if(formValid){
       register(
@@ -164,7 +165,7 @@ function Register() {
 
       <br />
 
-      <Button onClick={registerUser} colorScheme="purple">
+      <Button onClick={registerUser} colorScheme="purple" disabled={!formValid}>
         Register
       </Button>
 
