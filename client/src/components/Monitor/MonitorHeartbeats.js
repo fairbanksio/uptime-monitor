@@ -198,7 +198,7 @@ function MonitorHeartbeats(monitor) {
             })
           ) : (
             <Tr key={'no-recent-heartbeats'}>
-              <Td colspan="4">
+              <Td colSpan="4">
                 <Center>No recent heartbeats</Center>
               </Td>
             </Tr>
