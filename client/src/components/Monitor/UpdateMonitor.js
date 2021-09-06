@@ -79,7 +79,7 @@ function UpdateMonitor(props) {
     setMonitorInfo({ ...monitorInfo, notifications: newNotifications })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notifications])
-
+  
   if (!visible) {
     return (
       <Button colorScheme="purple" size="xs" onClick={toggleVisible}>
@@ -158,10 +158,15 @@ function UpdateMonitor(props) {
                 <div key={key}>
                   <Checkbox
                     colorScheme="purple"
-                    checked={monitorInfo.notifications[notification._id]}
+                    isChecked={
+                      monitorInfo.notifications.find(
+                        (element) => element === notification._id
+                      )
+                        ? true
+                        : false
+                    }
                     id={notification._id}
                     name={notification.name}
-                    defaultValue={notification.name}
                     onChange={handleNotificationChange}
                   >
                     {notification.name}{' '}
@@ -180,16 +185,17 @@ function UpdateMonitor(props) {
 
         <div className="form-group">
           <Checkbox
-            defaultIsChecked
             colorScheme="purple"
             isRequired={true}
-            checked={monitorInfo.enabled}
+            isChecked={monitorInfo.enabled}
             onChange={handleCheckboxChange}
             name="enabled"
           >
             Enable Monitoring
           </Checkbox>
+          <input type="checkbox" isChecked={monitorInfo.enabled}/>
         </div>
+        
 
         <Button colorScheme="purple" size="xs" onClick={handleUpdateMonitor}>
           update

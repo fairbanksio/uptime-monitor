@@ -57,12 +57,12 @@ exports.getOne = (req, res, next) => {
 // Update one monitor
 exports.update = (req, res, next) => {
   const updatedMonitor = (query) => ({
-    ...(query.name && { name: query.name }),
-    ...(query.interval && { interval: query.interval }),
-    ...(query.enabled && { enabled: query.enabled }),
-    ...(query.config && { config: query.config }),
-    ...(query.owner && { owner: query.owner }),
-    ...(query.notifications && { notifications: query.notifications }),
+    ...(query.hasOwnProperty('name') && { name: query.name }),
+    ...(query.hasOwnProperty('interval') && { interval: query.interval }),
+    ...(query.hasOwnProperty('enabled') && { enabled: query.enabled }),
+    ...(query.hasOwnProperty('config') && { config: query.config }),
+    ...(query.hasOwnProperty('owner') && { owner: query.owner }),
+    ...(query.hasOwnProperty('notifications') && { notifications: query.notifications }),
   })
 
   Monitor.findByIdAndUpdate(
