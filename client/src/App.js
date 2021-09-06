@@ -30,11 +30,11 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 }
 
 function App() {
-  const auth = useContext(AuthContext)
+  const {user, loading} = useContext(AuthContext)
   return (
     <Router>
-      <MonitorProvider user={auth.user}>
-        <NotificationProvider user={auth.user}>
+      <MonitorProvider user={user}>
+        <NotificationProvider user={user}>
           <Switch>
             <PrivateRoute path="/dashboard" component={Dashboard} />
           </Switch>
@@ -42,7 +42,8 @@ function App() {
       </MonitorProvider>
 
       <Switch>
-        <Route path="/" exact={true} component={Homepage} />
+        <Route path="/" exact={true} render={(props) => user && !loading ? <Redirect to="/dashboard" /> : <Homepage/>}
+      />
       </Switch>
     </Router>
   )
