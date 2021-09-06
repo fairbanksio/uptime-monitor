@@ -27,7 +27,8 @@
     "passport": "^0.4.1",
     "passport-google-token": "^0.1.2",
     "passport-jwt": "^4.0.0",
-    "performance-now": "^2.1.0"
+    "performance-now": "^2.1.0",
+    "saslprep": "^1.0.3"
   },
   "devDependencies": {
     "babel-jest": "^26.6.0",

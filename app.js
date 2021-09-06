@@ -4,12 +4,20 @@ var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 var mongoose = require('mongoose')
 var passport = require('passport')
-const path = require('path')
+var path = require('path')
 var cors = require('cors')
-const os = require('os')
+var os = require('os')
+
+var saslprep
+try {
+  saslprep = require('saslprep')
+} catch (e) {
+  console.warn(
+    'Warning: no saslprep library specified. Passwords will not be sanitized'
+  )
+}
 
 var apiRouter = require('./routes/api')
-
 var monitoringService = require('./services/monitoring')
 
 require('dotenv').config() // eslint-disable-line
