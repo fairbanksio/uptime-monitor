@@ -127,9 +127,6 @@ function CreateNotification() {
   }
 
   const validateForm = () => {
-    // validate for when slack is chose
-    console.log(formValidation)
-    console.log(formValid)
     if(formValidation.nameValid && formValidation.typeValid && notificationInfo.type === 'slack'){
       if(formValidation.slackWebhookValid){
         setFormValid(true)
@@ -152,8 +149,7 @@ function CreateNotification() {
     validateForm()
     //eslint-disable-next-line
   }, [formValidation])
-  
-  console.log(formValidation.nameValid)
+
   return (
     <div>
       <div>
