@@ -4,6 +4,8 @@ var monitoringService = require('../services/monitoring')
 // Get all monitors
 exports.getAll = (req, res, next) => {
   Monitor.find({ owner: req.user._id })
+    .collation({ locale: 'en' })
+    .sort({ name: 1 })
     .populate({
       path: 'events heartbeats',
       options: { sort: { createdAt: -1 } },
