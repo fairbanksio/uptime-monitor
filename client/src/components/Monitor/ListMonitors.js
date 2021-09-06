@@ -36,10 +36,8 @@ function ListMonitors() {
               <AccordionButton>
                 <Box flex="1" textAlign="left">
                   <Grid
-                    h="80px"
                     templateRows="repeat(2, 1fr)"
                     templateColumns="repeat(10, 1fr)"
-                    gap={2}
                   >
                     <GridItem
                       rowSpan={2}
