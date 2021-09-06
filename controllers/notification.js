@@ -8,6 +8,7 @@ exports.getAll = (req, res, next) => {
 			res.json(notifications);
 		})
 		.catch(err => {
+			console.log(err)
 			res.status(422).send(err.errors);
 		});
 };
@@ -27,6 +28,7 @@ exports.create = (req, res, next) => {
 			res.json(notification);
 		})
 		.catch(err => {
+			console.log(err)
 			res.status(422).send(err.errors);
 		});
 };
