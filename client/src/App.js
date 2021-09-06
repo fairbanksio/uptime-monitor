@@ -30,11 +30,11 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 }
 
 function App() {
-  const auth = useContext(AuthContext)
+  const {user} = useContext(AuthContext)
   return (
     <Router>
-      <MonitorProvider user={auth.user}>
-        <NotificationProvider user={auth.user}>
+      <MonitorProvider user={user}>
+        <NotificationProvider user={user}>
           <Switch>
             <PrivateRoute path="/dashboard" component={Dashboard} />
           </Switch>
