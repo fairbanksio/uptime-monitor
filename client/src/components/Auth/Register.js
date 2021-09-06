@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { createStandaloneToast, Button, Input } from '@chakra-ui/react'
 
@@ -10,18 +10,26 @@ function Register() {
   const toast = createStandaloneToast()
   const history = useHistory()
 
-  const [registerInfo, setRegisterInfo] = useState({
+  const initRegisterInfo = {
     username: '',
     password: '',
     email: '',
-  })
-  const [invalidUser, isInvalidUser] = React.useState(false)
-  const [invalidEmail, isInvalidEmail] = React.useState(false)
-  const [invalidPassword, isInvalidPassword] = React.useState(false)
+  }
+  const [registerInfo, setRegisterInfo] = useState(initRegisterInfo)
+
+  const initFormValidation = {
+    formErrors: {},
+    usernameValid: null,
+    emailValid: null,
+    passwordValid: null
+  }
+  let [formValidation, setFormValidation] = useState(initFormValidation)
+  let [formValid, setFormValid] = useState(false)
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
     setRegisterInfo({ ...registerInfo, [name]: value })
+    validateField(name, value)
   }
 
   const handleKeyDown = (event) => {
@@ -30,40 +38,48 @@ function Register() {
     }
   }
 
-  const verifyForm = () => {
-    if (registerInfo.username && registerInfo.username.length > 0) {
-      isInvalidUser(false)
-    } else isInvalidUser(true)
-    if (
-      registerInfo.email &&
-      registerInfo.email.length > 0 &&
-      isValidEmail(registerInfo.email)
-    ) {
-      isInvalidEmail(false)
-    } else isInvalidEmail(true)
-    if (registerInfo.password && registerInfo.password.length > 0) {
-      isInvalidPassword(false)
-    } else isInvalidPassword(true)
-    if (
-      invalidUser === false &&
-      invalidEmail === false &&
-      invalidPassword === false
-    ) {
-      return true
-    } else {
-      return false
+  const validateField = (fieldName, value) => {
+    // get existing form errors
+    let newFormValidation = formValidation
+  
+    // update validation errors 
+    switch(fieldName) {
+      case 'username':
+        newFormValidation.usernameValid = value.length >= 6;
+        newFormValidation.formErrors.username = newFormValidation.usernameValid ? '' : ' is too short';
+        break;
+      case 'password':
+        newFormValidation.passwordValid = value.length >= 6
+        newFormValidation.formErrors.password = newFormValidation.passwordValid ? '' : ' is too short';
+        break;
+      case 'email':
+        newFormValidation.emailValid = isValidEmail(value)
+        newFormValidation.formErrors.email = newFormValidation.emailValid ? '' : ' you must enter a valid email';
+        break;
+      default:
+        break;
     }
+
+    setFormValidation({
+      ...formValidation, ...newFormValidation
+    });
+
   }
 
+  const validateForm = () => {
+    if(formValidation.usernameValid && formValidation.passwordValid && formValidation.emailValid){
+        setFormValid(true)
+    } else {
+        setFormValid(false)
+    } 
+  }
+
+  useEffect(() => {
+    validateForm()
+    //eslint-disable-next-line
+  }, [formValidation])
   const registerUser = () => {
-    if (
-      verifyForm() &&
-      registerInfo &&
-      registerInfo.username.length > 0 &&
-      registerInfo.email.length > 0 &&
-      isValidEmail(registerInfo.email) &&
-      registerInfo.password.length > 0
-    ) {
+    if(formValid){
       register(
         registerInfo.username,
         registerInfo.password,
@@ -100,12 +116,6 @@ function Register() {
           }
         }
       )
-    } else {
-      setTimeout(() => {
-        isInvalidUser(false)
-        isInvalidEmail(false)
-        isInvalidPassword(false)
-      }, 1200)
     }
   }
 
@@ -121,7 +131,7 @@ function Register() {
         placeholder="username"
         size="md"
         width={'300'}
-        isInvalid={invalidUser}
+        isInvalid={!formValidation.usernameValid && formValidation.usernameValid !== null}
       />
       <br />
       <Input
@@ -135,7 +145,7 @@ function Register() {
         placeholder="email"
         size="md"
         width={'300'}
-        isInvalid={invalidEmail}
+        isInvalid={!formValidation.emailValid && formValidation.emailValid !== null}
       />
       <br />
       <Input
@@ -149,7 +159,7 @@ function Register() {
         placeholder="password"
         size="md"
         width={'300'}
-        isInvalid={invalidPassword}
+        isInvalid={!formValidation.passwordValid && formValidation.passwordValid !== null}
       />
 
       <br />
