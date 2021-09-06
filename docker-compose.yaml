@@ -46,6 +46,9 @@ services:
     networks:
       - uptime-monitor
     restart: unless-stopped
+    logging:
+      driver: "none"
+
 
 networks:
   uptime-monitor:
