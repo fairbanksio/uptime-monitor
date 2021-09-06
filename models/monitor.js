@@ -95,7 +95,9 @@ MonitorSchema.methods.start = async function () {
       case 'http':
         try {
           // Check heartbeat
-          let res = await axios.get(this.config.httpUrl, {
+          console.time('Request to ' + this.config.httpUrl)
+
+          let res = await axios.head(this.config.httpUrl, {
             timeout: 5000, // Hardcode timeout to 5s; if your site hasn't responded by then you got problems
             headers: {
               Accept: '*/*',
@@ -103,6 +105,7 @@ MonitorSchema.methods.start = async function () {
             },
           })
 
+          console.timeEnd('Request to ' + this.config.httpUrl)
           // set heartbeat status
           heartbeat.status = 'UP'
           heartbeat.statusMessage = res.status + ' - ' + res.statusText
@@ -116,13 +119,17 @@ MonitorSchema.methods.start = async function () {
       case 'keyword':
         try {
           // Check heartbeat
+          console.time('Request to ' + this.config.httpUrl)
+
           let res = await axios.get(this.config.httpUrl, {
-            timeout: this.interval * 1000 * 0.8,
+            timeout: 5000, // Hardcode timeout to 5s; if your site hasn't responded by then you got problems
             headers: {
               Accept: '*/*',
               'User-Agent': 'Uptime-Monitor/',
             },
           })
+
+          console.timeEnd('Request to ' + this.config.httpUrl)
 
           // check if response contains keyword
           if (JSON.stringify(res.data).includes(this.config.httpKeyword)) {
