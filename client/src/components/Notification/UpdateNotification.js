@@ -75,9 +75,6 @@ function UpdateNotification(props) {
   }
 
   const validateForm = () => {
-    // validate for when slack is chose
-    console.log(formValidation)
-    console.log(formValid)
     if(formValidation.nameValid && formValidation.typeValid && notificationInfo.type === 'slack'){
       if(formValidation.slackWebhookValid){
         setFormValid(true)
@@ -100,6 +97,18 @@ function UpdateNotification(props) {
     validateForm()
     //eslint-disable-next-line
   }, [formValidation, notificationInfo])
+
+
+  useEffect(() => {
+    validateField('name', notificationInfo['name'])
+    validateField('type', notificationInfo['type'])
+    validateField('slackWebhook', notificationInfo.config['slackWebhook'])
+    validateField('mailTo', notificationInfo.config['mailTo'])
+    validateField('mailFrom', notificationInfo.config['mailFrom'])
+    validateField('mailUsername', notificationInfo.config['mailUsername'])
+    validateField('mailPass', notificationInfo.config['mailPass'])
+    validateField('mailHost', notificationInfo.config['mailHost'])
+  },[])
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
