@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
-import { Button, Center, Checkbox, Input, Select, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent, FormLabel } from '@chakra-ui/react'
+import { Button, Checkbox, Input, Select, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent, FormLabel } from '@chakra-ui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSlack } from '@fortawesome/free-brands-svg-icons'
 import { faMailBulk } from '@fortawesome/free-solid-svg-icons'
@@ -12,9 +12,8 @@ function UpdateMonitor(props) {
   const { notifications } = useContext(NotificationContext)
   const { monitor } = props
   const [monitorInfo, setMonitorInfo] = useState(monitor)
-  const [visible, setVisible] = useState(false)
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const initialRef = React.useRef()
+  const initialRef = useRef()
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
@@ -141,7 +140,7 @@ function UpdateMonitor(props) {
               onChange={handleConfigChange}
               name="httpUrl"
             />
-            
+
             {monitorInfo.type === "keyword" &&
               <>
                 <FormLabel>Keyword</FormLabel>
