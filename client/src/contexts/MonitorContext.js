@@ -11,14 +11,11 @@ const MonitorProvider = ({ user, children }) => {
   const [error, setError] = useState()
   const [loading, setLoading] = useState(false)
   const [loadingInitial, setLoadingInitial] = useState(true)
-
+  const [refreshInterval, setRefreshInterval] = useState(null)
   const toast = createStandaloneToast()
 
-  // refresh monitors
-  useEffect(() => {
-    if (user) {
-      setLoadingInitial(true)
-      monitorService
+  const refreshMonitors = (cb) => {
+    monitorService
         .getMonitors()
         .then((monitors) => {
           if (isMountedRef.current) {
@@ -27,16 +24,34 @@ const MonitorProvider = ({ user, children }) => {
         })
         .catch((_error) => {})
         .finally(() => {
+          cb()
+        })
+  }
+  // refresh monitors
+  useEffect(() => {
+    if (user) {
+      setLoadingInitial(true)
+      refreshMonitors(() =>{
+        if (isMountedRef.current) {
+          setLoadingInitial(false)
+        }
+      })
+      let interval = setInterval(()=>{
+        refreshMonitors(() =>{
           if (isMountedRef.current) {
             setLoadingInitial(false)
           }
-        })
+        })  // Increment, set in context
+      }, 60 * 1000)
+      setRefreshInterval(interval)
     } else {
       if (isMountedRef.current) {
         setLoadingInitial(false)
       }
+      clearInterval(refreshInterval)
     }
-  }, [user, isMountedRef])
+    // eslint-disable-next-line
+  }, [user])
 
   useEffect(() => {
     if (error) {
@@ -120,6 +135,7 @@ const MonitorProvider = ({ user, children }) => {
       createMonitor,
       deleteMonitor,
       updateMonitor,
+      refreshMonitors,
     }), // eslint-disable-next-line
     [monitors, loading, error]
   )

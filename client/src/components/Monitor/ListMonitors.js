@@ -8,6 +8,7 @@ import {
   Box,
   Grid,
   Text,
+  Button,
 } from '@chakra-ui/react'
 
 import DeleteMonitor from './DeleteMonitor'
@@ -19,7 +20,7 @@ import { MonitorContext } from '../../contexts/MonitorContext'
 import LatencyChart from '../Graph/LatencyChart'
 
 function ListMonitors() {
-  const { monitors } = useContext(MonitorContext)
+  const { monitors, refreshMonitors } = useContext(MonitorContext)
 
   return (
     <div>
@@ -69,7 +70,9 @@ function ListMonitors() {
                 <br />
               </AccordionPanel>
             </AccordionItem>
+            <Button onClick={(e) => refreshMonitors(()=>{})} colorScheme="purple" >Refresh</Button>
           </Accordion>
+          
         ))
       ) : (
         <div>
