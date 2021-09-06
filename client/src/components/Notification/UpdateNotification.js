@@ -98,7 +98,6 @@ function UpdateNotification(props) {
     //eslint-disable-next-line
   }, [formValidation, notificationInfo])
 
-
   useEffect(() => {
     validateField('name', notificationInfo['name'])
     validateField('type', notificationInfo['type'])
@@ -108,6 +107,7 @@ function UpdateNotification(props) {
     validateField('mailUsername', notificationInfo.config['mailUsername'])
     validateField('mailPass', notificationInfo.config['mailPass'])
     validateField('mailHost', notificationInfo.config['mailHost'])
+    // eslint-disable-next-line
   },[])
 
   const handleInputChange = (event) => {

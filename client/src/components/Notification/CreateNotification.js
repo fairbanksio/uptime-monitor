@@ -149,8 +149,7 @@ function CreateNotification() {
     validateForm()
     //eslint-disable-next-line
   }, [formValidation])
-  
-  console.log(formValidation.nameValid)
+
   return (
     <div>
       <div>

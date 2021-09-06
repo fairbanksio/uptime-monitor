@@ -25,8 +25,8 @@ function ListMonitors() {
   return (
     <div>
       {monitors.length > 0 ? (
-        monitors.map((monitor, key) => (
-          <Accordion allowMultiple>
+        <Accordion allowMultiple>
+          {monitors.map((monitor, key) => (
             <AccordionItem key={key}>
               <h2>
                 <AccordionButton>
@@ -70,10 +70,9 @@ function ListMonitors() {
                 <br />
               </AccordionPanel>
             </AccordionItem>
-            <Button onClick={(e) => refreshMonitors(()=>{})} colorScheme="purple" >Refresh</Button>
-          </Accordion>
-          
-        ))
+          ))}
+          <Button onClick={(e) => refreshMonitors(()=>{})} colorScheme="purple" >Refresh</Button>
+        </Accordion>
       ) : (
         <div>
           <Text>No monitors configured</Text>
