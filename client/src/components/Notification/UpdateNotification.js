@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Button, Input, Select } from '@chakra-ui/react'
+import { Button, Input, Select, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent, FormLabel } from '@chakra-ui/react'
 
 import { NotificationContext } from '../../contexts/NotificationContext'
 
@@ -10,8 +10,9 @@ function UpdateNotification(props) {
   const { updateNotification, loading } = useContext(NotificationContext)
   const { notification } = props
   const [notificationInfo, setNotificationInfo] = useState(notification)
-  const [visible, setVisible] = useState(false)
 
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const initialRef = React.useRef()
   const initFormValidation = {
     formErrors: {},
     nameValid: null,
@@ -131,7 +132,7 @@ function UpdateNotification(props) {
           //history.push("/")
         }
       })
-      setVisible(false)
+      onClose()
     }
   }
 
@@ -141,131 +142,152 @@ function UpdateNotification(props) {
     }
   }
 
-  const toggleVisible = () => {
-    setVisible(!visible)
-  }
+  return (
+    <>
+    <Button onClick={onOpen} colorScheme="purple" size="xs" >Update</Button>
+    <Modal
+        initialFocusRef={initialRef}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Update Notification</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormLabel>Name</FormLabel>
+            <Input
+              type="text"
+              placeholder="Name"
+              required
+              value={notificationInfo.name}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+              name="name"
+              isInvalid={!formValidation.nameValid && formValidation.nameValid !== null}
+            />
 
-  if (!visible) {
-    return (
-      <Button colorScheme="purple" size="xs" onClick={toggleVisible}>
-        update
-      </Button>
-    )
-  } else {
-    return (
-      <div>
-        <Input
-          type="text"
-          placeholder="Name"
-          required
-          value={notificationInfo.name}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          name="name"
-          isInvalid={!formValidation.nameValid && formValidation.nameValid !== null}
-        />
-        <div>{formValidation.nameValid}</div>
+            <FormLabel>Type</FormLabel>
+            <Select
+              placeholder="Notification Type"
+              value={notificationInfo.type}
+              onChange={handleInputChange}
+              name="type"
+              isInvalid={!formValidation.typeValid && formValidation.typeValid !== null}
+            >
+              <option value="email">
+                Email
+              </option>
+              <option value="slack">Slack</option>
+            </Select>
 
-        <Select
-          placeholder="Notification Type"
-          value={notificationInfo.type}
-          onChange={handleInputChange}
-          name="type"
-          isInvalid={!formValidation.typeValid && formValidation.typeValid !== null}
-        >
-          <option value="email">
-            Email
-          </option>
-          <option value="slack">Slack</option>
-        </Select>
+            {notificationInfo.type && notificationInfo.type === 'slack' ? (
+              <>
+                <FormLabel>Slack Webhook</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Slack Webhook URL"
+                  required
+                  value={notificationInfo.config.slackWebhook}
+                  onChange={handleConfigChange}
+                  onKeyDown={handleKeyDown}
+                  name="slackWebhook"
+                  isInvalid={!formValidation.slackWebhookValid && formValidation.slackWebhookValid !== null}
+                />
+              </>
+            ) : null}
 
-        {notificationInfo.type && notificationInfo.type === 'slack' ? (
-          <Input
-            type="text"
-            placeholder="Slack Webhook URL"
-            required
-            value={notificationInfo.config.slackWebhook}
-            onChange={handleConfigChange}
-            onKeyDown={handleKeyDown}
-            name="slackWebhook"
-            isInvalid={!formValidation.slackWebhookValid && formValidation.slackWebhookValid !== null}
-          />
-        ) : null}
+            {notificationInfo.type && notificationInfo.type === 'email' ? (
+              <>
+                <FormLabel>Recipients</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Recipients"
+                  required
+                  value={notificationInfo.config.mailTo}
+                  onChange={handleConfigChange}
+                  onKeyDown={handleKeyDown}
+                  name="mailTo"
+                  isInvalid={!formValidation.mailToValid && formValidation.mailToValid !== null}
+                />
+              </>
+            ) : null}
+            {notificationInfo.type && notificationInfo.type === 'email' ? (
+              <>
+                <FormLabel>From Address</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="From Address"
+                  required
+                  value={notificationInfo.config.mailFrom}
+                  onChange={handleConfigChange}
+                  onKeyDown={handleKeyDown}
+                  name="mailFrom"
+                  isInvalid={!formValidation.mailFromValid && formValidation.mailFromValid !== null}
+                />
+              </>
+            ) : null}
+            {notificationInfo.type && notificationInfo.type === 'email' ? (
+              <>
+                <FormLabel>Host</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Host"
+                  required
+                  value={notificationInfo.config.mailHost}
+                  onChange={handleConfigChange}
+                  onKeyDown={handleKeyDown}
+                  name="mailHost"
+                  isInvalid={!formValidation.mailHostValid && formValidation.mailHostValid !== null}
+                />
+              </>
+            ) : null}
+            {notificationInfo.type && notificationInfo.type === 'email' ? (
+              <>
+                <FormLabel>Username</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Username"
+                  required
+                  value={notificationInfo.config.mailUsername}
+                  onChange={handleConfigChange}
+                  onKeyDown={handleKeyDown}
+                  name="mailUsername"
+                  isInvalid={!formValidation.mailUsernameValid && formValidation.mailUsernameValid !== null}
+                />
+              </>
+            ) : null}
+            {notificationInfo.type && notificationInfo.type === 'email' ? (
+              <>
+                <FormLabel>Password</FormLabel>
+                <Input
+                  type="password"
+                  placeholder="Password"
+                  required
+                  value={notificationInfo.config.mailPassword}
+                  onChange={handleConfigChange}
+                  onKeyDown={handleKeyDown}
+                  name="mailPass"
+                  isInvalid={!formValidation.mailPassValid && formValidation.mailPassValid !== null}
+                />
+              </>
+            ) : null}
+          </ModalBody>
+          <ModalFooter>
+            <Button disabled={!formValid}
+              onClick={handleUpdateNotification}
+              variant="solid"
+              colorScheme="purple"
+              isLoading={loading}
+            >
+              Update
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  )
 
-        {notificationInfo.type && notificationInfo.type === 'email' ? (
-          <Input
-            type="text"
-            placeholder="Recipients"
-            required
-            value={notificationInfo.config.mailTo}
-            onChange={handleConfigChange}
-            onKeyDown={handleKeyDown}
-            name="mailTo"
-            isInvalid={!formValidation.mailToValid && formValidation.mailToValid !== null}
-          />
-        ) : null}
-        {notificationInfo.type && notificationInfo.type === 'email' ? (
-          <Input
-            type="text"
-            placeholder="From Address"
-            required
-            value={notificationInfo.config.mailFrom}
-            onChange={handleConfigChange}
-            onKeyDown={handleKeyDown}
-            name="mailFrom"
-            isInvalid={!formValidation.mailFromValid && formValidation.mailFromValid !== null}
-          />
-        ) : null}
-        {notificationInfo.type && notificationInfo.type === 'email' ? (
-          <Input
-            type="text"
-            placeholder="Host"
-            required
-            value={notificationInfo.config.mailHost}
-            onChange={handleConfigChange}
-            onKeyDown={handleKeyDown}
-            name="mailHost"
-            isInvalid={!formValidation.mailHostValid && formValidation.mailHostValid !== null}
-          />
-        ) : null}
-        {notificationInfo.type && notificationInfo.type === 'email' ? (
-          <Input
-            type="text"
-            placeholder="Username"
-            required
-            value={notificationInfo.config.mailUsername}
-            onChange={handleConfigChange}
-            onKeyDown={handleKeyDown}
-            name="mailUsername"
-            isInvalid={!formValidation.mailUsernameValid && formValidation.mailUsernameValid !== null}
-          />
-        ) : null}
-        {notificationInfo.type && notificationInfo.type === 'email' ? (
-          <Input
-            type="password"
-            placeholder="Password"
-            required
-            value={notificationInfo.config.mailPassword}
-            onChange={handleConfigChange}
-            onKeyDown={handleKeyDown}
-            name="mailPass"
-            isInvalid={!formValidation.mailPassValid && formValidation.mailPassValid !== null}
-          />
-        ) : null}
-
-        <div style={{ marginTop: '10px' }}>
-          <Button disabled={!formValid}
-            onClick={handleUpdateNotification}
-            variant="solid"
-            colorScheme="purple"
-            isLoading={loading}
-          >
-            Update
-          </Button>
-        </div>
-      </div>
-    )
-  }
 }
 
 export default UpdateNotification
