@@ -20,8 +20,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faArrowUp,
   faArrowDown,
-  faAngleLeft,
-  faAngleRight,
 } from '@fortawesome/free-solid-svg-icons'
 
 import { MonitorContext } from '../../contexts/MonitorContext'
