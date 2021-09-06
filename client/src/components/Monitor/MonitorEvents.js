@@ -254,7 +254,7 @@ function MonitorEvents(monitor) {
             })
           ) : (
             <Tr key={'no-recent-events'}>
-              <Td colspan="4">
+              <Td colSpan="4">
                 <Center>No recent events</Center>
               </Td>
             </Tr>
