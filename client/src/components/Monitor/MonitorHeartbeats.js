@@ -12,6 +12,7 @@ import {
   Tr,
   Th,
   Td,
+  Tooltip,
   chakra,
 } from '@chakra-ui/react'
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
@@ -68,7 +69,49 @@ function MonitorHeartbeats(monitor) {
         Header: 'Status Message',
         accessor: 'statusMessage',
         Cell: (cellProps) => {
-          return <code>{cellProps.value}</code>
+          if (cellProps.value.length > 10) {
+            return (
+              <Tooltip label={cellProps.value}>
+                <Text
+                  noOfLines={1}
+                  isTruncated
+                  style={{
+                    background: '#868686',
+                    boxDecorationBreak: 'clone',
+                    padding: '0.1rem 0.3rem 0.2rem',
+                    borderRadius: '0.2rem',
+                    fontFamily: 'MyFancyCustomFont, monospace',
+                    fontSize: 'inherit',
+                    display: 'inline-block',
+                    whiteSpace: 'nowrap',
+                    maxWidth: '150px',
+                  }}
+                >
+                  {cellProps.value}
+                </Text>
+              </Tooltip>
+            )
+          } else {
+            return (
+              <Text
+                noOfLines={1}
+                isTruncated
+                style={{
+                  background: '#868686',
+                  boxDecorationBreak: 'clone',
+                  padding: '0.1rem 0.3rem 0.2rem',
+                  borderRadius: '0.2rem',
+                  fontFamily: 'MyFancyCustomFont, monospace',
+                  fontSize: 'inherit',
+                  display: 'inline-block',
+                  whiteSpace: 'nowrap',
+                  maxWidth: '150px',
+                }}
+              >
+                {cellProps.value}
+              </Text>
+            )
+          }
         },
       },
       {
