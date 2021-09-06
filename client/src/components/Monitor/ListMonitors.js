@@ -16,6 +16,14 @@ import UpdateMonitor from './UpdateMonitor'
 import MonitorEvents from './MonitorEvents'
 import MonitorHeartbeats from './MonitorHeartbeats'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faArrowUp,
+  faArrowDown,
+  faAngleLeft,
+  faAngleRight,
+} from '@fortawesome/free-solid-svg-icons'
+
 import { MonitorContext } from '../../contexts/MonitorContext'
 import LatencyChart from '../Graph/LatencyChart'
 
@@ -28,35 +36,39 @@ function ListMonitors() {
         <Accordion allowMultiple>
           {monitors.map((monitor, key) => (
             <AccordionItem key={key}>
-              <h2>
                 <AccordionButton>
                   <Box flex="1" textAlign="left">
-                    <div>
-                      <Text fontSize="2xl">{monitor.name}</Text>
-                      <div style={{ display: 'inline-block' }}>
-                        <a
-                          href={monitor.config.httpUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Text fontSize="sm" style={{ marginBottom: '5px' }}>
-                            {monitor.config.httpUrl}
-                          </Text>
-                        </a>
-                      </div>
-                      <br />
-                      <UpdateMonitor monitor={monitor} />{' '}
-                      <DeleteMonitor monitorId={monitor._id} />
+
+                    <Text fontSize="2xl">{monitor.name} 
+                    {monitor.status === "UP" ?
+                      <FontAwesomeIcon
+                        icon={faArrowUp}
+                        style={{ color: 'green', marginLeft: '7px' }}
+                      />
+                    :
+                      <FontAwesomeIcon
+                        icon={faArrowDown}
+                        style={{ color: 'red', marginLeft: '7px' }}
+                      />
+                    }
+                    
+                    </Text>
+                    <div style={{ display: 'inline-block' }}>
+                      <a
+                        href={monitor.config.httpUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Text fontSize="sm" style={{ marginBottom: '5px' }}>
+                          {monitor.config.httpUrl}
+                        </Text>
+                      </a>
                     </div>
                   </Box>
                   <AccordionIcon />
                 </AccordionButton>
-              </h2>
               <AccordionPanel pb={4}>
-                <div key={key}>
-                  <LatencyChart monitor={monitor} />
-                </div>
-
+                <LatencyChart monitor={monitor} />
                 <Grid templateColumns="repeat(2, 1fr)" gap={6}>
                   <Box w="100%">
                     <Text fontSize="lg">Events</Text>
@@ -68,6 +80,8 @@ function ListMonitors() {
                   </Box>
                 </Grid>
                 <br />
+                <UpdateMonitor monitor={monitor} />{' '}
+                <DeleteMonitor monitorId={monitor._id} />
               </AccordionPanel>
             </AccordionItem>
           ))}
