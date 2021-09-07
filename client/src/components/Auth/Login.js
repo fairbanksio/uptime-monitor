@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import FriendlyError from '../Util/FriendlyError'
 import {
@@ -17,13 +17,23 @@ function Login() {
   const toast = createStandaloneToast()
   const history = useHistory()
 
-  const [loginInfo, setLoginInfo] = useState({ username: '', password: '' })
-  const [invalidUser, isInvalidUser] = React.useState(false)
-  const [invalidPassword, isInvalidPassword] = React.useState(false)
+  const [loginInfo, setLoginInfo] = useState({
+    username: '',
+    password: ''
+  })
+
+  const initFormValidation = {
+    formErrors: {},
+    usernameValid: null,
+    passwordValid: null
+  }
+  let [formValidation, setFormValidation] = useState(initFormValidation)
+  let [formValid, setFormValid] = useState(false)
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
     setLoginInfo({ ...loginInfo, [name]: value })
+    validateField(name, value)
   }
 
   const handleKeyDown = (event) => {
@@ -32,27 +42,45 @@ function Login() {
     }
   }
 
-  const verifyForm = () => {
-    if (loginInfo.username && loginInfo.username.length > 0) {
-      isInvalidUser(false)
-    } else isInvalidUser(true)
-    if (loginInfo.password && loginInfo.password.length > 0) {
-      isInvalidPassword(false)
-    } else isInvalidPassword(true)
-    if (invalidUser === false && invalidPassword === false) {
-      return true
-    } else {
-      return false
+  const validateField = (fieldName, value) => {
+    // get existing form errors
+    let newFormValidation = formValidation
+  
+    // update validation errors 
+    switch(fieldName) {
+      case 'username':
+        newFormValidation.usernameValid = value.length >= 6;
+        newFormValidation.formErrors.username = newFormValidation.usernameValid ? '' : ' is too short';
+        break;
+      case 'password':
+        newFormValidation.passwordValid = value.length >= 6
+        newFormValidation.formErrors.password = newFormValidation.passwordValid ? '' : ' is too short';
+        break;
+      default:
+        break;
     }
+
+    setFormValidation({
+      ...formValidation, ...newFormValidation
+    });
+
   }
 
+  const validateForm = () => {
+    if(formValidation.usernameValid && formValidation.passwordValid){
+        setFormValid(true)
+    } else {
+        setFormValid(false)
+    } 
+  }
+
+  useEffect(() => {
+    validateForm()
+    //eslint-disable-next-line
+  }, [formValidation])
+
   const loginUser = () => {
-    if (
-      verifyForm() &&
-      loginInfo &&
-      loginInfo.username.length > 0 &&
-      loginInfo.password.length > 0
-    ) {
+    if(formValid){
       login(loginInfo.username, loginInfo.password, (result) => {
         if (result && result.status === 'success') {
           const id = 'logged-in-toast'
@@ -85,11 +113,6 @@ function Login() {
           }
         }
       })
-    } else {
-      setTimeout(() => {
-        isInvalidUser(false)
-        isInvalidPassword(false)
-      }, 1200)
     }
   }
 
@@ -113,7 +136,7 @@ function Login() {
           placeholder="username"
           size="md"
           width={'300'}
-          isInvalid={invalidUser}
+          isInvalid={!formValidation.usernameValid && formValidation.usernameValid !== null}
         />
       </FormControl>
       <FormControl id="password">
@@ -127,7 +150,7 @@ function Login() {
           placeholder="password"
           size="md"
           width={'300'}
-          isInvalid={invalidPassword}
+          isInvalid={!formValidation.passwordValid && formValidation.passwordValid !== null}
         />
       </FormControl>
 
@@ -141,7 +164,7 @@ function Login() {
         </div>
       ) : (
         <div>
-          <Button onClick={loginUser} colorScheme="purple">
+          <Button onClick={loginUser} colorScheme="purple" disabled={!formValid}>
             Login
           </Button>
           <br />
