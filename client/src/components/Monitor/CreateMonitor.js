@@ -15,7 +15,6 @@ import { MonitorContext } from '../../contexts/MonitorContext'
 import { NotificationContext } from '../../contexts/NotificationContext'
 
 import isValidUrl from '../../util/isValidUrl'
-import isValidEmail from '../../util/isValidEmail'
 
 function CreateMonitor() {
   const { createMonitor, loading } = useContext(MonitorContext)
