@@ -100,7 +100,6 @@ function UpdateMonitor(props) {
     let newFormValidation = formValidation
   
     // update validation errors
-    console.log(fieldName + " - " + value)
     switch(fieldName) {
       case 'name':
         newFormValidation.nameValid = value.length >= 1;
