@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background-color: #484b51;
+  background-color: #282c34;
   color: #fff;
   text-shadow: 0 0 3px #000;
 }
@@ -58,10 +58,9 @@
 .Content {
   /* Works on Firefox */
   scrollbar-width: thin;
-  scrollbar-color: #6b46c1 #484b51;
+  scrollbar-color: #6b46c1 #282c34;
   /* Works on Firefox */
   overflow-x: auto;
-  height: 88vh;
 }
 
 /* Works on Chrome, Edge, and Safari */
