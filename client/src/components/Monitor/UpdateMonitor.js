@@ -7,6 +7,8 @@ import { faMailBulk } from '@fortawesome/free-solid-svg-icons'
 import { MonitorContext } from '../../contexts/MonitorContext'
 import { NotificationContext } from '../../contexts/NotificationContext'
 
+import isValidUrl from '../../util/isValidUrl'
+
 function UpdateMonitor(props) {
   const { updateMonitor } = useContext(MonitorContext)
   const { notifications } = useContext(NotificationContext)
@@ -15,9 +17,22 @@ function UpdateMonitor(props) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const initialRef = useRef()
 
+  const initFormValidation = {
+    formErrors: {},
+    nameValid: null,
+    typeValid: null,
+    intervalValid: null,
+    httpUrlValid: null,
+    httpKeywordValid: null
+  }
+  let [formValidation, setFormValidation] = useState(initFormValidation)
+
+  let [formValid, setFormValid] = useState(false)
+
   const handleInputChange = (event) => {
     const { name, value } = event.target
     setMonitorInfo({ ...monitorInfo, [name]: value })
+    validateField(name, value)
   }
 
   const handleCheckboxChange = (event) => {
@@ -30,15 +45,18 @@ function UpdateMonitor(props) {
     const oldConfig = monitorInfo.config
     const newConfig = { ...oldConfig, [name]: value }
     setMonitorInfo({ ...monitorInfo, config: newConfig })
+    validateField(name, value)
   }
 
   const handleUpdateMonitor = () => {
-    updateMonitor(monitorInfo, (result) => {
-      if (result.status === 'success') {
-        //history.push("/")
-      }
-    })
-    onClose()
+    if(formValid){
+      updateMonitor(monitorInfo, (result) => {
+        if (result.status === 'success') {
+          //history.push("/")
+        }
+      })
+      onClose()
+    }
   }
 
   const handleNotificationChange = (event) => {
@@ -76,7 +94,76 @@ function UpdateMonitor(props) {
     setMonitorInfo({ ...monitorInfo, notifications: newNotifications })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notifications])
+
+  const validateField = (fieldName, value) => {
+    // get existing form errors
+    let newFormValidation = formValidation
   
+    // update validation errors
+    console.log(fieldName + " - " + value)
+    switch(fieldName) {
+      case 'name':
+        newFormValidation.nameValid = value.length >= 1;
+        newFormValidation.formErrors.name = newFormValidation.nameValid ? '' : ' is too short';
+        break;
+      case 'type':
+        newFormValidation.typeValid = value.length >= 1;
+        newFormValidation.formErrors.type = newFormValidation.typeValid ? '' : ' you must select a monitor type';
+        break;
+      case 'interval':
+        newFormValidation.intervalValid = value >= 300;
+        newFormValidation.formErrors.interval = newFormValidation.intervalValid ? '' : ' you must select an interval';
+        break;
+      case 'httpUrl':
+        newFormValidation.httpUrlValid = isValidUrl(value)
+        newFormValidation.formErrors.httpUrl = newFormValidation.httpUrlValid ? '' : ' you must enter a valid url';
+        break;
+      case 'httpKeyword':
+        newFormValidation.httpKeywordValid = value.length >= 1;
+        newFormValidation.formErrors.httpKeyword = newFormValidation.httpKeywordValid ? '' : ' is too short';
+        break;
+      default:
+        break;
+    }
+
+    setFormValidation({
+      ...formValidation, ...newFormValidation
+    });
+
+  }
+
+  const validateForm = () => {
+    if(formValidation.typeValid && monitorInfo.type === 'http'){
+      if(formValidation.nameValid && formValidation.typeValid && formValidation.intervalValid && formValidation.httpUrlValid){
+        setFormValid(true)
+      } else {
+        setFormValid(false)
+      }
+    // validate for when email is chosen
+    } else if(formValidation.typeValid && monitorInfo.type === 'keyword'){
+      if(formValidation.nameValid && formValidation.typeValid && formValidation.intervalValid && formValidation.httpKeywordValid && formValidation.httpUrlValid){
+        setFormValid(true)
+      } else {
+        setFormValid(false)
+      }
+    } else {
+      setFormValid(false)
+    }
+  }
+
+  useEffect(() => {
+    validateForm()
+    //eslint-disable-next-line
+  }, [formValidation])
+  
+  useEffect(() => {
+    validateField('name', monitorInfo['name'])
+    validateField('type', monitorInfo['type'])
+    validateField('interval', monitorInfo['interval'])
+    validateField('httpUrl', monitorInfo.config['httpUrl'])
+    validateField('httpKeyword', monitorInfo.config['httpKeyword'])
+    // eslint-disable-next-line
+  },[])
   
   return (
     <>
@@ -101,6 +188,7 @@ function UpdateMonitor(props) {
               value={monitorInfo.name}
               onChange={handleInputChange}
               name="name"
+              isInvalid={!formValidation.nameValid && formValidation.nameValid !== null}
             />
 
             <FormLabel>Interval</FormLabel>
@@ -110,12 +198,13 @@ function UpdateMonitor(props) {
               value={monitorInfo.interval}
               onChange={handleInputChange}
               name="interval"
+              isInvalid={!formValidation.intervalValid && formValidation.intervalValid !== null}
             >
-              <option value="300">Every 5 mins</option>
-              <option value="600">Every 10 mins</option>
-              <option value="900">Every 15 mins</option>
-              <option value="1800">Every 30 mins</option>
-              <option value="3600">Every 60 mins</option>
+              <option value={300}>Every 5 mins</option>
+              <option value={600}>Every 10 mins</option>
+              <option value={900}>Every 15 mins</option>
+              <option value={1800}>Every 30 mins</option>
+              <option value={3600}>Every 60 mins</option>
             </Select>{' '}
 
             <FormLabel>Type</FormLabel>
@@ -125,7 +214,7 @@ function UpdateMonitor(props) {
               value={monitorInfo.type}
               onChange={handleInputChange}
               name="type"
-
+              isInvalid={!formValidation.typeValid && formValidation.typeValid !== null}
             >
               <option value="http">HTTP</option>
               <option value="keyword">HTTP with keyword</option>
@@ -139,6 +228,7 @@ function UpdateMonitor(props) {
               value={monitorInfo.config.httpUrl}
               onChange={handleConfigChange}
               name="httpUrl"
+              isInvalid={!formValidation.httpUrlValid && formValidation.httpUrlValid !== null}
             />
 
             {monitorInfo.type === "keyword" &&
@@ -151,11 +241,10 @@ function UpdateMonitor(props) {
                   value={monitorInfo.config.httpKeyword}
                   onChange={handleConfigChange}
                   name="httpKeyword"
+                  isInvalid={!formValidation.httpKeywordValid && formValidation.httpKeywordValid !== null}
                 />
               </>
             }
-            
-
 
               <FormLabel>Notification Agent(s)</FormLabel>
               {notifications.length > 0 ? null : <div>No notifiers configured</div>}
@@ -200,7 +289,7 @@ function UpdateMonitor(props) {
             </ModalBody>
             
             <ModalFooter>
-            <Button colorScheme="purple" onClick={handleUpdateMonitor}>
+            <Button colorScheme="purple" onClick={handleUpdateMonitor} disabled={!formValid}>
               Update
             </Button>
             <Button onClick={onClose}>Cancel</Button>
