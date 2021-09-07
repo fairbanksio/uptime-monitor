@@ -1,6 +1,7 @@
 import { Grid, GridItem, Flex, Heading, Spacer, Box } from '@chakra-ui/react'
 import ListMonitors from '../components/Monitor/ListMonitors'
 import SimpleSidebar from '../components/Sidebar'
+import CreateMonitor from '../components/Monitor/CreateMonitor'
 
 function Dashboard() {
   return (
@@ -23,7 +24,7 @@ function Dashboard() {
                     </Heading>
                   </Flex>
                   <Spacer />
-                    <Box p="4">[+Add Monitor]</Box>
+                    <Box p="4"><CreateMonitor/></Box>
                 </Flex>
                 <ListMonitors />
               </GridItem>

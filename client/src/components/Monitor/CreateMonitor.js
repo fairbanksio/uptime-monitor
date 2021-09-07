@@ -1,11 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import {
   Button,
   Center,
   Checkbox,
   createStandaloneToast,
   Input,
-  Select,
+  Select, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent, FormLabel 
 } from '@chakra-ui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSlack } from '@fortawesome/free-brands-svg-icons'
@@ -20,6 +20,9 @@ function CreateMonitor() {
   const { createMonitor, loading } = useContext(MonitorContext)
   const { notifications } = useContext(NotificationContext)
   const toast = createStandaloneToast()
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const initialRef = useRef()
 
   const initMonitorInfo = {
     name: '',
@@ -194,128 +197,148 @@ function CreateMonitor() {
   }
 
   return (
-    <div>
-      <Input
-        type="text"
-        placeholder="Name"
-        isRequired={true}
-        value={monitorInfo.name}
-        onChange={handleInputChange}
-        onKeyDown={handleKeyDown}
-        name="name"
-        isInvalid={!formValidation.nameValid && formValidation.nameValid !== null}
-      />
+    <>
+      <Button colorScheme="purple"  onClick={onOpen}>
+        Add Monitor
+      </Button>
+      <Modal
+        initialFocusRef={initialRef}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Monitor</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <Input
+              type="text"
+              placeholder="Name"
+              isRequired={true}
+              value={monitorInfo.name}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+              name="name"
+              isInvalid={!formValidation.nameValid && formValidation.nameValid !== null}
+            />
 
-      <Center>
-        <Select
-          placeholder="Interval"
-          isRequired={true}
-          onChange={handleInputChange}
-          name="interval"
-          isInvalid={!formValidation.intervalValid && formValidation.intervalValid !== null}
-        >
-          <option value="300">Every 5 mins</option>
-          <option value="600">Every 10 mins</option>
-          <option value="900">Every 15 mins</option>
-          <option value="1800">Every 30 mins</option>
-          <option value="3600">Every 60 mins</option>
-        </Select>
-      </Center>
+            <Center>
+              <Select
+                placeholder="Interval"
+                isRequired={true}
+                onChange={handleInputChange}
+                name="interval"
+                isInvalid={!formValidation.intervalValid && formValidation.intervalValid !== null}
+              >
+                <option value="300">Every 5 mins</option>
+                <option value="600">Every 10 mins</option>
+                <option value="900">Every 15 mins</option>
+                <option value="1800">Every 30 mins</option>
+                <option value="3600">Every 60 mins</option>
+              </Select>
+            </Center>
 
-      <Center>
-        <Select
-          placeholder="Type"
-          isRequired={true}
-          onChange={handleInputChange}
-          name="type"
-          isInvalid={!formValidation.typeValid && formValidation.typeValid !== null}
-        >
-          <option value="http">HTTP</option>
-          <option value="keyword">HTTP with keyword</option>
-        </Select>
-      </Center>
+            <Center>
+              <Select
+                placeholder="Type"
+                isRequired={true}
+                onChange={handleInputChange}
+                name="type"
+                isInvalid={!formValidation.typeValid && formValidation.typeValid !== null}
+              >
+                <option value="http">HTTP</option>
+                <option value="keyword">HTTP with keyword</option>
+              </Select>
+            </Center>
 
-      <Input
-        type="text"
-        placeholder="URL"
-        isRequired={true}
-        value={monitorInfo.config.httpUrl}
-        onChange={handleConfigChange}
-        onKeyDown={handleKeyDown}
-        name="httpUrl"
-        isInvalid={!formValidation.httpUrlValid && formValidation.httpUrlValid !== null}
-      />
+            <Input
+              type="text"
+              placeholder="URL"
+              isRequired={true}
+              value={monitorInfo.config.httpUrl}
+              onChange={handleConfigChange}
+              onKeyDown={handleKeyDown}
+              name="httpUrl"
+              isInvalid={!formValidation.httpUrlValid && formValidation.httpUrlValid !== null}
+            />
 
-      {monitorInfo.type === 'keyword' && (
-        <Input
-          type="text"
-          placeholder="Keyword"
-          isRequired={true}
-          value={monitorInfo.config.httpKeyword}
-          onChange={handleConfigChange}
-          onKeyDown={handleKeyDown}
-          name="httpKeyword"
-          isInvalid={!formValidation.httpKeywordValid && formValidation.httpKeywordValid !== null}
-        />
-      )}
+            {monitorInfo.type === 'keyword' && (
+              <Input
+                type="text"
+                placeholder="Keyword"
+                isRequired={true}
+                value={monitorInfo.config.httpKeyword}
+                onChange={handleConfigChange}
+                onKeyDown={handleKeyDown}
+                name="httpKeyword"
+                isInvalid={!formValidation.httpKeywordValid && formValidation.httpKeywordValid !== null}
+              />
+            )}
 
-      <div>
-        <label htmlFor="notifications">Notification Agent(s)</label>
-        {notifications.length > 0 ? null : <div>No notifiers configured</div>}
-        {notifications &&
-          notifications.map((notification, key) => {
-            return (
-              <div key={key}>
-                <Checkbox
-                  colorScheme="purple"
-                  checked={monitorInfo.notifications[notification._id]}
-                  id={notification._id}
-                  name={notification.name}
-                  value={notification.name}
-                  onChange={handleNotificationChange}
-                >
-                  {notification.name}{' '}
-                  {notification.type === 'slack' ? (
-                    <FontAwesomeIcon icon={faSlack} />
-                  ) : (
-                    <FontAwesomeIcon icon={faMailBulk} />
-                  )}
-                </Checkbox>
-              </div>
-            )
-          })}
-      </div>
+            <div>
+              <label htmlFor="notifications">Notification Agent(s)</label>
+              {notifications.length > 0 ? null : <div>No notifiers configured</div>}
+              {notifications &&
+                notifications.map((notification, key) => {
+                  return (
+                    <div key={key}>
+                      <Checkbox
+                        colorScheme="purple"
+                        checked={monitorInfo.notifications[notification._id]}
+                        id={notification._id}
+                        name={notification.name}
+                        value={notification.name}
+                        onChange={handleNotificationChange}
+                      >
+                        {notification.name}{' '}
+                        {notification.type === 'slack' ? (
+                          <FontAwesomeIcon icon={faSlack} />
+                        ) : (
+                          <FontAwesomeIcon icon={faMailBulk} />
+                        )}
+                      </Checkbox>
+                    </div>
+                  )
+                })}
+            </div>
 
-      <br />
+            <br />
 
-      <div className="form-group">
-        <Checkbox
-          defaultIsChecked
-          colorScheme="purple"
-          isRequired={true}
-          checked={monitorInfo.enabled}
-          onChange={handleEnableChange}
-          name="enabled"
-        >
-          Enable Monitoring
-        </Checkbox>
-      </div>
+            <div className="form-group">
+              <Checkbox
+                defaultIsChecked
+                colorScheme="purple"
+                isRequired={true}
+                checked={monitorInfo.enabled}
+                onChange={handleEnableChange}
+                name="enabled"
+              >
+                Enable Monitoring
+              </Checkbox>
+            </div>
 
-      <div style={{ marginTop: '10px' }}>
-        <Button
-          onClick={handleCreateMonitor}
-          variant="solid"
-          colorScheme="purple"
-          isLoading={loading}
-          disabled={!formValid}
-        >
-          Monitor
-        </Button>
-        <Button onClick={handleClear} variant="ghost" colorScheme="grey">
-          Clear
-        </Button>
-      </div>
-    </div>
+            <div style={{ marginTop: '10px' }}>
+              
+            </div>
+          </ModalBody>
+          <ModalFooter>
+          <Button
+                onClick={handleCreateMonitor}
+                variant="solid"
+                colorScheme="purple"
+                isLoading={loading}
+                disabled={!formValid}
+              >
+                Monitor
+              </Button>
+              <Button onClick={handleClear} variant="ghost" colorScheme="grey">
+                Clear
+              </Button>
+          <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   )
 }
 
