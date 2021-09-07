@@ -176,7 +176,7 @@ function UpdateMonitor(props) {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Monitor</ModalHeader>
+          <ModalHeader>Update monitor</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormLabel>Name</FormLabel>

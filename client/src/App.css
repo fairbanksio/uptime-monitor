@@ -52,7 +52,6 @@
 
 .header {
   background-color: #282c34;
-  margin-bottom: 10px;
 }
 
 .Content {
@@ -61,6 +60,7 @@
   scrollbar-color: #6b46c1 #282c34;
   /* Works on Firefox */
   overflow-x: auto;
+  height: 100vh;
 }
 
 /* Works on Chrome, Edge, and Safari */

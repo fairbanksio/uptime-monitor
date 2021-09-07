@@ -208,7 +208,7 @@ function CreateMonitor() {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Monitor</ModalHeader>
+          <ModalHeader>Create a new monitor</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <Input

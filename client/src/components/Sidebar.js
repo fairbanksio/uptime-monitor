@@ -37,7 +37,7 @@ export default function SimpleSidebar({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box minH="100vh">
+    <Box minH="100vh" p="0" m="0" className="Content">
       <SidebarContent
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}

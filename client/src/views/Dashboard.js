@@ -7,7 +7,6 @@ function Dashboard() {
   return (
     <div className="App">
       <SimpleSidebar>
-        <div className="Content">
           <Grid templateColumns="repeat(9, 1fr)" gap={4}>
             <GridItem colSpan={1} />
               <GridItem colSpan={7}>
@@ -30,7 +29,6 @@ function Dashboard() {
               </GridItem>
             <GridItem colSpan={1} />
           </Grid>
-        </div>
       </SimpleSidebar>
     </div>
   )
