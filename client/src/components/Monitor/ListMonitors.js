@@ -5,7 +5,6 @@ import {
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
-  Button,
   Box,
   Grid,
   GridItem,
@@ -25,7 +24,7 @@ import { MonitorContext } from '../../contexts/MonitorContext'
 import LatencyChart from '../Graph/LatencyChart'
 
 function ListMonitors() {
-  const { monitors, refreshMonitors } = useContext(MonitorContext)
+  const { monitors } = useContext(MonitorContext)
 
   return (
     <div>
