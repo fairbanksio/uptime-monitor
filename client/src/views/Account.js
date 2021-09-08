@@ -1,7 +1,8 @@
-import { Grid, GridItem, Flex, Heading, Spacer, Box } from '@chakra-ui/react'
+import { Grid, GridItem, Flex, Heading, Spacer, Box, Button } from '@chakra-ui/react'
 import SidebarWrapper from '../components/SidebarWrapper'
+import AccountOverview from '../components/Account/AccountOverview'
 
-function Dashboard() {
+function Account() {
   return (
     <div className="App">
       <SidebarWrapper>
@@ -21,9 +22,21 @@ function Dashboard() {
                     </Heading>
                   </Flex>
                   <Spacer />
-                    <Box p="4"></Box>
+                  <Box p="4">
+                    <Button
+                      variant="ghost"
+                      colorScheme="pink"
+                      
+                      onClick={function () {
+                        setTimeout(() => {
+                        }, 1000)
+                      }}
+                    >
+                      Delete Account
+                    </Button>
+                  </Box>
                 </Flex>
-                
+                <AccountOverview/>
               </GridItem>
             <GridItem colSpan={1} />
           </Grid>
@@ -31,5 +44,5 @@ function Dashboard() {
     </div>
   )
 }
-export default Dashboard
+export default Account
 
