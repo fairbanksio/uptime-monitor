@@ -20,9 +20,10 @@ import {
   DrawerCloseButton,
   Text,
   useDisclosure,
+  Heading
 } from '@chakra-ui/react'
 
-function UserDrawer() {
+const RightNavDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { user, logout } = useContext(AuthContext)
   const btnRef = React.useRef()
@@ -90,22 +91,29 @@ function UserDrawer() {
 
 function Navbar() {
   return (
-    <div className="header">
-      <Flex>
-        <Box p="4">
-          <a href="/dashboard" className="header-link">
-            <FontAwesomeIcon
-              icon={faNetworkWired}
-              className="header-logo"
-              size="lg"
-            />
-            Uptime Monitor
-          </a>
-        </Box>
-        <Spacer />
-        <Box p="4">{UserDrawer()}</Box>
+
+    <Flex
+      as="nav"
+      align="center"
+      justify="space-between"
+      wrap="wrap"
+      padding={2}
+    >
+      <Flex align="center" mr={5}>
+        <Heading as="h1" size="lg" letterSpacing={"tighter"}>
+          <FontAwesomeIcon
+            icon={faNetworkWired}
+            className="header-logo"
+            size="md"
+          />
+          Uptime Monitor
+        </Heading>
       </Flex>
-    </div>
+        
+        <Spacer />
+        <Box p="4"><RightNavDrawer/></Box>
+      </Flex>
+
   )
 }
 export default Navbar
