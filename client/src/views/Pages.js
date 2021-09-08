@@ -1,7 +1,7 @@
 import { Grid, GridItem, Flex, Heading, Spacer, Box } from '@chakra-ui/react'
 import SidebarWrapper from '../components/SidebarWrapper'
 
-function Dashboard() {
+function Pages() {
   return (
     <div className="App">
       <SidebarWrapper>
@@ -31,5 +31,5 @@ function Dashboard() {
     </div>
   )
 }
-export default Dashboard
+export default Pages
 
