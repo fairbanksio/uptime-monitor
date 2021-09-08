@@ -10,9 +10,7 @@ import { AuthContext } from '../../contexts/AuthContext'
 
 function AccountOverview() {
   const { user } = useContext(AuthContext )
-console.log(user)
   return (
-
     <Box flex="1" textAlign="left">
       <Grid
         templateColumns="repeat(10, 1fr)"
