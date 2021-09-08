@@ -13,7 +13,7 @@ import {
   Button,
   Spacer
 } from '@chakra-ui/react';
-import { Link} from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import {
   FiHome,
   FiTrendingUp,
@@ -91,6 +91,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
+        
         <NavItem key={link.name} icon={link.icon} url={link.url}>
           {link.name}
         </NavItem>
@@ -114,7 +115,10 @@ const SidebarContent = ({ onClose, ...rest }) => {
 
 const NavItem = ({ url, icon, children, ...rest }) => {
   return (
-    <Link to={url} style={{ textDecoration: 'none' }}>
+    <NavLink to={url} style={{ textDecoration: 'none' }} activeStyle={{
+      fontWeight: "bold",
+      color: "#6b46c1"
+    }}>
       <Flex
         align="center"
         p="4"
@@ -139,7 +143,7 @@ const NavItem = ({ url, icon, children, ...rest }) => {
         )}
         {children}
       </Flex>
-    </Link>
+    </NavLink>
   );
 };
 
