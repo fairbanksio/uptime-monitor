@@ -13,11 +13,9 @@ import {
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
-  Button,
   Box,
   Grid,
   GridItem,
-  Link,
   Text,
 } from '@chakra-ui/react'
 
