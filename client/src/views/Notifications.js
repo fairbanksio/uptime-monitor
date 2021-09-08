@@ -3,7 +3,7 @@ import ListNotifications from '../components/Notification/ListNotifications'
 import CreateNotification from '../components/Notification/CreateNotification'
 import SidebarWrapper from '../components/SidebarWrapper'
 
-function Dashboard() {
+function Notifications() {
   return (
     <div className="App">
       <SidebarWrapper>
@@ -23,7 +23,7 @@ function Dashboard() {
                     </Heading>
                   </Flex>
                   <Spacer />
-                    <Box p="4"><CreateNotification/></Box>
+                  <Box p="4"><CreateNotification/></Box>
                 </Flex>
                 <ListNotifications />
               </GridItem>
@@ -33,5 +33,5 @@ function Dashboard() {
     </div>
   )
 }
-export default Dashboard
+export default Notifications
 
