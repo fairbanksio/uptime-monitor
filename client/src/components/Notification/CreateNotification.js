@@ -1,5 +1,6 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { Button, Input, Select } from '@chakra-ui/react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
+import { Button, Input, Select, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent, FormLabel 
+} from '@chakra-ui/react'
 
 import { NotificationContext } from '../../contexts/NotificationContext'
 import ListNotifications from './ListNotifications.js'
@@ -38,6 +39,9 @@ function CreateNotification() {
   let [formValidation, setFormValidation] = useState(initFormValidation)
 
   let [formValid, setFormValid] = useState(false)
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const initialRef = useRef()
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
@@ -151,11 +155,20 @@ function CreateNotification() {
   }, [formValidation])
 
   return (
-    <div>
-      <div>
-        <ListNotifications />
-      </div>
-      <br />
+    <>
+      <Button colorScheme="purple"  onClick={onOpen}>
+        Add Notification
+      </Button>
+      <Modal
+        initialFocusRef={initialRef}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create a new notification</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
       <Input
         type="text"
         placeholder="Name"
@@ -268,7 +281,25 @@ function CreateNotification() {
           Clear
         </Button>
       </div>
-    </div>
+      </ModalBody>
+          <ModalFooter>
+          <Button
+                onClick={handleCreateNotification}
+                variant="solid"
+                colorScheme="purple"
+                isLoading={loading}
+                disabled={!formValid}
+              >
+                Add
+              </Button>
+              <Button onClick={handleClear} variant="ghost" colorScheme="grey">
+                Clear
+              </Button>
+          <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   )
 }
 

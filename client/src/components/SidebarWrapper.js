@@ -10,7 +10,8 @@ import {
   DrawerContent,
   Text,
   useDisclosure,
-  Button
+  Button,
+  Spacer
 } from '@chakra-ui/react';
 import { Link} from 'react-router-dom'
 import {
@@ -69,14 +70,15 @@ const SidebarContent = ({ onClose, ...rest }) => {
   const { logout } = useContext(AuthContext)
   return (
     <Box
+    color='white'
       bg={useColorModeValue('#484b51', 'gray.900')}
       borderRight="1px"
-      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
+      borderRightColor={useColorModeValue('gray.700', 'gray.700')}
       w={{ base: 'full', md: 60 }}
       pos="fixed"
       h="full"
       {...rest}>
-      <Flex h="40" alignItems="center" mx="8" justifyContent="space-between">
+      <Flex h={{ base: '20', md: '40' }} alignItems="center" mx="8" justifyContent="space-between">
       
         <Text fontSize="2xl" fontFamily="monospace">
         <FontAwesomeIcon
@@ -97,7 +99,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       <Button
         variant="ghost"
         colorScheme="pink"
-        mr={3}
+        
         onClick={function () {
           setTimeout(() => {
             logout()
@@ -150,15 +152,10 @@ const MobileNav = ({ onOpen, ...rest }) => {
       alignItems="center"
       bg={useColorModeValue('#484b51', 'gray.900')}
       borderBottomWidth="1px"
-      borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
+      borderBottomColor={useColorModeValue('gray.700', 'gray.700')}
       justifyContent="flex-start"
       {...rest}>
-      <IconButton
-        variant="outline"
-        onClick={onOpen}
-        aria-label="open menu"
-        icon={<FiMenu />}
-      />
+      
 
       <Text fontSize="2xl" fontFamily="monospace">
         <FontAwesomeIcon
@@ -168,6 +165,13 @@ const MobileNav = ({ onOpen, ...rest }) => {
           />
           UptimeMonitor
         </Text>
+        <Spacer/>
+        <IconButton
+        variant="outline"
+        onClick={onOpen}
+        aria-label="open menu"
+        icon={<FiMenu />}
+      />
     </Flex>
   );
 };
