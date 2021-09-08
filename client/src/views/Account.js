@@ -1,7 +1,5 @@
 import { Grid, GridItem, Flex, Heading, Spacer, Box } from '@chakra-ui/react'
-import ListMonitors from '../components/Monitor/ListMonitors'
 import SidebarWrapper from '../components/SidebarWrapper'
-import CreateMonitor from '../components/Monitor/CreateMonitor'
 
 function Dashboard() {
   return (
@@ -19,13 +17,13 @@ function Dashboard() {
                 >
                   <Flex align="center" mr={5}>
                     <Heading as="h1" size="lg" letterSpacing={"tighter"}>
-                      Dashboard
+                      Account
                     </Heading>
                   </Flex>
                   <Spacer />
-                    <Box p="4"><CreateMonitor/></Box>
+                    <Box p="4"></Box>
                 </Flex>
-                <ListMonitors />
+                
               </GridItem>
             <GridItem colSpan={1} />
           </Grid>
