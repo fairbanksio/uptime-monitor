@@ -6,13 +6,13 @@ import {
   Flex,
   Icon,
   useColorModeValue,
-  Link,
   Drawer,
   DrawerContent,
   Text,
   useDisclosure,
   Button
 } from '@chakra-ui/react';
+import { Link} from 'react-router-dom'
 import {
   FiHome,
   FiTrendingUp,
@@ -26,14 +26,14 @@ import { faNetworkWired } from '@fortawesome/free-solid-svg-icons'
 import { AuthContext } from '../contexts/AuthContext'
 
 const LinkItems = [
-  { name: 'Dashboard', icon: FiHome },
-  { name: 'Monitors', icon: FiTrendingUp },
-  { name: 'Pages', icon: FiCompass },
-  { name: 'Notifications', icon: FiStar },
-  { name: 'Account', icon: FiSettings },
+  { name: 'Dashboard', icon: FiHome, url:"/dashboard" },
+  { name: 'Monitors', icon: FiTrendingUp, url:"/monitors" },
+  { name: 'Pages', icon: FiCompass, url:"/pages"  },
+  { name: 'Notifications', icon: FiStar, url:"/notifications"  },
+  { name: 'Account', icon: FiSettings, url:"/account"  },
 ];
 
-export default function SimpleSidebar({ children }) {
+export default function SidebarWrapper({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -89,7 +89,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem key={link.name} icon={link.icon} url={link.url}>
           {link.name}
         </NavItem>
       ))}
@@ -110,9 +110,9 @@ const SidebarContent = ({ onClose, ...rest }) => {
   );
 };
 
-const NavItem = ({ icon, children, ...rest }) => {
+const NavItem = ({ url, icon, children, ...rest }) => {
   return (
-    <Link href="#" style={{ textDecoration: 'none' }}>
+    <Link to={url} style={{ textDecoration: 'none' }}>
       <Flex
         align="center"
         p="4"

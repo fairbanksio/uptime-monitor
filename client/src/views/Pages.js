@@ -19,13 +19,13 @@ function Dashboard() {
                 >
                   <Flex align="center" mr={5}>
                     <Heading as="h1" size="lg" letterSpacing={"tighter"}>
-                      Dashboard
+                      Pages
                     </Heading>
                   </Flex>
                   <Spacer />
-                    <Box p="4"><CreateMonitor/></Box>
+                    <Box p="4"></Box>
                 </Flex>
-                <ListMonitors />
+                
               </GridItem>
             <GridItem colSpan={1} />
           </Grid>
