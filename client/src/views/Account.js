@@ -1,7 +1,5 @@
 import { Grid, GridItem, Flex, Heading, Spacer, Box } from '@chakra-ui/react'
-import ListMonitors from '../components/Monitor/ListMonitors'
 import SidebarWrapper from '../components/SidebarWrapper'
-import CreateMonitor from '../components/Monitor/CreateMonitor'
 
 function Dashboard() {
   return (

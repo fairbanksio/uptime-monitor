@@ -1,9 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
-import { Button, Input, Select, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent, FormLabel 
-} from '@chakra-ui/react'
+import { Button, Input, Select, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent } from '@chakra-ui/react'
 
 import { NotificationContext } from '../../contexts/NotificationContext'
-import ListNotifications from './ListNotifications.js'
 import isValidUrl from '../../util/isValidUrl'
 import isValidEmail from '../../util/isValidEmail'
 
