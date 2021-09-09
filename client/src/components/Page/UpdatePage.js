@@ -1,17 +1,12 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
-import { Button, Checkbox, Input, Select, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent, FormLabel } from '@chakra-ui/react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSlack } from '@fortawesome/free-brands-svg-icons'
-import { faMailBulk } from '@fortawesome/free-solid-svg-icons'
+import { Button, Input, Select, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent, FormLabel } from '@chakra-ui/react'
+
 
 import { PageContext } from '../../contexts/PageContext'
-import { NotificationContext } from '../../contexts/NotificationContext'
 
-import isValidUrl from '../../util/isValidUrl'
 
 function UpdatePage(props) {
   const { updatePage } = useContext(PageContext)
-  const { notifications } = useContext(NotificationContext)
   const { page } = props
   const [pageInfo, setPageInfo] = useState(page)
   const { isOpen, onOpen, onClose } = useDisclosure()

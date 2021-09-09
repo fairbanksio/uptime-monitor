@@ -2,22 +2,14 @@ import React, { useState, useContext, useEffect, useRef } from 'react'
 import {
   Button,
   Center,
-  Checkbox,
   createStandaloneToast,
   Input,
   Select, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent} from '@chakra-ui/react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSlack } from '@fortawesome/free-brands-svg-icons'
-import { faMailBulk } from '@fortawesome/free-solid-svg-icons'
 
 import { PageContext } from '../../contexts/PageContext'
-import { NotificationContext } from '../../contexts/NotificationContext'
-
-import isValidUrl from '../../util/isValidUrl'
 
 function CreatePage() {
   const { createPage, loading } = useContext(PageContext)
-  const { notifications } = useContext(NotificationContext)
   const toast = createStandaloneToast()
 
   const { isOpen, onOpen, onClose } = useDisclosure()
