@@ -54,9 +54,8 @@ function App() {
       </MonitorProvider>
 
       <Switch>
-      <Route path="/:pageSlug" component={PublicPage}/>
-        <Route path="/" exact={true} render={(props) => user && !loading ? <Redirect to="/dashboard" /> : <Homepage/>}
-      />
+        <Route path="/:pageSlug" component={PublicPage}/>
+        <Route path="/" exact={true} render={(props) => user && !loading ? <Redirect to="/dashboard" /> : <Homepage/>}/>
       </Switch>
     </Router>
   )
