@@ -19,6 +19,10 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   PageController.getOne
 )
+router.get(
+  '/bySlug/:pageSlug',
+  PageController.getBySlug
+)
 router.post(
   '/:pageId',
   passport.authenticate('jwt', { session: false }),
