@@ -48,14 +48,17 @@ function App() {
               <PrivateRoute path="/notifications" component={Notifications} />
               <PrivateRoute path="/pages" component={Pages} />
               <PrivateRoute path="/account" component={Account} />
+
+              <Route path="/" exact={true} render={(props) => user && !loading ? <Redirect to="/dashboard" /> : <Homepage/>}/>
+              <Route path="/:pageSlug" component={PublicPage}/>
+              
             </Switch>
           </NotificationProvider>
         </PageProvider>
       </MonitorProvider>
 
       <Switch>
-        <Route path="/:pageSlug" component={PublicPage}/>
-        <Route path="/" exact={true} render={(props) => user && !loading ? <Redirect to="/dashboard" /> : <Homepage/>}/>
+        
       </Switch>
     </Router>
   )

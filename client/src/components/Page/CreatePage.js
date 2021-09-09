@@ -4,12 +4,14 @@ import {
   Center,
   createStandaloneToast,
   Input,
+  Checkbox,
   Select, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent} from '@chakra-ui/react'
 
 import { PageContext } from '../../contexts/PageContext'
-
+import { MonitorContext } from '../../contexts/MonitorContext'
 function CreatePage() {
   const { createPage, loading } = useContext(PageContext)
+  const { monitors } = useContext(MonitorContext)
   const toast = createStandaloneToast()
 
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -48,6 +50,41 @@ function CreatePage() {
   const handleClear = () => {
     pageInfo = setPageInfo(initPageInfo)
     setFormValidation(initFormValidation)
+  }
+
+  useEffect(() => {
+    let newMonitors = pageInfo.monitors
+    pageInfo.monitors.forEach((existingMonitor) => {
+      let found = false
+      monitors.forEach((newMonitor) => {
+        if (found !== true) {
+          if (newMonitor._id === existingMonitor) {
+            found = true
+          }
+        }
+      })
+      if (!found) {
+        newMonitors = newMonitors.filter(
+          (item) => item !== existingMonitor
+        )
+      }
+    })
+
+    setPageInfo({ ...pageInfo, monitors: newMonitors })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [monitors])
+
+  const handleMonitorChange = (event) => {
+    const { id, checked } = event.target
+    let newMonitors = pageInfo.monitors
+
+    if (checked) {
+      newMonitors.push(id)
+    } else {
+      newMonitors = newMonitors.filter((item) => item !== id)
+    }
+
+    setPageInfo({ ...pageInfo, monitors: newMonitors })
   }
 
   const validateField = (fieldName, value) => {
@@ -162,6 +199,28 @@ function CreatePage() {
               name="slug"
               isInvalid={!formValidation.slugValid && formValidation.slugValid !== null}
             />
+            <div>
+              <label htmlFor="monitors">Monitors</label>
+              {monitors.length > 0 ? null : <div>No monitors configured</div>}
+              {monitors &&
+                monitors.map((monitor, key) => {
+                  return (
+                    <div key={key}>
+                      <Checkbox
+                        colorScheme="purple"
+                        checked={pageInfo.monitors[monitor._id]}
+                        id={monitor._id}
+                        name={monitor.name}
+                        value={monitor.name}
+                        onChange={handleMonitorChange}
+                      >
+                        {monitor.name}{' '}
+                        
+                      </Checkbox>
+                    </div>
+                  )
+                })}
+            </div>
 
             
           </ModalBody>

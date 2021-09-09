@@ -9,7 +9,6 @@ const PublicPageProvider = ({ slug, children }) => {
   const isMountedRef = useIsMountedRef()
   const [page, setPage] = useState([])
   const [error, setError] = useState()
-  const [loading, setLoading] = useState(false)
   const [loadingInitial, setLoadingInitial] = useState(true)
   const toast = createStandaloneToast()
 
@@ -17,6 +16,7 @@ const PublicPageProvider = ({ slug, children }) => {
     pageService
         .getPageBySlug(slug)
         .then((page) => {
+          console.log(page)
           if (isMountedRef.current) {
             setPage(page.data)
           }
@@ -66,11 +66,10 @@ const PublicPageProvider = ({ slug, children }) => {
   const memoedValue = useMemo(
     () => ({
       page,
-      loading,
       error,
       refreshPage,
     }), // eslint-disable-next-line
-    [page, loading, error]
+    [page, error]
   )
 
   return (
