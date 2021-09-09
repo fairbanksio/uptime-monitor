@@ -1,5 +1,7 @@
 import { Grid, GridItem, Flex, Heading, Spacer, Box } from '@chakra-ui/react'
 import SidebarWrapper from '../components/SidebarWrapper'
+import ListPages from '../components/Page/ListPages'
+import CreatePage from '../components/Page/CreatePage'
 
 function Pages() {
   return (
@@ -21,9 +23,9 @@ function Pages() {
                     </Heading>
                   </Flex>
                   <Spacer />
-                    <Box p="4"></Box>
+                    <Box p="4"><CreatePage/></Box>
                 </Flex>
-
+                <ListPages/>
               </GridItem>
             <GridItem colSpan={1} />
           </Grid>
