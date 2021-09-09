@@ -22,10 +22,15 @@ const getPages = () => {
   return axiosClient.get('/pages')
 }
 
+const getPageBySlug = (slug) => {
+  return axiosClient.get('/pages/bySlug/'+slug)
+}
+
 const exports = {
   createPage,
   getPages,
   deletePage,
   updatePage,
+  getPageBySlug
 }
 export default exports
