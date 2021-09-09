@@ -17,7 +17,6 @@ const PageProvider = ({ user, children }) => {
     pageService
         .getPages()
         .then((pages) => {
-          console.log(pages)
           if (isMountedRef.current) {
             setPages(pages.data)
           }
