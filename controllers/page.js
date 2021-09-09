@@ -45,7 +45,7 @@ exports.getOne = (req, res, next) => {
 
 // Read one page
 exports.getBySlug = (req, res, next) => {
-  Page.findOne({ slug: req.params.pageSlug})
+  Page.findOne({ slug: req.params.pageSlug}).populate('monitors')
     .then((page) => {
       res.json(page)
     })

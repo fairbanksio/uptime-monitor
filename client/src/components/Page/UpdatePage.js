@@ -1,12 +1,14 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
-import { Button, Input, Select, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent, FormLabel } from '@chakra-ui/react'
+import { Button, Input, Select, Checkbox, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent, FormLabel } from '@chakra-ui/react'
 
 
 import { PageContext } from '../../contexts/PageContext'
+import { MonitorContext } from '../../contexts/MonitorContext'
 
 
 function UpdatePage(props) {
   const { updatePage } = useContext(PageContext)
+  const { monitors } = useContext(MonitorContext)
   const { page } = props
   const [pageInfo, setPageInfo] = useState(page)
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -88,7 +90,42 @@ function UpdatePage(props) {
     validateField('slug', pageInfo['slug'])
     // eslint-disable-next-line
   },[])
+
+  useEffect(() => {
+    let newMonitors = pageInfo.monitors
+    pageInfo.monitors.forEach((existingMonitor) => {
+      let found = false
+      monitors.forEach((newMonitor) => {
+        if (found !== true) {
+          if (newMonitor._id === existingMonitor) {
+            found = true
+          }
+        }
+      })
+      if (!found) {
+        newMonitors = newMonitors.filter(
+          (item) => item !== existingMonitor
+        )
+      }
+    })
+
+    setPageInfo({ ...pageInfo, monitors: newMonitors })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [monitors])
   
+
+  const handleMonitorChange = (event) => {
+    const { id, checked } = event.target
+    let newMonitors = pageInfo.monitors
+
+    if (checked) {
+      newMonitors.push(id)
+    } else {
+      newMonitors = newMonitors.filter((item) => item !== id)
+    }
+
+    setPageInfo({ ...pageInfo, monitors: newMonitors })
+  }
   return (
     <>
       <Button colorScheme="purple" size="xs" onClick={onOpen}>
@@ -123,8 +160,8 @@ function UpdatePage(props) {
               name="type"
               isInvalid={!formValidation.typeValid && formValidation.typeValid !== null}
             >
-              <option value="http">HTTP</option>
-              <option value="keyword">HTTP with keyword</option>
+              <option value="http">Standard</option>
+              <option value="keyword">Advanced</option>
             </Select>
 
             <FormLabel>Slug</FormLabel>
@@ -137,7 +174,31 @@ function UpdatePage(props) {
               name="slug"
               isInvalid={!formValidation.slugValid && formValidation.slugValid !== null}
             />
-
+            <div>
+              <label htmlFor="monitors">Monitors</label>
+              {monitors.length > 0 ? null : <div>No monitors configured</div>}
+              {monitors &&
+                monitors.map((monitor, key) => {
+                  console.log(monitor._id)
+                  console.log(pageInfo.monitors)
+                  console.log(pageInfo.monitors[monitor._id])
+                  return (
+                    <div key={key}>
+                      <Checkbox
+                        colorScheme="purple"
+                        checked={pageInfo.monitors[monitor._id]}
+                        id={monitor._id}
+                        name={monitor.name}
+                        value={monitor.name}
+                        onChange={handleMonitorChange}
+                      >
+                        {monitor.name}{' '}
+                        
+                      </Checkbox>
+                    </div>
+                  )
+                })}
+            </div>
             </ModalBody>
             
             <ModalFooter>

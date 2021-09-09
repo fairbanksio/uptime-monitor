@@ -16,7 +16,6 @@ const PublicPageProvider = ({ slug, children }) => {
     pageService
         .getPageBySlug(slug)
         .then((page) => {
-          console.log(page)
           if (isMountedRef.current) {
             setPage(page.data)
           }

@@ -5,6 +5,8 @@ import {
   useParams
 } from "react-router-dom";
 
+import PublicMonitors from '../components/PublicPage/PublicMonitors'
+
 const PublicPageWithContext = () => {
   let { pageSlug } = useParams();
   return (
@@ -34,6 +36,7 @@ function PublicPage() {
                 <Spacer />
                   <Box p="4">{page.slug}</Box>
               </Flex>
+              <PublicMonitors monitors={page.monitors}/>
             </GridItem>
           <GridItem colSpan={1} />
         </Grid>
