@@ -34,7 +34,7 @@ exports.create = (req, res, next) => {
 
 // Read one page
 exports.getOne = (req, res, next) => {
-  Page.findOne({ slug: req.params.page-slug, owner: req.user._id })
+  Page.findOne({ _id: req.params.pageId, owner: req.user._id })
     .then((page) => {
       res.json(page)
     })
@@ -43,6 +43,16 @@ exports.getOne = (req, res, next) => {
     })
 }
 
+// Read one page
+exports.getBySlug = (req, res, next) => {
+  Page.findOne({ slug: req.params.pageSlug}).populate('monitors')
+    .then((page) => {
+      res.json(page)
+    })
+    .catch((err) => {
+      res.status(422).send(err.errors)
+    })
+}
 // Update one page
 exports.update = (req, res, next) => {
 

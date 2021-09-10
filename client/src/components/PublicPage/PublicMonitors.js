@@ -12,20 +12,10 @@ import {
   Text,
 } from '@chakra-ui/react'
 
-import DeleteMonitor from './DeleteMonitor'
-import UpdateMonitor from './UpdateMonitor'
-import MonitorEvents from './MonitorEvents'
-import MonitorHeartbeats from './MonitorHeartbeats'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
 
-import { MonitorContext } from '../../contexts/MonitorContext'
-import LatencyChart from '../Graph/LatencyChart'
-
-function ListMonitors() {
-  const { monitors } = useContext(MonitorContext)
-
+function ListMonitors({monitors}) {
   return (
     <div>
       {monitors.length > 0 ? (
@@ -82,29 +72,7 @@ function ListMonitors() {
                 </Box>
                 <AccordionIcon />
               </AccordionButton>
-              <AccordionPanel pb={4}>
-                <LatencyChart monitor={monitor} />
-                <Grid templateColumns="repeat(2, 1fr)" gap={6}>
-                  <Box w="100%">
-                    <Text fontSize="lg">Events</Text>
-                    <MonitorEvents monitor={monitor} />
-                  </Box>
-                  <Box w="100%">
-                    <Text fontSize="lg">Heartbeats</Text>
-                    <MonitorHeartbeats monitor={monitor} />
-                  </Box>
-                </Grid>
-                <br />
-                {/* <Button
-                  size="xs"
-                  colorScheme="purple"
-                  onClick={(e) => refreshMonitors(() => {})}
-                >
-                  refresh
-                </Button>{' '} */}
-                <UpdateMonitor monitor={monitor} />{' '}
-                <DeleteMonitor monitorId={monitor._id} />
-              </AccordionPanel>
+              
             </AccordionItem>
           ))}
         </Accordion>

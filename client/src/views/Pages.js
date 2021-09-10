@@ -1,9 +1,9 @@
 import { Grid, GridItem, Flex, Heading, Spacer, Box } from '@chakra-ui/react'
-import ListMonitors from '../components/Monitor/ListMonitors'
 import SidebarWrapper from '../components/SidebarWrapper'
-import CreateMonitor from '../components/Monitor/CreateMonitor'
+import ListPages from '../components/Page/ListPages'
+import CreatePage from '../components/Page/CreatePage'
 
-function Dashboard() {
+function Pages() {
   return (
     <div className="App">
       <SidebarWrapper>
@@ -19,13 +19,13 @@ function Dashboard() {
                 >
                   <Flex align="center" mr={5}>
                     <Heading as="h1" size="lg" letterSpacing={"tighter"}>
-                      Dashboard
+                      Pages
                     </Heading>
                   </Flex>
                   <Spacer />
-                    <Box p="4"><CreateMonitor/></Box>
+                    <Box p="4"><CreatePage/></Box>
                 </Flex>
-                <ListMonitors />
+                <ListPages/>
               </GridItem>
             <GridItem colSpan={1} />
           </Grid>
@@ -33,5 +33,5 @@ function Dashboard() {
     </div>
   )
 }
-export default Dashboard
+export default Pages
 

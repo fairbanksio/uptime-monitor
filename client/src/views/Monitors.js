@@ -3,7 +3,7 @@ import ListMonitors from '../components/Monitor/ListMonitors'
 import SidebarWrapper from '../components/SidebarWrapper'
 import CreateMonitor from '../components/Monitor/CreateMonitor'
 
-function Dashboard() {
+function Monitors() {
   return (
     <div className="App">
       <SidebarWrapper>
@@ -19,7 +19,7 @@ function Dashboard() {
                 >
                   <Flex align="center" mr={5}>
                     <Heading as="h1" size="lg" letterSpacing={"tighter"}>
-                      Dashboard
+                      Monitors
                     </Heading>
                   </Flex>
                   <Spacer />
@@ -33,5 +33,5 @@ function Dashboard() {
     </div>
   )
 }
-export default Dashboard
+export default Monitors
 

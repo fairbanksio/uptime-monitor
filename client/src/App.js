@@ -5,11 +5,17 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { AuthContext } from './contexts/AuthContext'
 import AuthProvider from './contexts/AuthContext'
 import MonitorProvider from './contexts/MonitorContext'
+import PageProvider from './contexts/PageContext'
 import NotificationProvider from './contexts/NotificationContext'
 import { extendTheme, ChakraProvider } from '@chakra-ui/react'
 
+import Monitors from './views/Monitors'
+import Notifications from './views/Notifications'
+import Pages from './views/Pages'
+import Account from './views/Account'
 import Dashboard from './views/Dashboard'
 import Homepage from './views/Homepage'
+import PublicPage from './views/PublicPage'
 
 const theme = extendTheme({
   shadows: {
@@ -34,16 +40,25 @@ function App() {
   return (
     <Router>
       <MonitorProvider user={user}>
-        <NotificationProvider user={user}>
-          <Switch>
-            <PrivateRoute path="/dashboard" component={Dashboard} />
-          </Switch>
-        </NotificationProvider>
+        <PageProvider user={user}>
+          <NotificationProvider user={user}>
+            <Switch>
+              <PrivateRoute path="/dashboard" component={Dashboard} />
+              <PrivateRoute path="/monitors" component={Monitors} />
+              <PrivateRoute path="/notifications" component={Notifications} />
+              <PrivateRoute path="/pages" component={Pages} />
+              <PrivateRoute path="/account" component={Account} />
+
+              <Route path="/" exact={true} render={(props) => user && !loading ? <Redirect to="/dashboard" /> : <Homepage/>}/>
+              <Route path="/:pageSlug" component={PublicPage}/>
+              
+            </Switch>
+          </NotificationProvider>
+        </PageProvider>
       </MonitorProvider>
 
       <Switch>
-        <Route path="/" exact={true} render={(props) => user && !loading ? <Redirect to="/dashboard" /> : <Homepage/>}
-      />
+        
       </Switch>
     </Router>
   )
