@@ -55,12 +55,13 @@ exports.getBySlug = (req, res, next) => {
 }
 // Update one page
 exports.update = (req, res, next) => {
-
+  console.log(req.body)
   const updatedPage = (query) => ({
     ...query.name && { name: query.name },
     ...query.type && { type: query.type },
     ...query.owner && { owner: query.owner },
     ...query.monitors && { monitors: query.monitors },
+    ...query.slug && { slug: query.slug },
   })
 
   Page.findByIdAndUpdate({_id: req.params.pageId, owner: req.user._id}, updatedPage(req.body), {new: true})
