@@ -1,4 +1,4 @@
-import { Grid, GridItem, Flex, Heading, Spacer, Box } from '@chakra-ui/react'
+import { Flex, Heading, Spacer, Box } from '@chakra-ui/react'
 import SidebarWrapper from '../components/SidebarWrapper'
 import ListPages from '../components/Page/ListPages'
 import CreatePage from '../components/Page/CreatePage'

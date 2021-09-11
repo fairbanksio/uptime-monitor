@@ -1,4 +1,4 @@
-import { Grid, GridItem, Flex, Heading, Spacer, Box } from '@chakra-ui/react'
+import { Flex, Heading, Spacer, Box } from '@chakra-ui/react'
 import ListNotifications from '../components/Notification/ListNotifications'
 import CreateNotification from '../components/Notification/CreateNotification'
 import SidebarWrapper from '../components/SidebarWrapper'

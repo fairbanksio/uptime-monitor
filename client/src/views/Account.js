@@ -1,4 +1,4 @@
-import { Grid, GridItem, Flex, Heading, Spacer, Box, Button } from '@chakra-ui/react'
+import { Flex, Heading, Spacer, Box, Button } from '@chakra-ui/react'
 import SidebarWrapper from '../components/SidebarWrapper'
 import AccountOverview from '../components/Account/AccountOverview'
 
