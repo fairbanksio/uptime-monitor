@@ -26,9 +26,7 @@ function ListPages() {
             <AccordionItem key={key}>
               <AccordionButton>
                 <Box flex="1" textAlign="left">
-                  <Grid
-                    templateColumns="repeat(10, 1fr)"
-                  >
+                  <Grid templateColumns="repeat(10, 1fr)">
                     <GridItem colSpan={9}>
                       <Text fontSize="2xl">{page.name}</Text>
                     </GridItem>
@@ -37,9 +35,8 @@ function ListPages() {
                 <AccordionIcon />
               </AccordionButton>
               <AccordionPanel pb={4}>
-                <Link to={"/"+page.slug}> View Page </Link>
-                <UpdatePage page={page} />{' '}
-                <DeletePage pageId={page._id} />
+                <Link to={'/' + page.slug}> View Page </Link>
+                <UpdatePage page={page} /> <DeletePage pageId={page._id} />
               </AccordionPanel>
             </AccordionItem>
           ))}

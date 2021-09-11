@@ -13,20 +13,22 @@ function Monitors() {
         wrap="wrap"
         p="0"
         pt="8"
-        pb="8" pr="0"
+        pb="8"
+        pr="0"
         m={0}
       >
         <Flex align="center" mr={2}>
-          <Heading as="h1" size="lg" letterSpacing={"tighter"}>
+          <Heading as="h1" size="lg" letterSpacing={'tighter'}>
             Monitors
           </Heading>
         </Flex>
         <Spacer />
-        <Box><CreateMonitor/></Box>
+        <Box>
+          <CreateMonitor />
+        </Box>
       </Flex>
       <ListMonitors />
     </SidebarWrapper>
   )
 }
 export default Monitors
-

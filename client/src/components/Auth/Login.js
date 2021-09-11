@@ -19,13 +19,13 @@ function Login() {
 
   const [loginInfo, setLoginInfo] = useState({
     username: '',
-    password: ''
+    password: '',
   })
 
   const initFormValidation = {
     formErrors: {},
     usernameValid: null,
-    passwordValid: null
+    passwordValid: null,
   }
   let [formValidation, setFormValidation] = useState(initFormValidation)
   let [formValid, setFormValid] = useState(false)
@@ -45,33 +45,37 @@ function Login() {
   const validateField = (fieldName, value) => {
     // get existing form errors
     let newFormValidation = formValidation
-  
-    // update validation errors 
-    switch(fieldName) {
+
+    // update validation errors
+    switch (fieldName) {
       case 'username':
-        newFormValidation.usernameValid = value.length >= 6;
-        newFormValidation.formErrors.username = newFormValidation.usernameValid ? '' : ' is too short';
-        break;
+        newFormValidation.usernameValid = value.length >= 6
+        newFormValidation.formErrors.username = newFormValidation.usernameValid
+          ? ''
+          : ' is too short'
+        break
       case 'password':
         newFormValidation.passwordValid = value.length >= 6
-        newFormValidation.formErrors.password = newFormValidation.passwordValid ? '' : ' is too short';
-        break;
+        newFormValidation.formErrors.password = newFormValidation.passwordValid
+          ? ''
+          : ' is too short'
+        break
       default:
-        break;
+        break
     }
 
     setFormValidation({
-      ...formValidation, ...newFormValidation
-    });
-
+      ...formValidation,
+      ...newFormValidation,
+    })
   }
 
   const validateForm = () => {
-    if(formValidation.usernameValid && formValidation.passwordValid){
-        setFormValid(true)
+    if (formValidation.usernameValid && formValidation.passwordValid) {
+      setFormValid(true)
     } else {
-        setFormValid(false)
-    } 
+      setFormValid(false)
+    }
   }
 
   useEffect(() => {
@@ -80,7 +84,7 @@ function Login() {
   }, [formValidation])
 
   const loginUser = () => {
-    if(formValid){
+    if (formValid) {
       login(loginInfo.username, loginInfo.password, (result) => {
         if (result && result.status === 'success') {
           const id = 'logged-in-toast'
@@ -136,7 +140,10 @@ function Login() {
           placeholder="username"
           size="md"
           width={'300'}
-          isInvalid={!formValidation.usernameValid && formValidation.usernameValid !== null}
+          isInvalid={
+            !formValidation.usernameValid &&
+            formValidation.usernameValid !== null
+          }
         />
       </FormControl>
       <FormControl id="password">
@@ -150,7 +157,10 @@ function Login() {
           placeholder="password"
           size="md"
           width={'300'}
-          isInvalid={!formValidation.passwordValid && formValidation.passwordValid !== null}
+          isInvalid={
+            !formValidation.passwordValid &&
+            formValidation.passwordValid !== null
+          }
         />
       </FormControl>
 
@@ -164,7 +174,11 @@ function Login() {
         </div>
       ) : (
         <div>
-          <Button onClick={loginUser} colorScheme="purple" disabled={!formValid}>
+          <Button
+            onClick={loginUser}
+            colorScheme="purple"
+            disabled={!formValid}
+          >
             Login
           </Button>
           <br />

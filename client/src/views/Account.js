@@ -12,11 +12,12 @@ function Account() {
         wrap="wrap"
         p="0"
         pt="8"
-        pb="8" pr="0"
+        pb="8"
+        pr="0"
         m={0}
       >
         <Flex align="center" mr={2}>
-          <Heading as="h1" size="lg" letterSpacing={"tighter"}>
+          <Heading as="h1" size="lg" letterSpacing={'tighter'}>
             Account
           </Heading>
         </Flex>
@@ -25,19 +26,17 @@ function Account() {
           <Button
             variant="ghost"
             colorScheme="pink"
-            
+            size="sm"
             onClick={function () {
-              setTimeout(() => {
-              }, 1000)
+              setTimeout(() => {}, 1000)
             }}
           >
             Delete Account
           </Button>
         </Box>
       </Flex>
-      <AccountOverview/>
+      <AccountOverview />
     </SidebarWrapper>
   )
 }
 export default Account
-

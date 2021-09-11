@@ -1,5 +1,18 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Button, Input, Select, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent, FormLabel } from '@chakra-ui/react'
+import {
+  Button,
+  Input,
+  Select,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  ModalContent,
+  FormLabel,
+} from '@chakra-ui/react'
 
 import { NotificationContext } from '../../contexts/NotificationContext'
 
@@ -22,7 +35,7 @@ function UpdateNotification(props) {
     mailFromValid: null,
     mailHostValid: null,
     mailUsernameValid: null,
-    mailPassValid: null
+    mailPassValid: null,
   }
   let [formValidation, setFormValidation] = useState(initFormValidation)
   let [formValid, setFormValid] = useState(false)
@@ -30,61 +43,91 @@ function UpdateNotification(props) {
   const validateField = (fieldName, value) => {
     // get existing form errors
     let newFormValidation = formValidation
-  
-    // update validation errors 
-    switch(fieldName) {
+
+    // update validation errors
+    switch (fieldName) {
       case 'name':
-        newFormValidation.nameValid = value.length >= 1;
-        newFormValidation.formErrors.name = newFormValidation.nameValid ? '' : ' is too short';
-        break;
+        newFormValidation.nameValid = value.length >= 1
+        newFormValidation.formErrors.name = newFormValidation.nameValid
+          ? ''
+          : ' is too short'
+        break
       case 'type':
-        newFormValidation.typeValid = value.length >= 1;
-        newFormValidation.formErrors.type = newFormValidation.nameValid ? '' : ' you must select a notification type';
-        break;
+        newFormValidation.typeValid = value.length >= 1
+        newFormValidation.formErrors.type = newFormValidation.nameValid
+          ? ''
+          : ' you must select a notification type'
+        break
       case 'slackWebhook':
         newFormValidation.slackWebhookValid = isValidUrl(value)
-        newFormValidation.formErrors.slackWebhook = newFormValidation.slackWebhookValid ? '' : ' you must select a notification type';
-        break;
+        newFormValidation.formErrors.slackWebhook =
+          newFormValidation.slackWebhookValid
+            ? ''
+            : ' you must select a notification type'
+        break
       case 'mailTo':
         newFormValidation.mailToValid = isValidEmail(value)
-        newFormValidation.formErrors.mailTo = newFormValidation.mailToValid ? '' : ' you must enter a valid email';
-        break;
+        newFormValidation.formErrors.mailTo = newFormValidation.mailToValid
+          ? ''
+          : ' you must enter a valid email'
+        break
       case 'mailFrom':
         newFormValidation.mailFromValid = isValidEmail(value)
-        newFormValidation.formErrors.mailFrom = newFormValidation.mailFromValid ? '' : ' you must enter a valid email';
-        break;
+        newFormValidation.formErrors.mailFrom = newFormValidation.mailFromValid
+          ? ''
+          : ' you must enter a valid email'
+        break
       case 'mailHost':
-        newFormValidation.mailHostValid = value.length >= 1;
-        newFormValidation.formErrors.mailHost = newFormValidation.mailHostValid ? '' : ' is too short';
-        break;
+        newFormValidation.mailHostValid = value.length >= 1
+        newFormValidation.formErrors.mailHost = newFormValidation.mailHostValid
+          ? ''
+          : ' is too short'
+        break
       case 'mailUsername':
-        newFormValidation.mailUsernameValid = value.length >= 1;
-        newFormValidation.formErrors.mailUsername = newFormValidation.mailUsernameValid ? '' : ' is too short';
-        break;
+        newFormValidation.mailUsernameValid = value.length >= 1
+        newFormValidation.formErrors.mailUsername =
+          newFormValidation.mailUsernameValid ? '' : ' is too short'
+        break
       case 'mailPass':
-        newFormValidation.mailPassValid = value.length >= 1;
-        newFormValidation.formErrors.mailPass = newFormValidation.mailPassValid ? '' : ' is too short';
-        break;
+        newFormValidation.mailPassValid = value.length >= 1
+        newFormValidation.formErrors.mailPass = newFormValidation.mailPassValid
+          ? ''
+          : ' is too short'
+        break
       default:
-        break;
+        break
     }
 
     setFormValidation({
-      ...formValidation, ...newFormValidation
-    });
-
+      ...formValidation,
+      ...newFormValidation,
+    })
   }
 
   const validateForm = () => {
-    if(formValidation.nameValid && formValidation.typeValid && notificationInfo.type === 'slack'){
-      if(formValidation.slackWebhookValid){
+    if (
+      formValidation.nameValid &&
+      formValidation.typeValid &&
+      notificationInfo.type === 'slack'
+    ) {
+      if (formValidation.slackWebhookValid) {
         setFormValid(true)
       } else {
         setFormValid(false)
       }
-    // validate for when email is chosen
-    } else if (formValidation.nameValid && formValidation.typeValid && notificationInfo.type === 'email'){
-      if(formValidation.mailToValid && formValidation.mailFromValid && formValidation.mailHostValid && formValidation.mailUsernameValid && formValidation.mailPassValid ){
+      // validate for when email is chosen
+    } else if (
+      formValidation.nameValid &&
+      formValidation.typeValid &&
+      notificationInfo.type === 'email'
+    ) {
+      if (
+        formValidation.mailToValid &&
+        formValidation.mailFromValid &&
+        formValidation.mailHostValid &&
+        formValidation.mailUsernameValid &&
+        formValidation.mailPassValid
+      ) {
         setFormValid(true)
       } else {
         setFormValid(false)
@@ -109,7 +152,7 @@ function UpdateNotification(props) {
     validateField('mailPass', notificationInfo.config['mailPass'])
     validateField('mailHost', notificationInfo.config['mailHost'])
     // eslint-disable-next-line
-  },[])
+  }, [])
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
@@ -120,13 +163,13 @@ function UpdateNotification(props) {
   const handleConfigChange = (event) => {
     const { name, value } = event.target
     const oldConfig = notificationInfo.config
-    const newConfig = {...oldConfig, [name]: value}
+    const newConfig = { ...oldConfig, [name]: value }
     setNotificationInfo({ ...notificationInfo, config: newConfig })
     validateField(name, value)
   }
 
   const handleUpdateNotification = () => {
-    if(formValid){
+    if (formValid) {
       updateNotification(notificationInfo, (result) => {
         if (result.status === 'success') {
           //history.push("/")
@@ -144,12 +187,10 @@ function UpdateNotification(props) {
 
   return (
     <>
-    <Button onClick={onOpen} colorScheme="purple" size="xs" >Update</Button>
-    <Modal
-        initialFocusRef={initialRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
+      <Button onClick={onOpen} colorScheme="purple" size="xs">
+        Update
+      </Button>
+      <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Update Notification</ModalHeader>
@@ -164,7 +205,9 @@ function UpdateNotification(props) {
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               name="name"
-              isInvalid={!formValidation.nameValid && formValidation.nameValid !== null}
+              isInvalid={
+                !formValidation.nameValid && formValidation.nameValid !== null
+              }
             />
 
             <FormLabel>Type</FormLabel>
@@ -173,11 +216,11 @@ function UpdateNotification(props) {
               value={notificationInfo.type}
               onChange={handleInputChange}
               name="type"
-              isInvalid={!formValidation.typeValid && formValidation.typeValid !== null}
+              isInvalid={
+                !formValidation.typeValid && formValidation.typeValid !== null
+              }
             >
-              <option value="email">
-                Email
-              </option>
+              <option value="email">Email</option>
               <option value="slack">Slack</option>
             </Select>
 
@@ -192,7 +235,10 @@ function UpdateNotification(props) {
                   onChange={handleConfigChange}
                   onKeyDown={handleKeyDown}
                   name="slackWebhook"
-                  isInvalid={!formValidation.slackWebhookValid && formValidation.slackWebhookValid !== null}
+                  isInvalid={
+                    !formValidation.slackWebhookValid &&
+                    formValidation.slackWebhookValid !== null
+                  }
                 />
               </>
             ) : null}
@@ -208,7 +254,10 @@ function UpdateNotification(props) {
                   onChange={handleConfigChange}
                   onKeyDown={handleKeyDown}
                   name="mailTo"
-                  isInvalid={!formValidation.mailToValid && formValidation.mailToValid !== null}
+                  isInvalid={
+                    !formValidation.mailToValid &&
+                    formValidation.mailToValid !== null
+                  }
                 />
               </>
             ) : null}
@@ -223,7 +272,10 @@ function UpdateNotification(props) {
                   onChange={handleConfigChange}
                   onKeyDown={handleKeyDown}
                   name="mailFrom"
-                  isInvalid={!formValidation.mailFromValid && formValidation.mailFromValid !== null}
+                  isInvalid={
+                    !formValidation.mailFromValid &&
+                    formValidation.mailFromValid !== null
+                  }
                 />
               </>
             ) : null}
@@ -238,7 +290,10 @@ function UpdateNotification(props) {
                   onChange={handleConfigChange}
                   onKeyDown={handleKeyDown}
                   name="mailHost"
-                  isInvalid={!formValidation.mailHostValid && formValidation.mailHostValid !== null}
+                  isInvalid={
+                    !formValidation.mailHostValid &&
+                    formValidation.mailHostValid !== null
+                  }
                 />
               </>
             ) : null}
@@ -253,7 +308,10 @@ function UpdateNotification(props) {
                   onChange={handleConfigChange}
                   onKeyDown={handleKeyDown}
                   name="mailUsername"
-                  isInvalid={!formValidation.mailUsernameValid && formValidation.mailUsernameValid !== null}
+                  isInvalid={
+                    !formValidation.mailUsernameValid &&
+                    formValidation.mailUsernameValid !== null
+                  }
                 />
               </>
             ) : null}
@@ -268,13 +326,17 @@ function UpdateNotification(props) {
                   onChange={handleConfigChange}
                   onKeyDown={handleKeyDown}
                   name="mailPass"
-                  isInvalid={!formValidation.mailPassValid && formValidation.mailPassValid !== null}
+                  isInvalid={
+                    !formValidation.mailPassValid &&
+                    formValidation.mailPassValid !== null
+                  }
                 />
               </>
             ) : null}
           </ModalBody>
           <ModalFooter>
-            <Button disabled={!formValid}
+            <Button
+              disabled={!formValid}
               onClick={handleUpdateNotification}
               variant="solid"
               colorScheme="purple"
@@ -287,7 +349,6 @@ function UpdateNotification(props) {
       </Modal>
     </>
   )
-
 }
 
 export default UpdateNotification

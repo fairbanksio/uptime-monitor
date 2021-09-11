@@ -13,8 +13,8 @@ import {
   VStack,
   CloseButton,
   Container,
-  Center
-} from '@chakra-ui/react';
+  Center,
+} from '@chakra-ui/react'
 import { NavLink } from 'react-router-dom'
 import {
   FiHome,
@@ -25,27 +25,32 @@ import {
   FiBell,
   FiUser,
   FiFile,
-  FiActivity
-} from 'react-icons/fi';
+  FiActivity,
+} from 'react-icons/fi'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faNetworkWired } from '@fortawesome/free-solid-svg-icons'
 import { AuthContext } from '../contexts/AuthContext'
 
 const LinkItems = [
-  { name: 'Dashboard', icon: FiHome, url:"/dashboard" },
-  { name: 'Monitors', icon: FiActivity, url:"/monitors" },
-  { name: 'Pages', icon: FiFile, url:"/pages"  },
-  { name: 'Notifications', icon: FiBell, url:"/notifications"  },
-  { name: 'Account', icon: FiUser, url:"/account"  },
-];
+  { name: 'Dashboard', icon: FiHome, url: '/dashboard' },
+  { name: 'Monitors', icon: FiActivity, url: '/monitors' },
+  { name: 'Pages', icon: FiFile, url: '/pages' },
+  { name: 'Notifications', icon: FiBell, url: '/notifications' },
+  { name: 'Account', icon: FiUser, url: '/account' },
+]
 
 export default function SidebarWrapper({ children }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [ iconOnlyMode, setIconOnlyMode ] = useState(localStorage.getItem('iconOnlyMode') && localStorage.getItem('iconOnlyMode') === "true" ? true : false)
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [iconOnlyMode, setIconOnlyMode] = useState(
+    localStorage.getItem('iconOnlyMode') &&
+      localStorage.getItem('iconOnlyMode') === 'true'
+      ? true
+      : false
+  )
 
-  useEffect(()=>{
+  useEffect(() => {
     localStorage.setItem('iconOnlyMode', iconOnlyMode)
-  },[iconOnlyMode])
+  }, [iconOnlyMode])
 
   return (
     <Box minH="100vh" p="0" m="0" className="Content">
@@ -62,14 +67,21 @@ export default function SidebarWrapper({ children }) {
         onClose={onClose}
         returnFocusOnClose={false}
         onOverlayClick={onClose}
-        size="full">
+        size="full"
+      >
         <DrawerContent>
           <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
       <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
-      <Box ml={iconOnlyMode? { base: 0, md: 20 } : { base: 0, md: 60 } } p="2" bg={'#282c34'} minH={"100vh"} color={"white"} >
+      <Box
+        ml={iconOnlyMode ? { base: 0, md: 20 } : { base: 0, md: 60 }}
+        p="2"
+        bg={'#282c34'}
+        minH={'100vh'}
+        color={'white'}
+      >
         <Center>
           <Container maxW={1200} align="center">
             {children}
@@ -77,30 +89,37 @@ export default function SidebarWrapper({ children }) {
         </Center>
       </Box>
     </Box>
-  );
+  )
 }
 
-
-const SidebarContent = ({ onClose, iconOnlyMode, setIconOnlyMode, ...rest }) => {
+const SidebarContent = ({
+  onClose,
+  iconOnlyMode,
+  setIconOnlyMode,
+  ...rest
+}) => {
   const { logout } = useContext(AuthContext)
-  
+
   return (
     <Box
-      color='white'
+      color="white"
       bg={useColorModeValue('#484b51', 'gray.900')}
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.700', 'gray.700')}
-      w={iconOnlyMode? { base: 'full', md: 20 } : { base: 'full', md: 60 }}
+      w={iconOnlyMode ? { base: 'full', md: 20 } : { base: 'full', md: 60 }}
       pos="fixed"
       h="full"
       {...rest}
-      
     >
-      {iconOnlyMode?
-        <NavLink to="/" style={{ textDecoration: 'none' }} activeStyle={{
-          fontWeight: "bold",
-          color: "#6b46c1"
-        }}>
+      {iconOnlyMode ? (
+        <NavLink
+          to="/"
+          style={{ textDecoration: 'none' }}
+          activeStyle={{
+            fontWeight: 'bold',
+            color: '#6b46c1',
+          }}
+        >
           <Flex
             align="center"
             p="4"
@@ -109,56 +128,73 @@ const SidebarContent = ({ onClose, iconOnlyMode, setIconOnlyMode, ...rest }) => 
             mx="4"
             borderRadius="lg"
             bg={'purple.500'}
-            color= 'white'
+            color="white"
             role="group"
             cursor="pointer"
-
             _hover={{
               bg: 'purple.500',
               color: 'white',
-            }}>
-              <FontAwesomeIcon
-              icon={faNetworkWired}
-            />
-            {!iconOnlyMode && "Uptime Monitor"}
+            }}
+          >
+            <FontAwesomeIcon icon={faNetworkWired} />
+            {!iconOnlyMode && 'Uptime Monitor'}
           </Flex>
         </NavLink>
-      :
-        <Flex h={{ base: '20', md: '40' }} align="center" mx="6" justifyContent="space-between" >
-          <Text fontSize="2xl" fontFamily="monospace" align="center" display={{ base: 'flex', md: 'none' }}>
+      ) : (
+        <Flex
+          h={{ base: '20', md: '40' }}
+          align="center"
+          mx="6"
+          justifyContent="space-between"
+        >
+          <Text
+            fontSize="2xl"
+            fontFamily="monospace"
+            align="center"
+            display={{ base: 'flex', md: 'none' }}
+          >
             <FontAwesomeIcon
-                icon={faNetworkWired}
-                className="header-logo"
-                size="lg"
-              />   
-              Uptime Monitor
+              icon={faNetworkWired}
+              className="header-logo"
+              size="lg"
+            />
+            Uptime Monitor
           </Text>
-          <Text fontSize="2xl" fontFamily="monospace" align="center" display={{ base: 'none', md: 'block' }}>
+          <Text
+            fontSize="2xl"
+            fontFamily="monospace"
+            align="center"
+            display={{ base: 'none', md: 'block' }}
+          >
             <FontAwesomeIcon
-                icon={faNetworkWired}
-                className="header-logo"
-                size="lg"
-              />
-              <br/>
-              {!iconOnlyMode && "Uptime Monitor"}
+              icon={faNetworkWired}
+              className="header-logo"
+              size="lg"
+            />
+            <br />
+            {!iconOnlyMode && 'Uptime Monitor'}
           </Text>
-          <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+          <CloseButton
+            display={{ base: 'flex', md: 'none' }}
+            onClick={onClose}
+          />
         </Flex>
-      }
+      )}
 
-      {LinkItems.map((link) => (
-        !iconOnlyMode ? 
+      {LinkItems.map((link) =>
+        !iconOnlyMode ? (
           <NavItem key={link.name} icon={link.icon} url={link.url}>
             {link.name}
           </NavItem>
-        :
-          <NavItem key={link.name} icon={link.icon} url={link.url}/>
-      ))}
+        ) : (
+          <NavItem key={link.name} icon={link.icon} url={link.url} />
+        )
+      )}
 
-      <VStack position='absolute' bottom='2' w={"100%"}> 
-        <Flex 
+      <VStack position="absolute" bottom="2" w={'100%'}>
+        <Flex
           align="center"
-          p="4"
+          p="3"
           mx="4"
           borderRadius="lg"
           role="group"
@@ -170,17 +206,12 @@ const SidebarContent = ({ onClose, iconOnlyMode, setIconOnlyMode, ...rest }) => 
           }}
           color="pink"
           _hover={{
-            bg: 'purple.500',
+            bg: 'red.400',
             color: 'white',
-            
           }}
         >
-          <Icon
-            fontSize="16"
-            mr={iconOnlyMode? "0" : "4" }
-            as={FiLogOut}
-          />
-          {!iconOnlyMode && "Logout"}
+          <Icon fontSize="16" mr={iconOnlyMode ? '0' : '4'} as={FiLogOut} />
+          {!iconOnlyMode && 'Logout'}
         </Flex>
         <Flex
           align="center"
@@ -189,33 +220,33 @@ const SidebarContent = ({ onClose, iconOnlyMode, setIconOnlyMode, ...rest }) => 
           borderRadius="lg"
           role="group"
           cursor="pointer"
-          color='gray.500'
+          color="gray.500"
           onClick={(e) => setIconOnlyMode(!iconOnlyMode)}
           _hover={{
-            bg: 'purple.500',
             color: 'white',
-            
           }}
-          display={{ base: 'none', md: 'block' }}>
-            <Icon
-              fontSize="16"
-              as={iconOnlyMode? FiChevronsRight : FiChevronsLeft}
-            />
-
+          display={{ base: 'none', md: 'block' }}
+        >
+          <Icon
+            fontSize="16"
+            as={iconOnlyMode ? FiChevronsRight : FiChevronsLeft}
+          />
         </Flex>
       </VStack>
     </Box>
-
-  );
-};
+  )
+}
 
 const NavItem = ({ url, icon, children, ...rest }) => {
   return (
-    <NavLink to={url} style={{ textDecoration: 'none' }} activeStyle={{
-      fontWeight: "bold",
-      color: "#6b46c1",
-      textShadow: "0 0 3px #000"
-    }}>
+    <NavLink
+      to={url}
+      style={{ textDecoration: 'none' }}
+      activeStyle={{
+        fontWeight: 'bold',
+        color: '#6b46c1',
+      }}
+    >
       <Flex
         align="center"
         p="4"
@@ -227,7 +258,8 @@ const NavItem = ({ url, icon, children, ...rest }) => {
           bg: 'purple.500',
           color: 'white',
         }}
-        {...rest}>
+        {...rest}
+      >
         {icon && (
           <Icon
             mr="4"
@@ -241,8 +273,8 @@ const NavItem = ({ url, icon, children, ...rest }) => {
         {children}
       </Flex>
     </NavLink>
-  );
-};
+  )
+}
 
 const MobileNav = ({ onOpen, ...rest }) => {
   return (
@@ -250,28 +282,29 @@ const MobileNav = ({ onOpen, ...rest }) => {
       ml={{ base: 0, md: 60 }}
       px={{ base: 4, md: 24 }}
       height="20"
-      color={"white"}
+      color={'white'}
       alignItems="center"
       bg={useColorModeValue('#484b51', 'gray.900')}
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue('gray.700', 'gray.700')}
       justifyContent="flex-start"
-      {...rest}>
+      {...rest}
+    >
       <Text fontSize="2xl" fontFamily="monospace">
         <FontAwesomeIcon
-            icon={faNetworkWired}
-            className="header-logo"
-            size="lg"
-          />
-          Uptime Monitor
-        </Text>
-        <Spacer/>
-        <IconButton
+          icon={faNetworkWired}
+          className="header-logo"
+          size="lg"
+        />
+        Uptime Monitor
+      </Text>
+      <Spacer />
+      <IconButton
         variant="outline"
         onClick={onOpen}
         aria-label="open menu"
         icon={<FiMenu />}
       />
     </Flex>
-  );
-};
+  )
+}

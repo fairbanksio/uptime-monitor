@@ -22,15 +22,13 @@ import {
 function ListNotifications() {
   const { notifications } = useContext(NotificationContext)
   return (
-      <Accordion allowMultiple>
+    <Accordion allowMultiple>
       {notifications.length > 0 ? (
         notifications.map((notification, key) => (
           <AccordionItem key={key}>
             <AccordionButton>
               <Box flex="1" textAlign="left">
-                <Grid
-                  templateColumns="repeat(5, 1fr)"
-                >
+                <Grid templateColumns="repeat(5, 1fr)">
                   <GridItem
                     colSpan={1}
                     style={{
@@ -40,15 +38,14 @@ function ListNotifications() {
                     }}
                   >
                     {notification.type === 'slack' ? (
-                      <FontAwesomeIcon icon={faSlack} size="lg"/>
+                      <FontAwesomeIcon icon={faSlack} size="lg" />
                     ) : (
-                      <FontAwesomeIcon icon={faMailBulk} size="lg"/>
+                      <FontAwesomeIcon icon={faMailBulk} size="lg" />
                     )}{' '}
                   </GridItem>
                   <GridItem colSpan={3}>
                     <Text fontSize="2xl">{notification.name}</Text>
                   </GridItem>
-                  
                 </Grid>
               </Box>
               <AccordionIcon />
@@ -61,7 +58,7 @@ function ListNotifications() {
           </AccordionItem>
         ))
       ) : (
-        <div>No notification agent configured</div>
+        <div>No notification agent(s) configured</div>
       )}
     </Accordion>
   )
