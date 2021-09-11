@@ -74,17 +74,13 @@ function MonitorHeartbeats(monitor) {
               <Tooltip label={cellProps.value}>
                 <Text
                   noOfLines={1}
-                  isTruncated
                   style={{
                     background: '#868686',
-                    boxDecorationBreak: 'clone',
-                    padding: '0.1rem 0.3rem 0.2rem',
                     borderRadius: '0.2rem',
                     fontFamily: 'MyFancyCustomFont, monospace',
                     fontSize: 'inherit',
-                    display: 'inline-block',
-                    whiteSpace: 'nowrap',
-                    maxWidth: '150px',
+                    whiteSpace: 'wrap',
+                    padding: '0.1rem 0.3rem',
                   }}
                 >
                   {cellProps.value}
@@ -95,17 +91,14 @@ function MonitorHeartbeats(monitor) {
             return (
               <Text
                 noOfLines={1}
-                isTruncated
                 style={{
+                  wordBreak: "normal",
                   background: '#868686',
-                  boxDecorationBreak: 'clone',
-                  padding: '0.1rem 0.3rem 0.2rem',
                   borderRadius: '0.2rem',
                   fontFamily: 'MyFancyCustomFont, monospace',
                   fontSize: 'inherit',
-                  display: 'inline-block',
-                  whiteSpace: 'nowrap',
-                  maxWidth: '150px',
+                  whiteSpace: 'wrap',
+                  padding: '0.1rem 0.3rem',
                 }}
               >
                 {cellProps.value}
