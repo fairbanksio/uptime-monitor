@@ -9,7 +9,9 @@ import {
   DrawerContent,
   Text,
   useDisclosure,
-  Spacer,VStack
+  Spacer,
+  VStack,
+  CloseButton
 } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom'
 import {
@@ -65,7 +67,7 @@ export default function SidebarWrapper({ children }) {
       </Drawer>
       {/* mobilenav */}
       <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
-      <Box ml={iconOnlyMode? { base: 0, md: 20 } : { base: 0, md: 60 } } p="2">
+      <Box ml={iconOnlyMode? { base: 0, md: 20 } : { base: 0, md: 100 } } p="2">
         {children}
       </Box>
     </Box>
@@ -113,7 +115,6 @@ const SidebarContent = ({ onClose, iconOnlyMode, setIconOnlyMode, ...rest }) => 
               icon={faNetworkWired}
             />
             {!iconOnlyMode && "Uptime Monitor"}
-            
           </Flex>
         </NavLink>
       :
@@ -126,9 +127,10 @@ const SidebarContent = ({ onClose, iconOnlyMode, setIconOnlyMode, ...rest }) => 
               className="header-logo"
               size="lg"
             />
-            {!iconOnlyMode && "UptimeMonitor"
-          }
+            { !iconOnlyMode && "UptimeMonitor" }
+            
           </Text>
+          <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
         </Flex>
       }
 
