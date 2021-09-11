@@ -179,14 +179,11 @@ function UpdatePage(props) {
               {monitors.length > 0 ? null : <div>No monitors configured</div>}
               {monitors &&
                 monitors.map((monitor, key) => {
-                  console.log(monitor._id)
-                  console.log(pageInfo.monitors)
-                  console.log(pageInfo.monitors[monitor._id])
                   return (
                     <div key={key}>
                       <Checkbox
                         colorScheme="purple"
-                        checked={pageInfo.monitors[monitor._id]}
+                        isChecked={pageInfo.monitors.includes(monitor._id)}
                         id={monitor._id}
                         name={monitor.name}
                         value={monitor.name}

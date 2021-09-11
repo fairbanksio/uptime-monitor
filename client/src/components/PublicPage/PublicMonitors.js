@@ -1,9 +1,7 @@
-import React, { useContext } from 'react'
 import {
   Accordion,
   AccordionItem,
   AccordionButton,
-  AccordionPanel,
   AccordionIcon,
   Box,
   Grid,
