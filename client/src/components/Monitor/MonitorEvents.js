@@ -78,9 +78,6 @@ function MonitorEvents(monitor) {
       {
         Header: 'Type',
         accessor: 'type',
-        minWidth: 50,
-        maxWidth: 60,
-        width: 60,
         Cell: (cellProps) => {
           if (cellProps.value === 'UP') {
             return (
@@ -102,9 +99,6 @@ function MonitorEvents(monitor) {
       {
         Header: 'Timestamp',
         accessor: 'createdAt',
-        minWidth: 100,
-        maxWidth: 120,
-        width: 120,
         Cell: (cellProps) => {
           return (
             <Text fontSize="xs">
@@ -116,26 +110,19 @@ function MonitorEvents(monitor) {
       {
         Header: 'Status',
         accessor: 'message',
-        minWidth: 100,
-        maxWidth: 120,
-        width: 120,
         Cell: (cellProps) => {
           if (cellProps.value.length > 10) {
             return (
               <Tooltip label={cellProps.value}>
                 <Text
                   noOfLines={1}
-                  isTruncated
                   style={{
                     background: '#868686',
-                    boxDecorationBreak: 'clone',
-                    padding: '0.1rem 0.3rem 0.2rem',
                     borderRadius: '0.2rem',
                     fontFamily: 'MyFancyCustomFont, monospace',
                     fontSize: 'inherit',
-                    display: 'inline-block',
-                    whiteSpace: 'nowrap',
-                    maxWidth: '150px',
+                    whiteSpace: 'wrap',
+                    padding: '0.1rem 0.3rem',
                   }}
                 >
                   {cellProps.value}
@@ -146,17 +133,13 @@ function MonitorEvents(monitor) {
             return (
               <Text
                 noOfLines={1}
-                isTruncated
                 style={{
                   background: '#868686',
-                  boxDecorationBreak: 'clone',
-                  padding: '0.1rem 0.3rem 0.2rem',
                   borderRadius: '0.2rem',
                   fontFamily: 'MyFancyCustomFont, monospace',
                   fontSize: 'inherit',
-                  display: 'inline-block',
-                  whiteSpace: 'nowrap',
-                  maxWidth: '150px',
+                  whiteSpace: 'wrap',
+                  padding: '0.1rem 0.3rem',
                 }}
               >
                 {cellProps.value}
@@ -214,11 +197,6 @@ function MonitorEvents(monitor) {
                 <Th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   isNumeric={column.isNumeric}
-                  style={{
-                    maxWidth: column.maxWidth,
-                    minWidth: column.minWidth,
-                    width: column.width,
-                  }}
                 >
                   {column.render('Header')}
                   <chakra.span pl="4">
@@ -317,7 +295,7 @@ function MonitorEvents(monitor) {
             </div>
           </GridItem>
           <GridItem colSpan={1}>
-            <div style={{ width: '100px', float: 'right' }}>
+            <div style={{float: 'right' }}>
               <Select
                 size="xs"
                 variant="flushed"

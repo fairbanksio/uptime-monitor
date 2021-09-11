@@ -69,9 +69,9 @@ export default function SidebarWrapper({ children }) {
       </Drawer>
       {/* mobilenav */}
       <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
-      <Box ml={iconOnlyMode? { base: 0, md: 20 } : { base: 0, md: 60 } } p="2">
+      <Box ml={iconOnlyMode? { base: 0, md: 20 } : { base: 0, md: 60 } } p="2" bg={'#282c34'} minH={"100vh"} color={"white"} >
         <Center>
-          <Container maxW={1200}>
+          <Container maxW={1200} align="center">
             {children}
           </Container>
         </Center>
@@ -120,21 +120,27 @@ const SidebarContent = ({ onClose, iconOnlyMode, setIconOnlyMode, ...rest }) => 
               <FontAwesomeIcon
               icon={faNetworkWired}
             />
-            {!iconOnlyMode && "Uptime Monitor"}
+            Uptime Monitor
           </Flex>
         </NavLink>
       :
-        <Flex h={{ base: '20', md: '40' }} alignItems="center" mx="8" justifyContent="space-between">
-        
-          <Text fontSize="2xl" fontFamily="monospace">
-          
-          <FontAwesomeIcon
-              icon={faNetworkWired}
-              className="header-logo"
-              size="lg"
-            />
-            { !iconOnlyMode && "UptimeMonitor" }
-            
+        <Flex h={{ base: '20', md: '40' }} align="center" mx="6" justifyContent="space-between" >
+          <Text fontSize="2xl" fontFamily="monospace" align="center" display={{ base: 'flex', md: 'none' }}>
+            <FontAwesomeIcon
+                icon={faNetworkWired}
+                className="header-logo"
+                size="lg"
+              />   
+              Uptime Monitor
+          </Text>
+          <Text fontSize="2xl" fontFamily="monospace" align="center" display={{ base: 'none', md: 'block' }}>
+            <FontAwesomeIcon
+                icon={faNetworkWired}
+                className="header-logo"
+                size="lg"
+              />
+              <br/>
+              Uptime Monitor
           </Text>
           <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
         </Flex>
@@ -207,7 +213,8 @@ const NavItem = ({ url, icon, children, ...rest }) => {
   return (
     <NavLink to={url} style={{ textDecoration: 'none' }} activeStyle={{
       fontWeight: "bold",
-      color: "#6b46c1"
+      color: "#6b46c1",
+      textShadow: "0 0 3px #000"
     }}>
       <Flex
         align="center"
@@ -243,6 +250,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       ml={{ base: 0, md: 60 }}
       px={{ base: 4, md: 24 }}
       height="20"
+      color={"white"}
       alignItems="center"
       bg={useColorModeValue('#484b51', 'gray.900')}
       borderBottomWidth="1px"
@@ -255,7 +263,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
             className="header-logo"
             size="lg"
           />
-          UptimeMonitor
+          Uptime Monitor
         </Text>
         <Spacer/>
         <IconButton

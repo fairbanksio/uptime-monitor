@@ -27,7 +27,7 @@ function ListMonitors() {
   const { monitors } = useContext(MonitorContext)
 
   return (
-    <div>
+    <>
       {monitors.length > 0 ? (
         <Accordion allowMultiple>
           {monitors.map((monitor, key) => (
@@ -113,7 +113,7 @@ function ListMonitors() {
           <Text>No monitors configured</Text>
         </div>
       )}
-    </div>
+    </>
   )
 }
 

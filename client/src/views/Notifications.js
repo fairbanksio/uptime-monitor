@@ -5,32 +5,27 @@ import SidebarWrapper from '../components/SidebarWrapper'
 
 function Notifications() {
   return (
-    <div className="App">
-      <SidebarWrapper>
-          <Grid templateColumns="repeat(9, 1fr)" gap={4}>
-            <GridItem colSpan={1} />
-              <GridItem colSpan={7}>
-                <Flex
-                  as="h1"
-                  align="center"
-                  justify="space-between"
-                  wrap="wrap"
-                  padding={2}
-                >
-                  <Flex align="center" mr={5}>
-                    <Heading as="h1" size="lg" letterSpacing={"tighter"}>
-                      Notifications
-                    </Heading>
-                  </Flex>
-                  <Spacer />
-                  <Box p="4"><CreateNotification/></Box>
-                </Flex>
-                <ListNotifications />
-              </GridItem>
-            <GridItem colSpan={1} />
-          </Grid>
-      </SidebarWrapper>
-    </div>
+    <SidebarWrapper>
+      <Flex
+        as="h1"
+        align="center"
+        justify="space-between"
+        wrap="wrap"
+        p="0"
+        pt="8"
+        pb="8" pr="0"
+        m={0}
+      >
+        <Flex align="center" mr={2}>
+          <Heading as="h1" size="lg" letterSpacing={"tighter"}>
+            Notifications
+          </Heading>
+        </Flex>
+        <Spacer />
+        <Box><CreateNotification/></Box>
+      </Flex>
+      <ListNotifications />
+    </SidebarWrapper>
   )
 }
 export default Notifications
