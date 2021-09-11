@@ -9,9 +9,9 @@ const login = (username, password) => {
 
 const loginGoogle = (response) => {
   return axiosClient.post('/auth/google', {
-    access_token: response.accessToken
+    access_token: response.accessToken,
   })
-};
+}
 
 //const logout = () => {
 //  return axiosClient.post("/auth/logout");

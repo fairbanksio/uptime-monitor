@@ -21,7 +21,7 @@ function Register() {
     formErrors: {},
     usernameValid: null,
     emailValid: null,
-    passwordValid: null
+    passwordValid: null,
   }
   let [formValidation, setFormValidation] = useState(initFormValidation)
   let [formValid, setFormValid] = useState(false)
@@ -41,37 +41,47 @@ function Register() {
   const validateField = (fieldName, value) => {
     // get existing form errors
     let newFormValidation = formValidation
-  
-    // update validation errors 
-    switch(fieldName) {
+
+    // update validation errors
+    switch (fieldName) {
       case 'username':
-        newFormValidation.usernameValid = value.length >= 6;
-        newFormValidation.formErrors.username = newFormValidation.usernameValid ? '' : ' is too short';
-        break;
+        newFormValidation.usernameValid = value.length >= 6
+        newFormValidation.formErrors.username = newFormValidation.usernameValid
+          ? ''
+          : ' is too short'
+        break
       case 'password':
         newFormValidation.passwordValid = value.length >= 6
-        newFormValidation.formErrors.password = newFormValidation.passwordValid ? '' : ' is too short';
-        break;
+        newFormValidation.formErrors.password = newFormValidation.passwordValid
+          ? ''
+          : ' is too short'
+        break
       case 'email':
         newFormValidation.emailValid = isValidEmail(value)
-        newFormValidation.formErrors.email = newFormValidation.emailValid ? '' : ' you must enter a valid email';
-        break;
+        newFormValidation.formErrors.email = newFormValidation.emailValid
+          ? ''
+          : ' you must enter a valid email'
+        break
       default:
-        break;
+        break
     }
 
     setFormValidation({
-      ...formValidation, ...newFormValidation
-    });
-
+      ...formValidation,
+      ...newFormValidation,
+    })
   }
 
   const validateForm = () => {
-    if(formValidation.usernameValid && formValidation.passwordValid && formValidation.emailValid){
-        setFormValid(true)
+    if (
+      formValidation.usernameValid &&
+      formValidation.passwordValid &&
+      formValidation.emailValid
+    ) {
+      setFormValid(true)
     } else {
-        setFormValid(false)
-    } 
+      setFormValid(false)
+    }
   }
 
   useEffect(() => {
@@ -80,7 +90,7 @@ function Register() {
   }, [formValidation])
 
   const registerUser = () => {
-    if(formValid){
+    if (formValid) {
       register(
         registerInfo.username,
         registerInfo.password,
@@ -132,7 +142,9 @@ function Register() {
         placeholder="username"
         size="md"
         width={'300'}
-        isInvalid={!formValidation.usernameValid && formValidation.usernameValid !== null}
+        isInvalid={
+          !formValidation.usernameValid && formValidation.usernameValid !== null
+        }
       />
       <br />
       <Input
@@ -146,7 +158,9 @@ function Register() {
         placeholder="email"
         size="md"
         width={'300'}
-        isInvalid={!formValidation.emailValid && formValidation.emailValid !== null}
+        isInvalid={
+          !formValidation.emailValid && formValidation.emailValid !== null
+        }
       />
       <br />
       <Input
@@ -160,7 +174,9 @@ function Register() {
         placeholder="password"
         size="md"
         width={'300'}
-        isInvalid={!formValidation.passwordValid && formValidation.passwordValid !== null}
+        isInvalid={
+          !formValidation.passwordValid && formValidation.passwordValid !== null
+        }
       />
 
       <br />

@@ -15,22 +15,22 @@ const PageProvider = ({ user, children }) => {
 
   const refreshPages = (cb) => {
     pageService
-        .getPages()
-        .then((pages) => {
-          if (isMountedRef.current) {
-            setPages(pages.data)
-          }
-        })
-        .catch((_error) => {})
-        .finally(() => {
-          cb()
-        })
+      .getPages()
+      .then((pages) => {
+        if (isMountedRef.current) {
+          setPages(pages.data)
+        }
+      })
+      .catch((_error) => {})
+      .finally(() => {
+        cb()
+      })
   }
   // refresh pages
   useEffect(() => {
     if (user) {
       setLoadingInitial(true)
-      refreshPages(() =>{
+      refreshPages(() => {
         if (isMountedRef.current) {
           setLoadingInitial(false)
         }

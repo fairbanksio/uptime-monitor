@@ -14,23 +14,23 @@ const PublicPageProvider = ({ slug, children }) => {
 
   const refreshPage = (cb) => {
     pageService
-        .getPageBySlug(slug)
-        .then((page) => {
-          if (isMountedRef.current) {
-            setPage(page.data)
-          }
-        })
-        .catch((_error) => {})
-        .finally(() => {
-          cb()
-        })
+      .getPageBySlug(slug)
+      .then((page) => {
+        if (isMountedRef.current) {
+          setPage(page.data)
+        }
+      })
+      .catch((_error) => {})
+      .finally(() => {
+        cb()
+      })
   }
 
   // refresh pages
   useEffect(() => {
     if (slug) {
       setLoadingInitial(true)
-      refreshPage(() =>{
+      refreshPage(() => {
         if (isMountedRef.current) {
           setLoadingInitial(false)
         }

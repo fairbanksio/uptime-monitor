@@ -84,7 +84,13 @@ function ListMonitors() {
               </AccordionButton>
               <AccordionPanel pb={4}>
                 <LatencyChart monitor={monitor} />
-                <Grid templateColumns={{md: "repeat(1, 1fr)", xl: "repeat(2, 1fr)"}} gap={6}>
+                <Grid
+                  templateColumns={{
+                    md: 'repeat(1, 1fr)',
+                    xl: 'repeat(2, 1fr)',
+                  }}
+                  gap={6}
+                >
                   <Box w="100%">
                     <Text fontSize="lg">Events</Text>
                     <MonitorEvents monitor={monitor} />

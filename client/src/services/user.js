@@ -5,7 +5,11 @@ const getCurrentUser = () => {
 }
 
 const register = (username, password, email) => {
-  return axiosClient.post('/users', { username: username, password: password, email: email  })
+  return axiosClient.post('/users', {
+    username: username,
+    password: password,
+    email: email,
+  })
 }
 
 const exports = {

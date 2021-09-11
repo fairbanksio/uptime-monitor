@@ -5,7 +5,16 @@ import {
   Checkbox,
   createStandaloneToast,
   Input,
-  Select, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent} from '@chakra-ui/react'
+  Select,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  ModalContent,
+} from '@chakra-ui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSlack } from '@fortawesome/free-brands-svg-icons'
 import { faMailBulk } from '@fortawesome/free-solid-svg-icons'
@@ -42,7 +51,7 @@ function CreateMonitor() {
     typeValid: null,
     intervalValid: null,
     httpUrlValid: null,
-    httpKeywordValid: null
+    httpKeywordValid: null,
   }
   let [formValidation, setFormValidation] = useState(initFormValidation)
 
@@ -116,49 +125,69 @@ function CreateMonitor() {
   const validateField = (fieldName, value) => {
     // get existing form errors
     let newFormValidation = formValidation
-  
-    // update validation errors 
-    switch(fieldName) {
+
+    // update validation errors
+    switch (fieldName) {
       case 'name':
-        newFormValidation.nameValid = value.length >= 1;
-        newFormValidation.formErrors.name = newFormValidation.nameValid ? '' : ' is too short';
-        break;
+        newFormValidation.nameValid = value.length >= 1
+        newFormValidation.formErrors.name = newFormValidation.nameValid
+          ? ''
+          : ' is too short'
+        break
       case 'type':
-        newFormValidation.typeValid = value.length >= 1;
-        newFormValidation.formErrors.type = newFormValidation.typeValid ? '' : ' you must select a monitor type';
-        break;
+        newFormValidation.typeValid = value.length >= 1
+        newFormValidation.formErrors.type = newFormValidation.typeValid
+          ? ''
+          : ' you must select a monitor type'
+        break
       case 'interval':
-        newFormValidation.intervalValid = value.length >= 1;
-        newFormValidation.formErrors.interval = newFormValidation.intervalValid ? '' : ' you must select an interval';
-        break;
+        newFormValidation.intervalValid = value.length >= 1
+        newFormValidation.formErrors.interval = newFormValidation.intervalValid
+          ? ''
+          : ' you must select an interval'
+        break
       case 'httpUrl':
         newFormValidation.httpUrlValid = isValidUrl(value)
-        newFormValidation.formErrors.httpUrl = newFormValidation.httpUrlValid ? '' : ' you must enter a valid url';
-        break;
+        newFormValidation.formErrors.httpUrl = newFormValidation.httpUrlValid
+          ? ''
+          : ' you must enter a valid url'
+        break
       case 'httpKeyword':
-        newFormValidation.httpKeywordValid = value.length >= 1;
-        newFormValidation.formErrors.httpKeyword = newFormValidation.httpKeywordValid ? '' : ' is too short';
-        break;
+        newFormValidation.httpKeywordValid = value.length >= 1
+        newFormValidation.formErrors.httpKeyword =
+          newFormValidation.httpKeywordValid ? '' : ' is too short'
+        break
       default:
-        break;
+        break
     }
 
     setFormValidation({
-      ...formValidation, ...newFormValidation
-    });
-
+      ...formValidation,
+      ...newFormValidation,
+    })
   }
 
   const validateForm = () => {
-    if(formValidation.typeValid && monitorInfo.type === 'http'){
-      if(formValidation.nameValid && formValidation.typeValid && formValidation.intervalValid && formValidation.httpUrlValid){
+    if (formValidation.typeValid && monitorInfo.type === 'http') {
+      if (
+        formValidation.nameValid &&
+        formValidation.typeValid &&
+        formValidation.intervalValid &&
+        formValidation.httpUrlValid
+      ) {
         setFormValid(true)
       } else {
         setFormValid(false)
       }
-    // validate for when email is chosen
-    } else if(formValidation.typeValid && monitorInfo.type === 'keyword'){
-      if(formValidation.nameValid && formValidation.typeValid && formValidation.intervalValid && formValidation.httpKeywordValid && formValidation.httpUrlValid){
+      // validate for when email is chosen
+    } else if (formValidation.typeValid && monitorInfo.type === 'keyword') {
+      if (
+        formValidation.nameValid &&
+        formValidation.typeValid &&
+        formValidation.intervalValid &&
+        formValidation.httpKeywordValid &&
+        formValidation.httpUrlValid
+      ) {
         setFormValid(true)
       } else {
         setFormValid(false)
@@ -174,7 +203,7 @@ function CreateMonitor() {
   }, [formValidation])
 
   const handleCreateMonitor = () => {
-    if(formValid){
+    if (formValid) {
       createMonitor(monitorInfo, (result) => {
         if (result.status === 'success') {
           const id = 'monitor-created-toast'
@@ -197,14 +226,10 @@ function CreateMonitor() {
 
   return (
     <>
-      <Button colorScheme="purple"  onClick={onOpen}>
+      <Button colorScheme="purple" onClick={onOpen}>
         Add Monitor
       </Button>
-      <Modal
-        initialFocusRef={initialRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
+      <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Create a new monitor</ModalHeader>
@@ -218,7 +243,9 @@ function CreateMonitor() {
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               name="name"
-              isInvalid={!formValidation.nameValid && formValidation.nameValid !== null}
+              isInvalid={
+                !formValidation.nameValid && formValidation.nameValid !== null
+              }
             />
 
             <Center>
@@ -227,7 +254,10 @@ function CreateMonitor() {
                 isRequired={true}
                 onChange={handleInputChange}
                 name="interval"
-                isInvalid={!formValidation.intervalValid && formValidation.intervalValid !== null}
+                isInvalid={
+                  !formValidation.intervalValid &&
+                  formValidation.intervalValid !== null
+                }
               >
                 <option value="300">Every 5 mins</option>
                 <option value="600">Every 10 mins</option>
@@ -243,7 +273,9 @@ function CreateMonitor() {
                 isRequired={true}
                 onChange={handleInputChange}
                 name="type"
-                isInvalid={!formValidation.typeValid && formValidation.typeValid !== null}
+                isInvalid={
+                  !formValidation.typeValid && formValidation.typeValid !== null
+                }
               >
                 <option value="http">HTTP</option>
                 <option value="keyword">HTTP with keyword</option>
@@ -258,7 +290,10 @@ function CreateMonitor() {
               onChange={handleConfigChange}
               onKeyDown={handleKeyDown}
               name="httpUrl"
-              isInvalid={!formValidation.httpUrlValid && formValidation.httpUrlValid !== null}
+              isInvalid={
+                !formValidation.httpUrlValid &&
+                formValidation.httpUrlValid !== null
+              }
             />
 
             {monitorInfo.type === 'keyword' && (
@@ -270,13 +305,18 @@ function CreateMonitor() {
                 onChange={handleConfigChange}
                 onKeyDown={handleKeyDown}
                 name="httpKeyword"
-                isInvalid={!formValidation.httpKeywordValid && formValidation.httpKeywordValid !== null}
+                isInvalid={
+                  !formValidation.httpKeywordValid &&
+                  formValidation.httpKeywordValid !== null
+                }
               />
             )}
 
             <div>
               <label htmlFor="notifications">Notification Agent(s)</label>
-              {notifications.length > 0 ? null : <div>No notifiers configured</div>}
+              {notifications.length > 0 ? null : (
+                <div>No notifiers configured</div>
+              )}
               {notifications &&
                 notifications.map((notification, key) => {
                   return (
@@ -316,24 +356,22 @@ function CreateMonitor() {
               </Checkbox>
             </div>
 
-            <div style={{ marginTop: '10px' }}>
-              
-            </div>
+            <div style={{ marginTop: '10px' }}></div>
           </ModalBody>
           <ModalFooter>
-          <Button
-                onClick={handleCreateMonitor}
-                variant="solid"
-                colorScheme="purple"
-                isLoading={loading}
-                disabled={!formValid}
-              >
-                Monitor
-              </Button>
-              <Button onClick={handleClear} variant="ghost" colorScheme="grey">
-                Clear
-              </Button>
-          <Button onClick={onClose}>Cancel</Button>
+            <Button
+              onClick={handleCreateMonitor}
+              variant="solid"
+              colorScheme="purple"
+              isLoading={loading}
+              disabled={!formValid}
+            >
+              Monitor
+            </Button>
+            <Button onClick={handleClear} variant="ghost" colorScheme="grey">
+              Clear
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

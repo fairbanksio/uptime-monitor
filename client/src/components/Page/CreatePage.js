@@ -5,7 +5,16 @@ import {
   createStandaloneToast,
   Input,
   Checkbox,
-  Select, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent} from '@chakra-ui/react'
+  Select,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  ModalContent,
+} from '@chakra-ui/react'
 
 import { PageContext } from '../../contexts/PageContext'
 import { MonitorContext } from '../../contexts/MonitorContext'
@@ -64,9 +73,7 @@ function CreatePage() {
         }
       })
       if (!found) {
-        newMonitors = newMonitors.filter(
-          (item) => item !== existingMonitor
-        )
+        newMonitors = newMonitors.filter((item) => item !== existingMonitor)
       }
     })
 
@@ -90,33 +97,43 @@ function CreatePage() {
   const validateField = (fieldName, value) => {
     // get existing form errors
     let newFormValidation = formValidation
-  
-    // update validation errors 
-    switch(fieldName) {
+
+    // update validation errors
+    switch (fieldName) {
       case 'name':
-        newFormValidation.nameValid = value.length >= 1;
-        newFormValidation.formErrors.name = newFormValidation.nameValid ? '' : ' is too short';
-        break;
+        newFormValidation.nameValid = value.length >= 1
+        newFormValidation.formErrors.name = newFormValidation.nameValid
+          ? ''
+          : ' is too short'
+        break
       case 'type':
-        newFormValidation.typeValid = value.length >= 1;
-        newFormValidation.formErrors.type = newFormValidation.typeValid ? '' : ' you must select a page type';
-        break;
+        newFormValidation.typeValid = value.length >= 1
+        newFormValidation.formErrors.type = newFormValidation.typeValid
+          ? ''
+          : ' you must select a page type'
+        break
       case 'slug':
-        newFormValidation.slugValid = value.length >= 1;
-        newFormValidation.formErrors.slug = newFormValidation.slugValid ? '' : ' you must enter a valid url';
-        break;
+        newFormValidation.slugValid = value.length >= 1
+        newFormValidation.formErrors.slug = newFormValidation.slugValid
+          ? ''
+          : ' you must enter a valid url'
+        break
       default:
-        break;
+        break
     }
 
     setFormValidation({
-      ...formValidation, ...newFormValidation
-    });
-
+      ...formValidation,
+      ...newFormValidation,
+    })
   }
 
   const validateForm = () => {
-    if(formValidation.typeValid && formValidation.nameValid && formValidation.slugValid){
+    if (
+      formValidation.typeValid &&
+      formValidation.nameValid &&
+      formValidation.slugValid
+    ) {
       setFormValid(true)
     } else {
       setFormValid(false)
@@ -129,7 +146,7 @@ function CreatePage() {
   }, [formValidation])
 
   const handleCreatePage = () => {
-    if(formValid){
+    if (formValid) {
       createPage(pageInfo, (result) => {
         if (result.status === 'success') {
           const id = 'page-created-toast'
@@ -153,14 +170,10 @@ function CreatePage() {
 
   return (
     <>
-      <Button colorScheme="purple"  onClick={onOpen}>
+      <Button colorScheme="purple" onClick={onOpen}>
         Add Page
       </Button>
-      <Modal
-        initialFocusRef={initialRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
+      <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Create a new page</ModalHeader>
@@ -174,7 +187,9 @@ function CreatePage() {
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               name="name"
-              isInvalid={!formValidation.nameValid && formValidation.nameValid !== null}
+              isInvalid={
+                !formValidation.nameValid && formValidation.nameValid !== null
+              }
             />
 
             <Center>
@@ -183,7 +198,9 @@ function CreatePage() {
                 isRequired={true}
                 onChange={handleInputChange}
                 name="type"
-                isInvalid={!formValidation.typeValid && formValidation.typeValid !== null}
+                isInvalid={
+                  !formValidation.typeValid && formValidation.typeValid !== null
+                }
               >
                 <option value="http">Standard</option>
                 <option value="keyword">Advanced</option>
@@ -198,7 +215,9 @@ function CreatePage() {
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               name="slug"
-              isInvalid={!formValidation.slugValid && formValidation.slugValid !== null}
+              isInvalid={
+                !formValidation.slugValid && formValidation.slugValid !== null
+              }
             />
             <div>
               <label htmlFor="monitors">Monitors</label>
@@ -216,29 +235,26 @@ function CreatePage() {
                         onChange={handleMonitorChange}
                       >
                         {monitor.name}{' '}
-                        
                       </Checkbox>
                     </div>
                   )
                 })}
             </div>
-
-            
           </ModalBody>
           <ModalFooter>
-          <Button
-                onClick={handleCreatePage}
-                variant="solid"
-                colorScheme="purple"
-                isLoading={loading}
-                disabled={!formValid}
-              >
-                Create Page
-              </Button>
-              <Button onClick={handleClear} variant="ghost" colorScheme="grey">
-                Clear
-              </Button>
-          <Button onClick={onClose}>Cancel</Button>
+            <Button
+              onClick={handleCreatePage}
+              variant="solid"
+              colorScheme="purple"
+              isLoading={loading}
+              disabled={!formValid}
+            >
+              Create Page
+            </Button>
+            <Button onClick={handleClear} variant="ghost" colorScheme="grey">
+              Clear
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

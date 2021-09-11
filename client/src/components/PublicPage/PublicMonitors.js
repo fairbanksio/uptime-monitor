@@ -13,7 +13,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
 
-function ListMonitors({monitors}) {
+function ListMonitors({ monitors }) {
   return (
     <div>
       {monitors.length > 0 ? (
@@ -70,7 +70,6 @@ function ListMonitors({monitors}) {
                 </Box>
                 <AccordionIcon />
               </AccordionButton>
-              
             </AccordionItem>
           ))}
         </Accordion>

@@ -28,7 +28,7 @@ export default function FriendlyError({ error }) {
 }
 
 export function friendlyToast(error) {
-  if(error){
+  if (error) {
     if (error.response) {
       if (error.response.data) {
         //error.response.data may contain useful details from api

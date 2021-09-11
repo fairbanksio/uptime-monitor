@@ -92,7 +92,7 @@ function MonitorHeartbeats(monitor) {
               <Text
                 noOfLines={1}
                 style={{
-                  wordBreak: "normal",
+                  wordBreak: 'normal',
                   background: '#868686',
                   borderRadius: '0.2rem',
                   fontFamily: 'MyFancyCustomFont, monospace',
