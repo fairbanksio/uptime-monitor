@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import {
   IconButton,
   Box,
-  CloseButton,
   Flex,
   Icon,
   useColorModeValue,
@@ -10,7 +9,6 @@ import {
   DrawerContent,
   Text,
   useDisclosure,
-  Button,
   Spacer,VStack
 } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom'
@@ -26,7 +24,7 @@ import {
   FiActivity
 } from 'react-icons/fi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faNetworkWired, faHandPointRight } from '@fortawesome/free-solid-svg-icons'
+import { faNetworkWired } from '@fortawesome/free-solid-svg-icons'
 import { AuthContext } from '../contexts/AuthContext'
 
 const LinkItems = [
