@@ -6,11 +6,14 @@ const createPage = (page) => {
 
 const updatePage = (page) => {
   //extract changes (omit unnecessary extras)
-  const { _id, name } = page
+  const { _id, name, type, slug, monitors } = page
 
   return axiosClient.post('/pages/' + _id, {
     _id,
     name,
+    type,
+    monitors,
+    slug,
   })
 }
 

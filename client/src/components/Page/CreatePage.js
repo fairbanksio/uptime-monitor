@@ -137,7 +137,7 @@ function CreatePage() {
             toast({
               id,
               title: 'Page created.',
-              description: 'Your page is now running.',
+              description: 'Your page has been created.',
               status: 'success',
               variant: 'subtle',
               duration: 3000,
@@ -145,6 +145,7 @@ function CreatePage() {
             })
           }
           handleClear()
+          onClose()
         }
       })
     }
