@@ -120,7 +120,7 @@ const SidebarContent = ({ onClose, iconOnlyMode, setIconOnlyMode, ...rest }) => 
               <FontAwesomeIcon
               icon={faNetworkWired}
             />
-            Uptime Monitor
+            {!iconOnlyMode && "Uptime Monitor"}
           </Flex>
         </NavLink>
       :
@@ -140,7 +140,7 @@ const SidebarContent = ({ onClose, iconOnlyMode, setIconOnlyMode, ...rest }) => 
                 size="lg"
               />
               <br/>
-              Uptime Monitor
+              {!iconOnlyMode && "Uptime Monitor"}
           </Text>
           <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
         </Flex>
