@@ -5,29 +5,28 @@ import CreateMonitor from '../components/Monitor/CreateMonitor'
 
 function Dashboard() {
   return (
+    
     <div className="App">
       <SidebarWrapper>
-          <Grid templateColumns="repeat(9, 1fr)" gap={4}>
-            <GridItem colSpan={1} />
-              <GridItem colSpan={7}>
-                <Flex
-                  as="h1"
-                  align="center"
-                  justify="space-between"
-                  wrap="wrap"
-                  padding={2}
-                >
-                  <Flex align="center" mr={5}>
-                    <Heading as="h1" size="lg" letterSpacing={"tighter"}>
-                      Dashboard
-                    </Heading>
-                  </Flex>
-                  <Spacer />
-                    <Box p="4"><CreateMonitor/></Box>
+          <Grid templateColumns="repeat(7, 1fr)" gap={4} >
+            <GridItem colSpan={7}>
+              <Flex
+                as="h1"
+                align="center"
+                justify="space-between"
+                wrap="wrap"
+                padding={2}
+              >
+                <Flex align="center" mr={2}>
+                  <Heading as="h1" size="lg" letterSpacing={"tighter"}>
+                    Dashboard
+                  </Heading>
                 </Flex>
-                <ListMonitors />
-              </GridItem>
-            <GridItem colSpan={1} />
+                <Spacer />
+                  <Box p="4"><CreateMonitor/></Box>
+              </Flex>
+              <ListMonitors />
+            </GridItem>
           </Grid>
       </SidebarWrapper>
     </div>

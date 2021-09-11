@@ -11,7 +11,9 @@ import {
   useDisclosure,
   Spacer,
   VStack,
-  CloseButton
+  CloseButton,
+  Container,
+  Center
 } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom'
 import {
@@ -67,8 +69,12 @@ export default function SidebarWrapper({ children }) {
       </Drawer>
       {/* mobilenav */}
       <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
-      <Box ml={iconOnlyMode? { base: 0, md: 20 } : { base: 0, md: 100 } } p="2">
-        {children}
+      <Box ml={iconOnlyMode? { base: 0, md: 20 } : { base: 0, md: 60 } } p="2">
+        <Center>
+          <Container maxW={1200}>
+            {children}
+          </Container>
+        </Center>
       </Box>
     </Box>
   );
@@ -84,7 +90,7 @@ const SidebarContent = ({ onClose, iconOnlyMode, setIconOnlyMode, ...rest }) => 
       bg={useColorModeValue('#484b51', 'gray.900')}
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.700', 'gray.700')}
-      w={!iconOnlyMode? { base: 'full', md: 60 } : { base: 'full', md: 20 }}
+      w={iconOnlyMode? { base: 'full', md: 20 } : { base: 'full', md: 60 }}
       pos="fixed"
       h="full"
       {...rest}
