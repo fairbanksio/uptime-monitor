@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   IconButton,
   Box,
@@ -16,10 +16,6 @@ import {
 import { NavLink } from 'react-router-dom'
 import {
   FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
   FiMenu,
   FiChevronsRight,
   FiChevronsLeft,
@@ -43,12 +39,19 @@ const LinkItems = [
 
 export default function SidebarWrapper({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [ iconOnlyMode, setIconOnlyMode ] = useState(localStorage.getItem('iconOnlyMode') && localStorage.getItem('iconOnlyMode') === "true" ? true : false)
+
+  useEffect(()=>{
+    localStorage.setItem('iconOnlyMode', iconOnlyMode)
+  },[iconOnlyMode])
 
   return (
     <Box minH="100vh" p="0" m="0" className="Content">
       <SidebarContent
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
+        iconOnlyMode={iconOnlyMode}
+        setIconOnlyMode={setIconOnlyMode}
       />
       <Drawer
         autoFocus={false}
@@ -66,16 +69,15 @@ export default function SidebarWrapper({ children }) {
       <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
       <Box ml={{ base: 0, md: 20 }} p="2">
         {children}
-        
       </Box>
     </Box>
   );
 }
 
 
-const SidebarContent = ({ onClose, ...rest }) => {
+const SidebarContent = ({ onClose, iconOnlyMode, setIconOnlyMode, ...rest }) => {
   const { logout } = useContext(AuthContext)
-  const [ iconOnlyMode, setIconOnlyMode ] = useState(false)
+  
   return (
     <Box
       color='white'
