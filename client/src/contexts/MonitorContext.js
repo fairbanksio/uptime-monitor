@@ -16,32 +16,32 @@ const MonitorProvider = ({ user, children }) => {
 
   const refreshMonitors = (cb) => {
     monitorService
-        .getMonitors()
-        .then((monitors) => {
-          if (isMountedRef.current) {
-            setMonitors(monitors.data)
-          }
-        })
-        .catch((_error) => {})
-        .finally(() => {
-          cb()
-        })
+      .getMonitors()
+      .then((monitors) => {
+        if (isMountedRef.current) {
+          setMonitors(monitors.data)
+        }
+      })
+      .catch((_error) => {})
+      .finally(() => {
+        cb()
+      })
   }
   // refresh monitors
   useEffect(() => {
     if (user) {
       setLoadingInitial(true)
-      refreshMonitors(() =>{
+      refreshMonitors(() => {
         if (isMountedRef.current) {
           setLoadingInitial(false)
         }
       })
-      let interval = setInterval(()=>{
-        refreshMonitors(() =>{
+      let interval = setInterval(() => {
+        refreshMonitors(() => {
           if (isMountedRef.current) {
             setLoadingInitial(false)
           }
-        })  // Increment, set in context
+        }) // Increment, set in context
       }, 60 * 1000)
       setRefreshInterval(interval)
     } else {

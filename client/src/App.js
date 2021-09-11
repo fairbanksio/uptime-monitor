@@ -36,7 +36,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 }
 
 function App() {
-  const {user, loading} = useContext(AuthContext)
+  const { user, loading } = useContext(AuthContext)
   return (
     <Router>
       <MonitorProvider user={user}>
@@ -49,17 +49,20 @@ function App() {
               <PrivateRoute path="/pages" component={Pages} />
               <PrivateRoute path="/account" component={Account} />
 
-              <Route path="/" exact={true} render={(props) => user && !loading ? <Redirect to="/dashboard" /> : <Homepage/>}/>
-              <Route path="/:pageSlug" component={PublicPage}/>
-              
+              <Route
+                path="/"
+                exact={true}
+                render={(props) =>
+                  user && !loading ? <Redirect to="/dashboard" /> : <Homepage />
+                }
+              />
+              <Route path="/:pageSlug" component={PublicPage} />
             </Switch>
           </NotificationProvider>
         </PageProvider>
       </MonitorProvider>
 
-      <Switch>
-        
-      </Switch>
+      <Switch></Switch>
     </Router>
   )
 }

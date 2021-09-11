@@ -1,10 +1,22 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
-import { Button, Input, Select, Checkbox, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent, FormLabel } from '@chakra-ui/react'
-
+import {
+  Button,
+  Input,
+  Select,
+  Checkbox,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  ModalContent,
+  FormLabel,
+} from '@chakra-ui/react'
 
 import { PageContext } from '../../contexts/PageContext'
 import { MonitorContext } from '../../contexts/MonitorContext'
-
 
 function UpdatePage(props) {
   const { updatePage } = useContext(PageContext)
@@ -20,7 +32,7 @@ function UpdatePage(props) {
     typeValid: null,
     intervalValid: null,
     slugValid: null,
-    httpKeywordValid: null
+    httpKeywordValid: null,
   }
   let [formValidation, setFormValidation] = useState(initFormValidation)
 
@@ -33,7 +45,7 @@ function UpdatePage(props) {
   }
 
   const handleUpdatePage = () => {
-    if(formValid){
+    if (formValid) {
       updatePage(pageInfo, (result) => {
         if (result.status === 'success') {
           //history.push("/")
@@ -46,33 +58,43 @@ function UpdatePage(props) {
   const validateField = (fieldName, value) => {
     // get existing form errors
     let newFormValidation = formValidation
-  
+
     // update validation errors
-    switch(fieldName) {
+    switch (fieldName) {
       case 'name':
-        newFormValidation.nameValid = value.length >= 1;
-        newFormValidation.formErrors.name = newFormValidation.nameValid ? '' : ' is too short';
-        break;
+        newFormValidation.nameValid = value.length >= 1
+        newFormValidation.formErrors.name = newFormValidation.nameValid
+          ? ''
+          : ' is too short'
+        break
       case 'type':
-        newFormValidation.typeValid = value.length >= 1;
-        newFormValidation.formErrors.type = newFormValidation.typeValid ? '' : ' you must select a page type';
-        break;
+        newFormValidation.typeValid = value.length >= 1
+        newFormValidation.formErrors.type = newFormValidation.typeValid
+          ? ''
+          : ' you must select a page type'
+        break
       case 'slug':
-        newFormValidation.slugValid = value.length >= 1;
-        newFormValidation.formErrors.slug = newFormValidation.slugValid ? '' : ' you must enter a valid url';
-        break;
+        newFormValidation.slugValid = value.length >= 1
+        newFormValidation.formErrors.slug = newFormValidation.slugValid
+          ? ''
+          : ' you must enter a valid url'
+        break
       default:
-        break;
+        break
     }
 
     setFormValidation({
-      ...formValidation, ...newFormValidation
-    });
-
+      ...formValidation,
+      ...newFormValidation,
+    })
   }
 
   const validateForm = () => {
-    if(formValidation.typeValid && formValidation.nameValid && formValidation.slugValid){
+    if (
+      formValidation.typeValid &&
+      formValidation.nameValid &&
+      formValidation.slugValid
+    ) {
       setFormValid(true)
     } else {
       setFormValid(false)
@@ -83,13 +105,13 @@ function UpdatePage(props) {
     validateForm()
     //eslint-disable-next-line
   }, [formValidation])
-  
+
   useEffect(() => {
     validateField('name', pageInfo['name'])
     validateField('type', pageInfo['type'])
     validateField('slug', pageInfo['slug'])
     // eslint-disable-next-line
-  },[])
+  }, [])
 
   useEffect(() => {
     let newMonitors = pageInfo.monitors
@@ -103,16 +125,13 @@ function UpdatePage(props) {
         }
       })
       if (!found) {
-        newMonitors = newMonitors.filter(
-          (item) => item !== existingMonitor
-        )
+        newMonitors = newMonitors.filter((item) => item !== existingMonitor)
       }
     })
 
     setPageInfo({ ...pageInfo, monitors: newMonitors })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [monitors])
-  
 
   const handleMonitorChange = (event) => {
     const { id, checked } = event.target
@@ -131,11 +150,7 @@ function UpdatePage(props) {
       <Button colorScheme="purple" size="xs" onClick={onOpen}>
         update
       </Button>
-      <Modal
-        initialFocusRef={initialRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
+      <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Update page</ModalHeader>
@@ -149,7 +164,9 @@ function UpdatePage(props) {
               value={pageInfo.name}
               onChange={handleInputChange}
               name="name"
-              isInvalid={!formValidation.nameValid && formValidation.nameValid !== null}
+              isInvalid={
+                !formValidation.nameValid && formValidation.nameValid !== null
+              }
             />
             <FormLabel>Type</FormLabel>
             <Select
@@ -158,7 +175,9 @@ function UpdatePage(props) {
               value={pageInfo.type}
               onChange={handleInputChange}
               name="type"
-              isInvalid={!formValidation.typeValid && formValidation.typeValid !== null}
+              isInvalid={
+                !formValidation.typeValid && formValidation.typeValid !== null
+              }
             >
               <option value="http">Standard</option>
               <option value="keyword">Advanced</option>
@@ -172,7 +191,9 @@ function UpdatePage(props) {
               value={pageInfo.slug}
               onChange={handleInputChange}
               name="slug"
-              isInvalid={!formValidation.slugValid && formValidation.slugValid !== null}
+              isInvalid={
+                !formValidation.slugValid && formValidation.slugValid !== null
+              }
             />
             <div>
               <label htmlFor="monitors">Monitors</label>
@@ -190,20 +211,23 @@ function UpdatePage(props) {
                         onChange={handleMonitorChange}
                       >
                         {monitor.name}{' '}
-                        
                       </Checkbox>
                     </div>
                   )
                 })}
             </div>
-            </ModalBody>
-            
-            <ModalFooter>
-            <Button colorScheme="purple" onClick={handleUpdatePage} disabled={!formValid}>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              colorScheme="purple"
+              onClick={handleUpdatePage}
+              disabled={!formValid}
+            >
               Update
             </Button>
             <Button onClick={onClose}>Cancel</Button>
-            </ModalFooter>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

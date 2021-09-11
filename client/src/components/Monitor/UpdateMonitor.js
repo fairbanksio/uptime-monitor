@@ -1,5 +1,19 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
-import { Button, Checkbox, Input, Select, useDisclosure, Modal, ModalOverlay, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, ModalContent, FormLabel } from '@chakra-ui/react'
+import {
+  Button,
+  Checkbox,
+  Input,
+  Select,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  ModalContent,
+  FormLabel,
+} from '@chakra-ui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSlack } from '@fortawesome/free-brands-svg-icons'
 import { faMailBulk } from '@fortawesome/free-solid-svg-icons'
@@ -23,7 +37,7 @@ function UpdateMonitor(props) {
     typeValid: null,
     intervalValid: null,
     httpUrlValid: null,
-    httpKeywordValid: null
+    httpKeywordValid: null,
   }
   let [formValidation, setFormValidation] = useState(initFormValidation)
 
@@ -49,7 +63,7 @@ function UpdateMonitor(props) {
   }
 
   const handleUpdateMonitor = () => {
-    if(formValid){
+    if (formValid) {
       updateMonitor(monitorInfo, (result) => {
         if (result.status === 'success') {
           //history.push("/")
@@ -98,49 +112,69 @@ function UpdateMonitor(props) {
   const validateField = (fieldName, value) => {
     // get existing form errors
     let newFormValidation = formValidation
-  
+
     // update validation errors
-    switch(fieldName) {
+    switch (fieldName) {
       case 'name':
-        newFormValidation.nameValid = value.length >= 1;
-        newFormValidation.formErrors.name = newFormValidation.nameValid ? '' : ' is too short';
-        break;
+        newFormValidation.nameValid = value.length >= 1
+        newFormValidation.formErrors.name = newFormValidation.nameValid
+          ? ''
+          : ' is too short'
+        break
       case 'type':
-        newFormValidation.typeValid = value.length >= 1;
-        newFormValidation.formErrors.type = newFormValidation.typeValid ? '' : ' you must select a monitor type';
-        break;
+        newFormValidation.typeValid = value.length >= 1
+        newFormValidation.formErrors.type = newFormValidation.typeValid
+          ? ''
+          : ' you must select a monitor type'
+        break
       case 'interval':
-        newFormValidation.intervalValid = value >= 300;
-        newFormValidation.formErrors.interval = newFormValidation.intervalValid ? '' : ' you must select an interval';
-        break;
+        newFormValidation.intervalValid = value >= 300
+        newFormValidation.formErrors.interval = newFormValidation.intervalValid
+          ? ''
+          : ' you must select an interval'
+        break
       case 'httpUrl':
         newFormValidation.httpUrlValid = isValidUrl(value)
-        newFormValidation.formErrors.httpUrl = newFormValidation.httpUrlValid ? '' : ' you must enter a valid url';
-        break;
+        newFormValidation.formErrors.httpUrl = newFormValidation.httpUrlValid
+          ? ''
+          : ' you must enter a valid url'
+        break
       case 'httpKeyword':
-        newFormValidation.httpKeywordValid = value.length >= 1;
-        newFormValidation.formErrors.httpKeyword = newFormValidation.httpKeywordValid ? '' : ' is too short';
-        break;
+        newFormValidation.httpKeywordValid = value.length >= 1
+        newFormValidation.formErrors.httpKeyword =
+          newFormValidation.httpKeywordValid ? '' : ' is too short'
+        break
       default:
-        break;
+        break
     }
 
     setFormValidation({
-      ...formValidation, ...newFormValidation
-    });
-
+      ...formValidation,
+      ...newFormValidation,
+    })
   }
 
   const validateForm = () => {
-    if(formValidation.typeValid && monitorInfo.type === 'http'){
-      if(formValidation.nameValid && formValidation.typeValid && formValidation.intervalValid && formValidation.httpUrlValid){
+    if (formValidation.typeValid && monitorInfo.type === 'http') {
+      if (
+        formValidation.nameValid &&
+        formValidation.typeValid &&
+        formValidation.intervalValid &&
+        formValidation.httpUrlValid
+      ) {
         setFormValid(true)
       } else {
         setFormValid(false)
       }
-    // validate for when email is chosen
-    } else if(formValidation.typeValid && monitorInfo.type === 'keyword'){
-      if(formValidation.nameValid && formValidation.typeValid && formValidation.intervalValid && formValidation.httpKeywordValid && formValidation.httpUrlValid){
+      // validate for when email is chosen
+    } else if (formValidation.typeValid && monitorInfo.type === 'keyword') {
+      if (
+        formValidation.nameValid &&
+        formValidation.typeValid &&
+        formValidation.intervalValid &&
+        formValidation.httpKeywordValid &&
+        formValidation.httpUrlValid
+      ) {
         setFormValid(true)
       } else {
         setFormValid(false)
@@ -154,7 +188,7 @@ function UpdateMonitor(props) {
     validateForm()
     //eslint-disable-next-line
   }, [formValidation])
-  
+
   useEffect(() => {
     validateField('name', monitorInfo['name'])
     validateField('type', monitorInfo['type'])
@@ -162,18 +196,14 @@ function UpdateMonitor(props) {
     validateField('httpUrl', monitorInfo.config['httpUrl'])
     validateField('httpKeyword', monitorInfo.config['httpKeyword'])
     // eslint-disable-next-line
-  },[])
-  
+  }, [])
+
   return (
     <>
       <Button colorScheme="purple" size="xs" onClick={onOpen}>
         update
       </Button>
-      <Modal
-        initialFocusRef={initialRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
+      <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Update monitor</ModalHeader>
@@ -187,9 +217,10 @@ function UpdateMonitor(props) {
               value={monitorInfo.name}
               onChange={handleInputChange}
               name="name"
-              isInvalid={!formValidation.nameValid && formValidation.nameValid !== null}
+              isInvalid={
+                !formValidation.nameValid && formValidation.nameValid !== null
+              }
             />
-
             <FormLabel>Interval</FormLabel>
             <Select
               placeholder="Interval"
@@ -197,7 +228,10 @@ function UpdateMonitor(props) {
               value={monitorInfo.interval}
               onChange={handleInputChange}
               name="interval"
-              isInvalid={!formValidation.intervalValid && formValidation.intervalValid !== null}
+              isInvalid={
+                !formValidation.intervalValid &&
+                formValidation.intervalValid !== null
+              }
             >
               <option value={300}>Every 5 mins</option>
               <option value={600}>Every 10 mins</option>
@@ -205,7 +239,6 @@ function UpdateMonitor(props) {
               <option value={1800}>Every 30 mins</option>
               <option value={3600}>Every 60 mins</option>
             </Select>{' '}
-
             <FormLabel>Type</FormLabel>
             <Select
               placeholder="Type"
@@ -213,12 +246,13 @@ function UpdateMonitor(props) {
               value={monitorInfo.type}
               onChange={handleInputChange}
               name="type"
-              isInvalid={!formValidation.typeValid && formValidation.typeValid !== null}
+              isInvalid={
+                !formValidation.typeValid && formValidation.typeValid !== null
+              }
             >
               <option value="http">HTTP</option>
               <option value="keyword">HTTP with keyword</option>
             </Select>
-
             <FormLabel>Url</FormLabel>
             <Input
               type="text"
@@ -227,10 +261,12 @@ function UpdateMonitor(props) {
               value={monitorInfo.config.httpUrl}
               onChange={handleConfigChange}
               name="httpUrl"
-              isInvalid={!formValidation.httpUrlValid && formValidation.httpUrlValid !== null}
+              isInvalid={
+                !formValidation.httpUrlValid &&
+                formValidation.httpUrlValid !== null
+              }
             />
-
-            {monitorInfo.type === "keyword" &&
+            {monitorInfo.type === 'keyword' && (
               <>
                 <FormLabel>Keyword</FormLabel>
                 <Input
@@ -240,59 +276,67 @@ function UpdateMonitor(props) {
                   value={monitorInfo.config.httpKeyword}
                   onChange={handleConfigChange}
                   name="httpKeyword"
-                  isInvalid={!formValidation.httpKeywordValid && formValidation.httpKeywordValid !== null}
+                  isInvalid={
+                    !formValidation.httpKeywordValid &&
+                    formValidation.httpKeywordValid !== null
+                  }
                 />
               </>
-            }
+            )}
+            <FormLabel>Notification Agent(s)</FormLabel>
+            {notifications.length > 0 ? null : (
+              <div>No notifiers configured</div>
+            )}
+            {notifications &&
+              notifications.map((notification, key) => {
+                return (
+                  <div key={key}>
+                    <Checkbox
+                      colorScheme="purple"
+                      isChecked={
+                        monitorInfo.notifications.find(
+                          (element) => element === notification._id
+                        )
+                          ? true
+                          : false
+                      }
+                      id={notification._id}
+                      name={notification.name}
+                      onChange={handleNotificationChange}
+                    >
+                      {notification.name}{' '}
+                      {notification.type === 'slack' ? (
+                        <FontAwesomeIcon icon={faSlack} />
+                      ) : (
+                        <FontAwesomeIcon icon={faMailBulk} />
+                      )}
+                    </Checkbox>
+                  </div>
+                )
+              })}
+            <br />
+            <FormLabel>Enable</FormLabel>
+            <Checkbox
+              colorScheme="purple"
+              isRequired={true}
+              isChecked={monitorInfo.enabled}
+              onChange={handleCheckboxChange}
+              name="enabled"
+            >
+              Enable Monitoring
+            </Checkbox>
+          </ModalBody>
 
-              <FormLabel>Notification Agent(s)</FormLabel>
-              {notifications.length > 0 ? null : <div>No notifiers configured</div>}
-              {notifications &&
-                notifications.map((notification, key) => {
-                  return (
-                    <div key={key}>
-                      <Checkbox
-                        colorScheme="purple"
-                        isChecked={
-                          monitorInfo.notifications.find(
-                            (element) => element === notification._id
-                          )
-                            ? true
-                            : false
-                        }
-                        id={notification._id}
-                        name={notification.name}
-                        onChange={handleNotificationChange}
-                      >
-                        {notification.name}{' '}
-                        {notification.type === 'slack' ? (
-                          <FontAwesomeIcon icon={faSlack} />
-                        ) : (
-                          <FontAwesomeIcon icon={faMailBulk} />
-                        )}
-                      </Checkbox>
-                    </div>
-                  )
-                })}
-              <br/>
-              <FormLabel>Enable</FormLabel>
-              <Checkbox
-                colorScheme="purple"
-                isRequired={true}
-                isChecked={monitorInfo.enabled}
-                onChange={handleCheckboxChange}
-                name="enabled"
-              >
-                Enable Monitoring
-              </Checkbox>
-            </ModalBody>
-            
-            <ModalFooter>
-            <Button colorScheme="purple" onClick={handleUpdateMonitor} disabled={!formValid}>
+          <ModalFooter>
+            <Button
+              colorScheme="purple"
+              onClick={handleUpdateMonitor}
+              disabled={!formValid}
+            >
               Update
             </Button>
             <Button onClick={onClose}>Cancel</Button>
-            </ModalFooter>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

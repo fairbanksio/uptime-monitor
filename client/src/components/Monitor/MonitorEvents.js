@@ -295,7 +295,7 @@ function MonitorEvents(monitor) {
             </div>
           </GridItem>
           <GridItem colSpan={1}>
-            <div style={{float: 'right' }}>
+            <div style={{ float: 'right' }}>
               <Select
                 size="xs"
                 variant="flushed"

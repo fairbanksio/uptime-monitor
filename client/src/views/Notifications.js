@@ -13,20 +13,22 @@ function Notifications() {
         wrap="wrap"
         p="0"
         pt="8"
-        pb="8" pr="0"
+        pb="8"
+        pr="0"
         m={0}
       >
         <Flex align="center" mr={2}>
-          <Heading as="h1" size="lg" letterSpacing={"tighter"}>
+          <Heading as="h1" size="lg" letterSpacing={'tighter'}>
             Notifications
           </Heading>
         </Flex>
         <Spacer />
-        <Box><CreateNotification/></Box>
+        <Box>
+          <CreateNotification />
+        </Box>
       </Flex>
       <ListNotifications />
     </SidebarWrapper>
   )
 }
 export default Notifications
-

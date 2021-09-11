@@ -26,7 +26,7 @@ const getPages = () => {
 }
 
 const getPageBySlug = (slug) => {
-  return axiosClient.get('/pages/bySlug/'+slug)
+  return axiosClient.get('/pages/bySlug/' + slug)
 }
 
 const exports = {
@@ -34,6 +34,6 @@ const exports = {
   getPages,
   deletePage,
   updatePage,
-  getPageBySlug
+  getPageBySlug,
 }
 export default exports
