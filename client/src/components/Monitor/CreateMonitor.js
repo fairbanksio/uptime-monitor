@@ -365,13 +365,21 @@ function CreateMonitor() {
               colorScheme="purple"
               isLoading={loading}
               disabled={!formValid}
+              size="sm"
+              style={{ marginLeft: '3px' }}
             >
               Monitor
             </Button>
-            <Button onClick={handleClear} variant="ghost" colorScheme="grey">
+            <Button
+              size="sm"
+              style={{ marginLeft: '3px' }}
+              onClick={handleClear}
+            >
               Clear
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button size="sm" style={{ marginLeft: '3px' }} onClick={onClose}>
+              Cancel
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

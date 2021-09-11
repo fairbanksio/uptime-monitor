@@ -58,7 +58,7 @@ function ListNotifications() {
           </AccordionItem>
         ))
       ) : (
-        <div>No notification agent configured</div>
+        <div>No notification agent(s) configured</div>
       )}
     </Accordion>
   )

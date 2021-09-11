@@ -324,7 +324,7 @@ function CreateNotification() {
               />
             ) : null}
 
-            <div style={{ marginTop: '10px' }}>
+            {/* <div style={{ marginTop: '10px' }}>
               <Button
                 disabled={!formValid}
                 onClick={handleCreateNotification}
@@ -333,7 +333,7 @@ function CreateNotification() {
                 isLoading={loading}
               >
                 Add
-              </Button>
+              </Button>{' '}
               <Button
                 onClick={handleClear}
                 variant="ghost"
@@ -341,8 +341,8 @@ function CreateNotification() {
                 mr={3}
               >
                 Clear
-              </Button>
-            </div>
+              </Button>{' '}
+            </div> */}
           </ModalBody>
           <ModalFooter>
             <Button
@@ -351,13 +351,21 @@ function CreateNotification() {
               colorScheme="purple"
               isLoading={loading}
               disabled={!formValid}
+              size="sm"
+              style={{ marginLeft: '3px' }}
             >
               Add
             </Button>
-            <Button onClick={handleClear} variant="ghost" colorScheme="grey">
+            <Button
+              onClick={handleClear}
+              size="sm"
+              style={{ marginLeft: '3px' }}
+            >
               Clear
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button size="sm" style={{ marginLeft: '3px' }} onClick={onClose}>
+              Cancel
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

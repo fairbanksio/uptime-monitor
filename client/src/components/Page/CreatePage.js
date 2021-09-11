@@ -249,13 +249,20 @@ function CreatePage() {
               size="sm"
               isLoading={loading}
               disabled={!formValid}
+              style={{ marginLeft: '3px' }}
             >
               Create Page
             </Button>
-            <Button onClick={handleClear} variant="ghost" colorScheme="grey">
+            <Button
+              onClick={handleClear}
+              style={{ marginLeft: '3px' }}
+              size="sm"
+            >
               Clear
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button size="sm" style={{ marginLeft: '3px' }} onClick={onClose}>
+              Cancel
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
