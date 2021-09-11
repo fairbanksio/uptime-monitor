@@ -67,7 +67,7 @@ export default function SidebarWrapper({ children }) {
       </Drawer>
       {/* mobilenav */}
       <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 20 }} p="2">
+      <Box ml={iconOnlyMode? { base: 0, md: 20 } : { base: 0, md: 60 } } p="2">
         {children}
       </Box>
     </Box>
@@ -242,10 +242,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue('gray.700', 'gray.700')}
       justifyContent="flex-start"
-      {...rest}
-      onMouseOver={onOpen}>
-      
-
+      {...rest}>
       <Text fontSize="2xl" fontFamily="monospace">
         <FontAwesomeIcon
             icon={faNetworkWired}
