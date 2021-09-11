@@ -194,7 +194,7 @@ const SidebarContent = ({
       <VStack position="absolute" bottom="2" w={'100%'}>
         <Flex
           align="center"
-          p="4"
+          p="3"
           mx="4"
           borderRadius="lg"
           role="group"
@@ -206,7 +206,7 @@ const SidebarContent = ({
           }}
           color="pink"
           _hover={{
-            bg: 'purple.500',
+            bg: 'red.400',
             color: 'white',
           }}
         >
@@ -223,7 +223,6 @@ const SidebarContent = ({
           color="gray.500"
           onClick={(e) => setIconOnlyMode(!iconOnlyMode)}
           _hover={{
-            bg: 'purple.500',
             color: 'white',
           }}
           display={{ base: 'none', md: 'block' }}
@@ -246,7 +245,6 @@ const NavItem = ({ url, icon, children, ...rest }) => {
       activeStyle={{
         fontWeight: 'bold',
         color: '#6b46c1',
-        textShadow: '0 0 3px #000',
       }}
     >
       <Flex
