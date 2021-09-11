@@ -170,7 +170,7 @@ function CreatePage() {
 
   return (
     <>
-      <Button colorScheme="purple" onClick={onOpen}>
+      <Button colorScheme="purple" size="sm" onClick={onOpen}>
         Add Page
       </Button>
       <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
@@ -246,6 +246,7 @@ function CreatePage() {
               onClick={handleCreatePage}
               variant="solid"
               colorScheme="purple"
+              size="sm"
               isLoading={loading}
               disabled={!formValid}
             >

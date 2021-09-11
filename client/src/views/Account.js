@@ -26,6 +26,7 @@ function Account() {
           <Button
             variant="ghost"
             colorScheme="pink"
+            size="sm"
             onClick={function () {
               setTimeout(() => {}, 1000)
             }}

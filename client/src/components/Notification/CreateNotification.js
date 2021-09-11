@@ -196,7 +196,7 @@ function CreateNotification() {
 
   return (
     <>
-      <Button colorScheme="purple" onClick={onOpen}>
+      <Button colorScheme="purple" size="sm" onClick={onOpen}>
         Add Notification
       </Button>
       <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>

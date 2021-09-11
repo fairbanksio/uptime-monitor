@@ -226,7 +226,7 @@ function CreateMonitor() {
 
   return (
     <>
-      <Button colorScheme="purple" onClick={onOpen}>
+      <Button colorScheme="purple" size="sm" onClick={onOpen}>
         Add Monitor
       </Button>
       <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
