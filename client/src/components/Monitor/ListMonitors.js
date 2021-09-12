@@ -101,13 +101,6 @@ function ListMonitors() {
                   </Box>
                 </Grid>
                 <br />
-                {/* <Button
-                  size="xs"
-                  colorScheme="purple"
-                  onClick={(e) => refreshMonitors(() => {})}
-                >
-                  refresh
-                </Button>{' '} */}
                 <UpdateMonitor monitor={monitor} />{' '}
                 <DeleteMonitor monitorId={monitor._id} />
               </AccordionPanel>
