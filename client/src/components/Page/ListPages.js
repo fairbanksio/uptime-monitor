@@ -6,6 +6,7 @@ import {
   AccordionPanel,
   AccordionIcon,
   Box,
+  Button,
   Grid,
   GridItem,
   Text,
@@ -35,7 +36,9 @@ function ListPages() {
                 <AccordionIcon />
               </AccordionButton>
               <AccordionPanel pb={4}>
-                <Link to={'/' + page.slug}> View Page </Link>
+                <Button colorScheme="purple" size="xs">
+                  <Link to={'/' + page.slug}>view</Link>
+                </Button>{' '}
                 <UpdatePage page={page} /> <DeletePage pageId={page._id} />
               </AccordionPanel>
             </AccordionItem>
