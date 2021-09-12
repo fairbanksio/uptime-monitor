@@ -95,7 +95,10 @@ MonitorSchema.methods.start = async function () {
       case 'http':
         try {
           // Check heartbeat
-          console.time('Request to ' + this.config.httpUrl)
+          let rand_numb = Math.random().toString(36).slice(2)
+          console.time(
+            'Request to ' + this.config.httpUrl + ' [' + rand_numb + ']'
+          )
 
           let res = await axios.head(this.config.httpUrl, {
             timeout: 5000, // Hardcode timeout to 5s; if your site hasn't responded by then you got problems
@@ -105,7 +108,9 @@ MonitorSchema.methods.start = async function () {
             },
           })
 
-          console.timeEnd('Request to ' + this.config.httpUrl)
+          console.timeEnd(
+            'Request to ' + this.config.httpUrl + ' [' + rand_numb + ']'
+          )
           // set heartbeat status
           heartbeat.status = 'UP'
           heartbeat.statusMessage = res.status + ' - ' + res.statusText
@@ -119,7 +124,10 @@ MonitorSchema.methods.start = async function () {
       case 'keyword':
         try {
           // Check heartbeat
-          console.time('Request to ' + this.config.httpUrl)
+          let rand_numb = Math.random().toString(36).slice(2)
+          console.time(
+            'Request to ' + this.config.httpUrl + ' [' + rand_numb + ']'
+          )
 
           let res = await axios.get(this.config.httpUrl, {
             timeout: 5000, // Hardcode timeout to 5s; if your site hasn't responded by then you got problems
@@ -129,7 +137,9 @@ MonitorSchema.methods.start = async function () {
             },
           })
 
-          console.timeEnd('Request to ' + this.config.httpUrl)
+          console.timeEnd(
+            'Request to ' + this.config.httpUrl + ' [' + rand_numb + ']'
+          )
 
           // check if response contains keyword
           if (JSON.stringify(res.data).includes(this.config.httpKeyword)) {
