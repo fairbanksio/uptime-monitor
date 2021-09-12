@@ -1,7 +1,18 @@
-import { Flex, Heading, Spacer, Box } from '@chakra-ui/react'
-import ListMonitors from '../components/Monitor/ListMonitors'
+import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  CloseButton,
+  Flex,
+  Grid,
+  Heading,
+  Spacer,
+  Box,
+} from '@chakra-ui/react'
+
 import SidebarWrapper from '../components/SidebarWrapper'
-import CreateMonitor from '../components/Monitor/CreateMonitor'
+import PieChart from '../components/Graph/PieChart'
 
 function Dashboard() {
   return (
@@ -23,11 +34,31 @@ function Dashboard() {
           </Heading>
         </Flex>
         <Spacer />
-        <Box>
-          <CreateMonitor />
-        </Box>
+        <Box></Box>
       </Flex>
-      <ListMonitors />
+      <Box w="100%" borderColor="#484B51" borderWidth="1px" borderRadius="md">
+        <Alert status="warning" variant="solid">
+          <AlertIcon />
+          <AlertTitle mr={2}>Planned Maintenance!</AlertTitle>
+          <AlertDescription>
+            Uptime Monitor will be temporarily unavailable on Nov. 1st, 2021 as
+            we migrate database hosts.
+          </AlertDescription>
+          <CloseButton position="absolute" right="8px" top="8px" />
+        </Alert>
+      </Box>
+      <br />
+      <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+        <Box w="100%" borderColor="#484B51" borderWidth="1px" borderRadius="md">
+          <PieChart />
+        </Box>
+        <Box w="100%" borderColor="#484B51" borderWidth="1px" borderRadius="md">
+          <PieChart />
+        </Box>
+        <Box w="100%" borderColor="#484B51" borderWidth="1px" borderRadius="md">
+          <PieChart />
+        </Box>
+      </Grid>
     </SidebarWrapper>
   )
 }
