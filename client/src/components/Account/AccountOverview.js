@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import {
+  Avatar,
   Box,
   Grid,
   GridItem,
@@ -18,8 +19,14 @@ function AccountOverview() {
     <Box flex="1" textAlign="left">
       <Grid templateColumns="repeat(10, 1fr)">
         <GridItem colSpan={10}>
-          {user.picture && (
-            <Image borderRadius="full" src={user.picture} alt="Segun Adebayo" />
+          {user.picture ? (
+            <Image
+              borderRadius="full"
+              src={user.picture}
+              alt="account-picture"
+            />
+          ) : (
+            <Avatar name={user.username} src="https://bit.ly/broken-link" />
           )}
         </GridItem>
         <GridItem colSpan={10}>
@@ -45,15 +52,13 @@ function AccountOverview() {
             <FormHelperText>We'll never share your email.</FormHelperText>
           </FormControl>
         </GridItem>
-        <br />
-        <br />
         <GridItem colSpan={10}>
-          <Text>Connected with:</Text>
+          {/* <Text>Connected with:</Text>
           {user.authProviders && user.authProviders.google ? (
             <Text fontSize="2xl">Google</Text>
           ) : (
             <Text fontSize="2xl">Not connected to any social logins</Text>
-          )}
+          )} */}
         </GridItem>
       </Grid>
     </Box>
