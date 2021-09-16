@@ -123,6 +123,7 @@ function MonitorEvents(monitor) {
                     fontSize: 'inherit',
                     whiteSpace: 'wrap',
                     padding: '0.1rem 0.3rem',
+                    display: 'inline-block',
                   }}
                 >
                   {cellProps.value}
@@ -140,6 +141,7 @@ function MonitorEvents(monitor) {
                   fontSize: 'inherit',
                   whiteSpace: 'wrap',
                   padding: '0.1rem 0.3rem',
+                  display: 'inline-block',
                 }}
               >
                 {cellProps.value}
