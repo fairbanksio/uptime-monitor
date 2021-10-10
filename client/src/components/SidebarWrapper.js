@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from "react";
 import {
   IconButton,
   Box,
@@ -14,8 +14,9 @@ import {
   CloseButton,
   Container,
   Center,
-} from '@chakra-ui/react'
-import { NavLink } from 'react-router-dom'
+  Tooltip,
+} from "@chakra-ui/react";
+import { NavLink } from "react-router-dom";
 import {
   FiHome,
   FiMenu,
@@ -26,37 +27,37 @@ import {
   FiUser,
   FiFile,
   FiActivity,
-} from 'react-icons/fi'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faNetworkWired } from '@fortawesome/free-solid-svg-icons'
-import { AuthContext } from '../contexts/AuthContext'
+} from "react-icons/fi";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faNetworkWired } from "@fortawesome/free-solid-svg-icons";
+import { AuthContext } from "../contexts/AuthContext";
 
 const LinkItems = [
-  { name: 'Dashboard', icon: FiHome, url: '/dashboard' },
-  { name: 'Monitors', icon: FiActivity, url: '/monitors' },
-  { name: 'Pages', icon: FiFile, url: '/pages' },
-  { name: 'Notifications', icon: FiBell, url: '/notifications' },
-  { name: 'Account', icon: FiUser, url: '/account' },
-]
+  { name: "Dashboard", icon: FiHome, url: "/dashboard" },
+  { name: "Monitors", icon: FiActivity, url: "/monitors" },
+  { name: "Pages", icon: FiFile, url: "/pages" },
+  { name: "Notifications", icon: FiBell, url: "/notifications" },
+  { name: "Account", icon: FiUser, url: "/account" },
+];
 
 export default function SidebarWrapper({ children }) {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [iconOnlyMode, setIconOnlyMode] = useState(
-    localStorage.getItem('iconOnlyMode') &&
-      localStorage.getItem('iconOnlyMode') === 'true'
+    localStorage.getItem("iconOnlyMode") &&
+      localStorage.getItem("iconOnlyMode") === "true"
       ? true
       : false
-  )
+  );
 
   useEffect(() => {
-    localStorage.setItem('iconOnlyMode', iconOnlyMode)
-  }, [iconOnlyMode])
+    localStorage.setItem("iconOnlyMode", iconOnlyMode);
+  }, [iconOnlyMode]);
 
   return (
     <Box minH="100vh" p="0" m="0" className="Content">
       <SidebarContent
         onClose={() => onClose}
-        display={{ base: 'none', md: 'block' }}
+        display={{ base: "none", md: "block" }}
         iconOnlyMode={iconOnlyMode}
         setIconOnlyMode={setIconOnlyMode}
       />
@@ -74,13 +75,13 @@ export default function SidebarWrapper({ children }) {
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
-      <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
+      <MobileNav display={{ base: "flex", md: "none" }} onOpen={onOpen} />
       <Box
         ml={iconOnlyMode ? { base: 0, md: 20 } : { base: 0, md: 60 }}
         p="2"
-        bg={'#282c34'}
-        minH={'100vh'}
-        color={'white'}
+        bg={"#282c34"}
+        minH={"100vh"}
+        color={"white"}
       >
         <Center>
           <Container maxW={1200} align="center">
@@ -89,7 +90,7 @@ export default function SidebarWrapper({ children }) {
         </Center>
       </Box>
     </Box>
-  )
+  );
 }
 
 const SidebarContent = ({
@@ -98,15 +99,15 @@ const SidebarContent = ({
   setIconOnlyMode,
   ...rest
 }) => {
-  const { logout } = useContext(AuthContext)
+  const { logout } = useContext(AuthContext);
 
   return (
     <Box
       color="white"
-      bg={useColorModeValue('#484b51', 'gray.900')}
+      bg={useColorModeValue("#484b51", "gray.900")}
       borderRight="1px"
-      borderRightColor={useColorModeValue('gray.700', 'gray.700')}
-      w={iconOnlyMode ? { base: 'full', md: 20 } : { base: 'full', md: 60 }}
+      borderRightColor={useColorModeValue("gray.700", "gray.700")}
+      w={iconOnlyMode ? { base: "full", md: 20 } : { base: "full", md: 60 }}
       pos="fixed"
       h="full"
       {...rest}
@@ -114,10 +115,10 @@ const SidebarContent = ({
       {iconOnlyMode ? (
         <NavLink
           to="/"
-          style={{ textDecoration: 'none' }}
+          style={{ textDecoration: "none" }}
           activeStyle={{
-            fontWeight: 'bold',
-            color: '#6b46c1',
+            fontWeight: "bold",
+            color: "#6b46c1",
           }}
         >
           <Flex
@@ -127,22 +128,22 @@ const SidebarContent = ({
             mb="8"
             mx="4"
             borderRadius="lg"
-            bg={'purple.500'}
+            bg={"purple.500"}
             color="white"
             role="group"
             cursor="pointer"
             _hover={{
-              bg: 'purple.500',
-              color: 'white',
+              bg: "purple.500",
+              color: "white",
             }}
           >
             <FontAwesomeIcon icon={faNetworkWired} />
-            {!iconOnlyMode && 'Uptime Monitor'}
+            {!iconOnlyMode && "Uptime Monitor"}
           </Flex>
         </NavLink>
       ) : (
         <Flex
-          h={{ base: '20', md: '40' }}
+          h={{ base: "20", md: "40" }}
           align="center"
           mx="6"
           justifyContent="space-between"
@@ -151,7 +152,7 @@ const SidebarContent = ({
             fontSize="2xl"
             fontFamily="monospace"
             align="center"
-            display={{ base: 'flex', md: 'none' }}
+            display={{ base: "flex", md: "none" }}
           >
             <FontAwesomeIcon
               icon={faNetworkWired}
@@ -164,7 +165,7 @@ const SidebarContent = ({
             fontSize="2xl"
             fontFamily="monospace"
             align="center"
-            display={{ base: 'none', md: 'block' }}
+            display={{ base: "none", md: "block" }}
           >
             <FontAwesomeIcon
               icon={faNetworkWired}
@@ -172,10 +173,10 @@ const SidebarContent = ({
               size="lg"
             />
             <br />
-            {!iconOnlyMode && 'Uptime Monitor'}
+            {!iconOnlyMode && "Uptime Monitor"}
           </Text>
           <CloseButton
-            display={{ base: 'flex', md: 'none' }}
+            display={{ base: "flex", md: "none" }}
             onClick={onClose}
           />
         </Flex>
@@ -191,7 +192,7 @@ const SidebarContent = ({
         )
       )}
 
-      <VStack position="absolute" bottom="2" w={'100%'}>
+      <VStack position="absolute" bottom="2" w={"100%"}>
         <Flex
           align="center"
           p="3"
@@ -201,17 +202,21 @@ const SidebarContent = ({
           cursor="pointer"
           onClick={function () {
             setTimeout(() => {
-              logout()
-            }, 1000)
+              logout();
+            }, 1000);
           }}
           color="pink"
           _hover={{
-            bg: 'red.400',
-            color: 'white',
+            bg: "red.400",
+            color: "white",
           }}
         >
-          <Icon fontSize="16" mr={iconOnlyMode ? '0' : '4'} as={FiLogOut} />
-          {!iconOnlyMode && 'Logout'}
+          <Tooltip label="Logout">
+            <span>
+              <Icon fontSize="16" mr={iconOnlyMode ? "0" : "4"} as={FiLogOut} />
+            </span>
+          </Tooltip>
+          {!iconOnlyMode && "Logout"}
         </Flex>
         <Flex
           align="center"
@@ -223,9 +228,9 @@ const SidebarContent = ({
           color="gray.500"
           onClick={(e) => setIconOnlyMode(!iconOnlyMode)}
           _hover={{
-            color: 'white',
+            color: "white",
           }}
-          display={{ base: 'none', md: 'block' }}
+          display={{ base: "none", md: "block" }}
         >
           <Icon
             fontSize="16"
@@ -234,17 +239,17 @@ const SidebarContent = ({
         </Flex>
       </VStack>
     </Box>
-  )
-}
+  );
+};
 
 const NavItem = ({ url, icon, children, ...rest }) => {
   return (
     <NavLink
       to={url}
-      style={{ textDecoration: 'none' }}
+      style={{ textDecoration: "none" }}
       activeStyle={{
-        fontWeight: 'bold',
-        color: '#6b46c1',
+        fontWeight: "bold",
+        color: "#6b46c1",
       }}
     >
       <Flex
@@ -255,8 +260,8 @@ const NavItem = ({ url, icon, children, ...rest }) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: 'purple.500',
-          color: 'white',
+          bg: "purple.500",
+          color: "white",
         }}
         {...rest}
       >
@@ -265,7 +270,7 @@ const NavItem = ({ url, icon, children, ...rest }) => {
             mr="4"
             fontSize="16"
             _groupHover={{
-              color: 'white',
+              color: "white",
             }}
             as={icon}
           />
@@ -273,8 +278,8 @@ const NavItem = ({ url, icon, children, ...rest }) => {
         {children}
       </Flex>
     </NavLink>
-  )
-}
+  );
+};
 
 const MobileNav = ({ onOpen, ...rest }) => {
   return (
@@ -282,11 +287,11 @@ const MobileNav = ({ onOpen, ...rest }) => {
       ml={{ base: 0, md: 60 }}
       px={{ base: 4, md: 24 }}
       height="20"
-      color={'white'}
+      color={"white"}
       alignItems="center"
-      bg={useColorModeValue('#484b51', 'gray.900')}
+      bg={useColorModeValue("#484b51", "gray.900")}
       borderBottomWidth="1px"
-      borderBottomColor={useColorModeValue('gray.700', 'gray.700')}
+      borderBottomColor={useColorModeValue("gray.700", "gray.700")}
       justifyContent="flex-start"
       {...rest}
     >
@@ -306,5 +311,5 @@ const MobileNav = ({ onOpen, ...rest }) => {
         icon={<FiMenu />}
       />
     </Flex>
-  )
-}
+  );
+};
