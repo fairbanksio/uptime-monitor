@@ -6,8 +6,3 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/Fairbanks-io/uptime-monitor.svg)
 ![Lines of code](https://img.shields.io/tokei/lines/github/Fairbanks-io/uptime-monitor)
 ![License](https://img.shields.io/github/license/Fairbanks-io/uptime-monitor.svg?style=flat)
-
-Uptime Monitor consists of two parts:
-
-- [uptime-monitor](README.md) - The backend API
-- [uptime-web](client/README.md) - The frontend Web Client
