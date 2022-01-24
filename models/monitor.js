@@ -167,7 +167,7 @@ MonitorSchema.methods.start = async function () {
     let event = new Event({
       monitor: this,
       message: "",
-      type: "",
+      type: "UP",
     });
 
     let newEventNeeded = false;
