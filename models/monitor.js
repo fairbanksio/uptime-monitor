@@ -236,7 +236,9 @@ MonitorSchema.methods.start = async function () {
       if (this.notifications.length > 0) {
         this.notifications.forEach((notificationId) => {
           Notification.findOne({ _id: notificationId }).then((notification) => {
-            notification.notify(event);
+            if(notification){
+              notification.notify(event);
+            }
           });
         });
       }
